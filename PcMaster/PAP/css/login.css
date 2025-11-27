@@ -1,0 +1,133 @@
+* {
+  margin: 0;
+}
+
+p {
+  font-family: 'Calibri', sans-serif;
+}
+.amiko-semibold {
+  font-family: "Amiko", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+.bg {
+  background-image: url('../imagens/fundo.png');
+  background-size: cover;
+  background-position: top;
+  background-attachment: fixed;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 150px;
+  padding: 30px;
+  position: relative;
+  z-index: 1;
+  color: white;
+  text-align: center;
+}
+
+form {
+    background-color: #fff ; 
+    color: #ffffff ;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    width: 400px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px; 
+}
+
+h2 {
+    color: #ff0000 ;
+}
+label {
+    font-weight: bold;
+    color: #000;
+    align-self: flex-start; 
+}
+
+input, select {
+    background-color: #fff ;
+    border: 1px solid #ccc ;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    color: #000 ;
+}
+
+option {
+    color: #000 ;
+    background-color: #fff ;
+}
+
+button {
+  width: 250px;
+  height: 45px;
+  color: black;
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  border-color: ffffff;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+}
+
+button:hover {
+  transform: scale(1.1);
+  background-color: burlywood;
+  color: white;
+}
+
+p {
+    text-align: center;
+    color: #000 ;
+}
+
+p a {
+    color: #444 ;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
+.error-message {
+    color: #ff0000 ;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+}
+

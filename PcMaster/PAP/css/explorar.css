@@ -1,0 +1,225 @@
+* {
+  margin: 0;
+}
+
+p {
+  font-family: 'Calibri', sans-serif;
+}
+
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+.bg {
+  background-image: url('../imagens/fundo.png');
+  background-size: cover;
+  background-position: top;
+  background-attachment: fixed;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 30px;
+  position: relative;
+  z-index: 1;
+  color: rgb(0, 0, 0);
+  text-align: center;
+}
+
+.logo {
+  width: 120px;
+  height: auto;
+}
+
+nav {
+  margin-right: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: burlywood;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+}
+
+nav ul {
+  margin-right: 0;
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+nav a {
+  margin-right: 0;
+  margin: 40px 30px;
+  font-size: 1.0rem;
+  text-align: center;
+  color: black;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: chocolate;
+}
+
+a:-webkit-any-link {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.pagina-produto {
+    padding: 30px;
+    max-width: 1000px;
+    margin: auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-top: 50px;
+}
+
+.produto-detalhe {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.imagem-grande {
+    flex: 1 1 300px;
+    text-align: ledt;
+}
+.imagem-grande img {
+    max-width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+}
+
+.info-produto {
+    flex: 2 1 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+h1 {
+   font-family: "Menbere", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  color: #000000;
+  margin-top: 0px;
+}
+
+.descricao {
+    color: #555;
+  font-family: "Noto Sans JP", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.preco {
+    font-size: 1.5em;
+    color: rgb(28, 18, 175);
+    font-weight: bold;
+}
+
+.stock {
+    font-size: 1em;
+    color: #555;
+}
+
+.form-carrinho {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input[type="number"] {
+    width: 80px;
+    padding: 5px;
+    font-size: 1em;
+}
+
+.btn-adicionar {
+  width: 500px;
+  height: 45px;
+  color: black;
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  border-color: ffffff;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-adicionar:hover {
+  transform: scale(1.1);
+  background-color: burlywood;
+  color: white;
+}
+.btn-adicionar2 {
+  width: 100px;
+  height: 25px;
+  color: black;
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  border-color: ffffff;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-adicionar2:hover {
+  transform: scale(1.1);
+  background-color: burlywood;
+  color: white;
+}
+
+.caixa-container {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 40px;
+  align-items: center;
+  gap: 40px;
+  margin-top: 50px;
+  flex-wrap: wrap;
+}
+.linha-botoes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px 80px;
+  flex-wrap: wrap;
+}
+
+.bloco {
+  max-width: 45%;
+}
