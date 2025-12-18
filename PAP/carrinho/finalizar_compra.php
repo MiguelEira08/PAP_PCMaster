@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 require_once '../db.php';
 
@@ -26,7 +30,7 @@ if (isset($_POST['confirmar_compra'])) {
     $rua           = trim($_POST['rua'] ?? '');
     $distrito      = trim($_POST['distrito'] ?? '');
     $codigo_postal = trim($_POST['codigo_postal'] ?? '');
-    $numero_cartao = preg_replace('/\s+/', '', ($_POST['numero_cartao'] ?? ''));
+    $numero_cartao = preg_replace('/\D/', '', $_POST['numero_cartao'] ?? '');
 
     if ($rua === '' || $distrito === '' || $codigo_postal === '' || $numero_cartao === '') {
         $erros[] = 'Todos os campos são obrigatórios.';
@@ -84,8 +88,8 @@ if (isset($_POST['confirmar_compra'])) {
                 $prod_info = $stProd->get_result()->fetch_assoc();
                 $stProd->close();
 
-                if (!$prod_info) {
-                    throw new Exception("Produto ID {$item['id_produto']} não encontrado.");
+                if (!$produto) {    
+                    throw new Exception("Produto não encontrado.");
                 }
                 if ($prod_info['stock'] < $item['quantidade']) {
                     throw new Exception("Stock insuficiente para o produto: {$prod_info['nome']}.");
