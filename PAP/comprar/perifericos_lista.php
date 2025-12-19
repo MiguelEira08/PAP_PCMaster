@@ -1,4 +1,5 @@
 <?php
+session_start();
     include_once '../db.php';
       $tipoSelecionado = isset($_GET['tipo']) ? $_GET['tipo'] : null;
       $qSelecionado = isset($_GET['q']) ? $_GET['q'] : null;

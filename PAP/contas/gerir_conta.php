@@ -1,7 +1,7 @@
 <?php
 session_start();
-include_once 'cabeconta.php';
-require_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../cabecindex.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mail->Host       = 'smtp.gmail.com'; // Ex: smtp.gmail.com
                 $mail->SMTPAuth   = true;
                 $mail->Username   = 'pcmastergeral@gmail.com';
-                $mail->Password   = 'kvej gmhk njdd mqqy';
+                $mail->Password   = 'mjsv oxar shbz dfzp';
                 $mail->SMTPSecure = 'tls'; // ou 'ssl'
                 $mail->Port       = 587; // ou 465
 

@@ -1,10 +1,10 @@
 <?php
-include_once 'cabeconta.php';
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
-require_once '../db.php';
+include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../cabecindex.php';
 require_once '../PHPMailer/PHPMailer.php';
 require_once '../PHPMailer/SMTP.php';
 require_once '../PHPMailer/Exception.php';
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mail->Host       = 'smtp.gmail.com';
                 $mail->SMTPAuth   = true;
                 $mail->Username   = 'pcmastergeral@gmail.com';
-                $mail->Password   = 'kvej gmhk njdd mqqy';
+                $mail->Password   = 'mjsv oxar shbz dfzp';
                 $mail->SMTPSecure = 'tls';
                 $mail->Port       = 587;
 

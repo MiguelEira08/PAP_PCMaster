@@ -1,10 +1,11 @@
 <?php
-include_once 'cabeconta.php';
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once '../db.php';
+include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../cabecindex.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../login/login.php');

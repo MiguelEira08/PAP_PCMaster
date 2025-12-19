@@ -1,6 +1,7 @@
 <?php
-include_once 'cabecadm.php';
-include_once '../db.php';
+session_start();
+include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../cabecindex.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -65,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['compra_id'], $_POST['
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
             $mail->Username   = 'pcmastergeral@gmail.com';
-            $mail->Password   = 'kvej gmhk njdd mqqy';
+            $mail->Password   = 'mjsv oxar shbz dfzp';
             $mail->SMTPSecure = 'tls';
             $mail->Port       = 587;
 

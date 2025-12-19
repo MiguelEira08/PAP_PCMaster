@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once '../db.php';
 
 $tipoSelecionado = isset($_GET['tipo']) ? strtolower(trim($_GET['tipo'])) : '';

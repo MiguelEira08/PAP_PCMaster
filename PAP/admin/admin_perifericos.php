@@ -1,6 +1,7 @@
 <?php
-include_once 'cabecadm.php';
-include_once '../db.php';
+session_start();
+include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../cabecindex.php';
 
 $stock = filter_input(INPUT_GET, 'stock', FILTER_SANITIZE_NUMBER_INT);
 $tipo  = filter_input(INPUT_GET, 'tipo', FILTER_SANITIZE_FULL_SPECIAL_CHARS);

@@ -1,6 +1,7 @@
 <?php
-include_once 'cabecadm.php';
-include_once '../db.php';
+session_start();
+include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../cabecindex.php';
 ?>
 
 <!DOCTYPE html>
@@ -33,34 +34,48 @@ include_once '../db.php';
         <th>Email</th>
         <th>Telefone</th>
         <th>tipo</th>
+        <th>Estado</th>
         <th>Ações</th>
       </tr>
     </thead>
     <tbody>
     <?php
-      $resultAdminsTipo = mysqli_query($conn, "SELECT * FROM utilizadores WHERE tipo = 'admin' ORDER BY id DESC");
-      if ($resultAdminsTipo && mysqli_num_rows($resultAdminsTipo) > 0) {
-          while ($row = mysqli_fetch_assoc($resultAdminsTipo)) {
-              echo '<tr>';
-              echo "<td>{$row['id']}</td>";
-              echo "<td>{$row['nome']}</td>";
-              echo "<td>{$row['email']}</td>";
-              echo "<td>{$row['numtel']}</td>";
-              echo "<td>{$row['tipo']}</td>";
-              echo '<td class="acoes">
-                          <button class="btn remover" onclick="removerUtilizador(' . $row['id'] . ', this)">Apagar</button>
-                          <a href="../admin_gestao/editar_utilizador.php?id='.$row['id'].'" class="btn editar">Editar</a>
-                    </td>';
-              echo '</tr>';
-          }
-      } else {
-          echo '<tr><td colspan="6">Nenhum administrador (tipo admin) encontrado.</td></tr>';
-      }
-    ?>
-        </tbody>
-      </table>
+    $resultAdminsTipo = mysqli_query($conn, "
+    SELECT u.*, us.bloqueado
+    FROM utilizadores u
+    LEFT JOIN utilizador_seguranca us 
+        ON u.id = us.utilizador_id
+    WHERE u.tipo = 'admin'
+    ORDER BY u.id DESC
+    ");
+    if ($resultAdminsTipo && mysqli_num_rows($resultAdminsTipo) > 0) {
+    while ($row = mysqli_fetch_assoc($resultAdminsTipo)) {
 
-    <hr style="margin:40px 0; opacity:.4;">
+        $estado = ($row['bloqueado'] === 'sim')
+            ? '<span>Bloqueado</span>'
+            : '<span>Ativo</span>';
+
+        echo '<tr>';
+        echo "<td>{$row['id']}</td>";
+        echo "<td>{$row['nome']}</td>";
+        echo "<td>{$row['email']}</td>";
+        echo "<td>{$row['numtel']}</td>";
+        echo "<td>{$row['tipo']}</td>";
+        echo "<td>{$estado}</td>";
+        echo '<td class="acoes">
+                <button class="btn remover" onclick="removerUtilizador(' . $row['id'] . ', this)">Apagar</button>
+                <a href="../admin_gestao/editar_utilizador.php?id='.$row['id'].'" class="btn editar">Editar</a>
+              </td>';
+        echo '</tr>';
+    }
+} else {
+    echo '<tr><td colspan="7">Nenhum administrador (tipo admin) encontrado.</td></tr>';
+}
+    ?>
+    </tbody>
+  </table>
+
+<hr style="margin:40px 0; opacity:.4;">
 <h2>Gestão de Utilizadores</h2>
 <div class="table-container">
   <table class="admin-table">
@@ -71,20 +86,34 @@ include_once '../db.php';
         <th>Email</th>
         <th>Telefone</th>
         <th>tipo</th>
+        <th>Estado</th>
         <th>Ações</th>
       </tr>
     </thead>
     <tbody>
     <?php
-      $resultUsers = mysqli_query($conn, "SELECT * FROM utilizadores WHERE tipo = 'utilizador' ORDER BY id DESC");
+    $resultUsers = mysqli_query($conn, "
+    SELECT u.*, us.bloqueado
+    FROM utilizadores u
+    LEFT JOIN utilizador_seguranca us 
+        ON u.id = us.utilizador_id
+    WHERE u.tipo = 'utilizador'
+    ORDER BY u.id DESC
+    ");
       if ($resultUsers && mysqli_num_rows($resultUsers) > 0) {
           while ($row = mysqli_fetch_assoc($resultUsers)) {
+            
+        $estado = ($row['bloqueado'] === 'sim')
+            ? '<span>Bloqueado</span>'
+            : '<span>Ativo</span>';
+
               echo '<tr>';
               echo "<td>{$row['id']}</td>";
               echo "<td>{$row['nome']}</td>";
               echo "<td>{$row['email']}</td>";
               echo "<td>{$row['numtel']}</td>";
               echo "<td>{$row['tipo']}</td>";
+              echo "<td>{$estado}</td>";
               echo '<td class="acoes">
                           <button class="btn remover" onclick="removerUtilizador(' . $row['id'] . ', this)">Apagar</button>
                           <a href="../admin_gestao/editar_utilizador.php?id='.$row['id'].'" class="btn editar">Editar</a>

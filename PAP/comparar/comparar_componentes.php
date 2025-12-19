@@ -1,6 +1,7 @@
 <?php
-include_once '../pagcabecs/cabec.php';
-include_once '../db.php';
+session_start();
+include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../cabecindex.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt">

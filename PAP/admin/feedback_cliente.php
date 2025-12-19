@@ -2,9 +2,9 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once '../db.php';
-include_once 'cabecadm.php';
 
+include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../cabecindex.php';
 $nome_filtro   = isset($_GET['nome']) ? trim($_GET['nome']) : '';
 $status_filtro = isset($_GET['status']) ? trim($_GET['status']) : '';
 

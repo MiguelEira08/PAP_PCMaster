@@ -1,6 +1,7 @@
 <?php
-include_once 'cabecadm.php';
-include_once '../db.php';
+session_start();
+include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../cabecindex.php';
 
 $userId  = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_NUMBER_INT);
 $estadoF = filter_input(INPUT_GET, 'estado',  FILTER_SANITIZE_FULL_SPECIAL_CHARS);

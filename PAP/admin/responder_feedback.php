@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['responder'])) {
                 $mail->Host       = 'smtp.gmail.com';
                 $mail->SMTPAuth   = true;
                 $mail->Username   = 'pcmastergeral@gmail.com'; // Altere se necessário
-                $mail->Password   = 'kvej gmhk njdd mqqy';      // App Password
+                $mail->Password   = 'mjsv oxar shbz dfzp';      // App Password
                 $mail->SMTPSecure = 'tls';
                 $mail->Port       = 587;
 

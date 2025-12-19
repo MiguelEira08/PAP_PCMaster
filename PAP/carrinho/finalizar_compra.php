@@ -1,17 +1,13 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 session_start();
-require_once '../db.php';
+include_once __DIR__ . '/../db.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
             
-require_once '../PHPMailer/PHPMailer.php';
-require_once '../PHPMailer/SMTP.php';
-require_once '../PHPMailer/Exception.php';
+include_once __DIR__ . '/../PHPMailer/PHPMailer.php';
+include_once __DIR__ . '/../PHPMailer/SMTP.php';
+include_once __DIR__ . '/../PHPMailer/Exception.php';
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../login/login.php");
@@ -30,7 +26,7 @@ if (isset($_POST['confirmar_compra'])) {
     $rua           = trim($_POST['rua'] ?? '');
     $distrito      = trim($_POST['distrito'] ?? '');
     $codigo_postal = trim($_POST['codigo_postal'] ?? '');
-    $numero_cartao = preg_replace('/\D/', '', $_POST['numero_cartao'] ?? '');
+    $numero_cartao = preg_replace('/\s+/', '', ($_POST['numero_cartao'] ?? ''));
 
     if ($rua === '' || $distrito === '' || $codigo_postal === '' || $numero_cartao === '') {
         $erros[] = 'Todos os campos são obrigatórios.';
@@ -88,8 +84,8 @@ if (isset($_POST['confirmar_compra'])) {
                 $prod_info = $stProd->get_result()->fetch_assoc();
                 $stProd->close();
 
-                if (!$produto) {    
-                    throw new Exception("Produto não encontrado.");
+                if (!$prod_info) {
+                    throw new Exception("Produto ID {$item['id_produto']} não encontrado.");
                 }
                 if ($prod_info['stock'] < $item['quantidade']) {
                     throw new Exception("Stock insuficiente para o produto: {$prod_info['nome']}.");
@@ -141,7 +137,7 @@ if (isset($_POST['confirmar_compra'])) {
                 $mail->Host       = 'smtp.gmail.com';      // <- Substituir
                 $mail->SMTPAuth   = true;
                 $mail->Username   = 'pcmastergeral@gmail.com';  // <- Substituir
-                $mail->Password   = 'kvej gmhk njdd mqqy';          // <- Substituir
+                $mail->Password   = 'mjsv oxar shbz dfzp';          // <- Substituir
                 $mail->SMTPSecure = 'tls';
                 $mail->Port       = 587;
 
@@ -241,7 +237,7 @@ if (isset($_POST['confirmar_compra'])) {
           <label>Número do Cartão:</label>
           <input type="text" name="numero_cartao" placeholder="Somente dígitos" required>
 <br>
-          <button type="submit" class="botao-visualizar">Confirmar Compra</button>
+        <button type="submit" name="confirmar_compra" class="botao-visualizar">Confirmar Compra</button>
           <br>
           <button type="button" class="btn-voltar" onclick="window.history.back()">Voltar</button>
         </form>

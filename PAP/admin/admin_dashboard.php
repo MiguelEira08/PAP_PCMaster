@@ -1,5 +1,7 @@
 <?php
-include_once 'cabecadm.php';
+session_start();
+include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../cabecindex.php';
 ?>
 
 <!DOCTYPE html>
