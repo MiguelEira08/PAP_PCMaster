@@ -10,7 +10,10 @@ include_once __DIR__ . '/../cabecindex.php';
   <meta charset="UTF-8">
   <title>Loja Periféricos</title>
   <link rel="stylesheet" href="../css/comprar.css">
-  <link rel="icon" type="image/png" href="../imagens/icon.png">
+ <link rel="icon" type="image/png" href="/imagens/logo.png?v=2">
+
+
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -52,6 +55,7 @@ include_once __DIR__ . '/../cabecindex.php';
             <li><a href="?tipo=Rato&q=Corsair">Corsair</a></li>
             <li><a href="?tipo=Rato&q=Gigabyte">Gigabyte</a></li>
             <li><a href="?tipo=Rato&q=HyperX">HyperX</a></li>
+            <li><a href="?tipo=Rato&q=Logitech">Logitech</a></li>
             <li><a href="?tipo=Rato&q=Mars Gaming">Mars Gaming</a></li>
             <li><a href="?tipo=Rato&q=NPlay">NPlay</a></li>
             <li><a href="?tipo=Rato&q=Razer">Razer</a></li>

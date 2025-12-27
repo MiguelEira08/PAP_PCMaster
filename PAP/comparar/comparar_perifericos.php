@@ -52,6 +52,7 @@ include_once __DIR__ . '/../cabecindex.php';
             <li><a href="comparar_perifericos_lista.php?tipo=Rato&q=Corsair">Corsair</a></li>
             <li><a href="comparar_perifericos_lista.php?tipo=Rato&q=Gigabyte">Gigabyte</a></li>
             <li><a href="comparar_perifericos_lista.php?tipo=Rato&q=HyperX">HyperX</a></li>
+            <li><a href="comparar_perifericos_lista.php?tipo=Rato&q=Logitech">Logitech</a></li>
             <li><a href="comparar_perifericos_lista.php?tipo=Rato&q=Mars Gaming">Mars Gaming</a></li>
             <li><a href="comparar_perifericos_lista.php?tipo=Rato&q=NPlay">NPlay</a></li>
             <li><a href="comparar_perifericos_lista.php?tipo=Rato&q=Razer">Razer</a></li>

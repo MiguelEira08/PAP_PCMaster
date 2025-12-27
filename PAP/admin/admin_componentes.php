@@ -27,6 +27,9 @@ $queryFiltros = http_build_query([
     <link rel="stylesheet" href="../css/admin_produto.css">
     <link rel="icon" type="image/png" href="../imagens/icon.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.6/css/dataTables.dataTables.css" />
+  
+
 </head>
 <body>
 <div class="bg">
@@ -79,17 +82,17 @@ $queryFiltros = http_build_query([
         </form>
 
         <div class="table-container">
-            <table class="admin-table">
+            <table class="admin-table" id="tabela">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Tipo</th>
-                        <th>Marca</th>
-                        <th>Preço (€)</th>
-                        <th>Stock</th>
-                        <th>Imagem</th>
-                        <th>Editar / Apagar</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Marca</th>
+                        <th scope="col">Preço (€)</th>
+                        <th scope="col">Stock</th>
+                        <th scope="col">Imagem</th>
+                        <th scope="col">Editar / Apagar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -138,8 +141,7 @@ $queryFiltros = http_build_query([
                         echo '<td>' . $row['stock'] . '</td>';
                         echo '<td><img src="../imagens/' . htmlspecialchars($row['caminho_arquivo']) . '" width="60" alt="Imagem do componente"></td>';
                         echo '<td class="acoes">';
-                        echo '  <a href="../admin_gestao/editar_componentes.php?id=' . $row['id'] . '&' . $queryFiltros . '#linha-' . $row['id'] . '" class="btn editar">Editar</a>';
-                        '<br>';
+                        echo '  <a href="../admin_gestao/editar_componentes.php?id=' . $row['id'] . '&' . $queryFiltros . '#linha-' . $row['id'] . '" class="btn editar">Editar</a>';                    
                         echo '  <button class="btn remover" data-id="' . $row['id'] . '">Apagar</button>';
                         echo '</td>';
                         echo '</tr>';
@@ -154,7 +156,9 @@ $queryFiltros = http_build_query([
         </div>
     </div>
 </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/2.3.6/js/dataTables.js"></script>
+<script src="scriptadmin.js"></script>
 <script>
 $(document).ready(function(){
     $('.btn-remover').click(function(){
