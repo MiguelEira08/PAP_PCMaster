@@ -2,6 +2,10 @@
 session_start();
 include_once __DIR__ . '/../db.php';
 include_once __DIR__ . '/../cabecindex.php';
+if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
+    header("Location: ../index/index.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>

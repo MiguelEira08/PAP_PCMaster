@@ -18,7 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erro = 'Preencha todos os campos!';
     } else {
 
-        // 1️⃣ Procurar utilizador
         $stmt = $conn->prepare("
             SELECT id, nome, password, tipo 
             FROM utilizadores 
@@ -55,7 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $sec->fetch();
             $sec->close();
 
-            // 🚫 4️⃣ BLOQUEIO ABSOLUTO
             if ($bloqueado === 'sim') {
                 $erro = 'Conta bloqueada. Contacte um administrador.';
             } else {
@@ -75,12 +73,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $upd->close();
 
                     $_SESSION['user_id'] = $id;
-                    $_SESSION['nome'] = $nome_bd;
-                    $_SESSION['tipo'] = $tipo;
+$_SESSION['nome'] = $nome_bd;
+$_SESSION['tipo'] = $tipo;
 
-                    header('Location: ../index/index.php');
-                    exit();
-
+if ($tipo === 'admin') {
+    header('Location: ../admin/admin_dashboard.php');
+} else {
+    header('Location: ../index/index.php');
+}
+exit();
                 } else {
 
                     // ❌ Password errada

@@ -42,11 +42,11 @@ require_once __DIR__ . "/db.php";
         }
 
         // utilizador logado
-        elseif (
-            $tipoMenu === 'utilizador' &&
-            isset($_SESSION['nome']) &&
-            in_array($_SESSION['tipo'], ['utilizador', 'admin'])
-        ) {
+      elseif (
+    $tipoMenu === 'utilizador' &&
+    isset($_SESSION['nome']) &&
+    $_SESSION['tipo'] === 'utilizador'
+) {
             $mostrar = true;
         }
 

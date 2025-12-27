@@ -1,6 +1,10 @@
 <?php
 session_start();
 include_once '../db.php';
+if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
+    header("Location: ../index/index.php");
+    exit;
+}
 
 if (!isset($_POST['id']) || !is_numeric($_POST['id'])) {
     echo 'ID inválido.';

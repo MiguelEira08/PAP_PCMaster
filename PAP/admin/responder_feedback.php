@@ -1,6 +1,14 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
+
+}
+include_once __DIR__ . '/../db.php';
+
+
+if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
+    header("Location: ../index/index.php");
+    exit;
 }
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);

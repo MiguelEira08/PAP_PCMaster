@@ -3,6 +3,12 @@ session_start();
 include_once __DIR__ . '/../db.php';
 include_once __DIR__ . '/../cabecindex.php';
 
+
+if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
+    header("Location: ../index/index.php");
+    exit;
+}
+
 $stock = filter_input(INPUT_GET, 'stock', FILTER_SANITIZE_NUMBER_INT);
 $tipo  = filter_input(INPUT_GET, 'tipo',  FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $marca = filter_input(INPUT_GET, 'marca', FILTER_SANITIZE_FULL_SPECIAL_CHARS);

@@ -3,6 +3,10 @@ session_start();
 include_once __DIR__ . '/../db.php';
 include_once __DIR__ . '/../cabecindex.php';
 
+if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
+    header("Location: ../index/index.php");
+    exit;
+}
 $userId  = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_NUMBER_INT);
 $estadoF = filter_input(INPUT_GET, 'estado',  FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 ?>

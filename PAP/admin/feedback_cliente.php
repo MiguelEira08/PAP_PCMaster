@@ -3,8 +3,13 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+
 include_once __DIR__ . '/../db.php';
 include_once __DIR__ . '/../cabecindex.php';
+if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
+    header("Location: ../index/index.php");
+    exit;
+}
 $nome_filtro   = isset($_GET['nome']) ? trim($_GET['nome']) : '';
 $status_filtro = isset($_GET['status']) ? trim($_GET['status']) : '';
 
