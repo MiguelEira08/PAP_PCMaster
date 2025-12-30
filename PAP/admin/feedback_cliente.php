@@ -55,6 +55,8 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <title>Gestão de Feedback</title>
     <link rel="stylesheet" href="../css/admin_produto.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.6/css/dataTables.dataTables.css" />
 </head>
 <body>
 <div class="bg">
@@ -77,7 +79,7 @@ $result = $stmt->get_result();
             </form>
 
             <?php if ($result->num_rows > 0): ?>
-                <table class="admin-table">
+                   <table  id="tabela" class="datatable">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -116,6 +118,9 @@ $result = $stmt->get_result();
             <?php endif; ?>
 
             <a href="../admin/admin_dashboard.php" class="btn voltar" style="margin-top: 20px;">Voltar</a>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/2.3.6/js/dataTables.js"></script>
+<script src="scriptadmin.js"></script>
         </div>
     </div>
 </div>

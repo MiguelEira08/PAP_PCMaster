@@ -82,7 +82,7 @@ $queryFiltros = http_build_query([
         </form>
 
         <div class="table-container">
-            <table class="admin-table" id="tabela">
+           <table id="tabela" class="datatable">
                 <thead>
                     <tr>
                         <th scope="col">ID</th>

@@ -24,7 +24,8 @@ $queryFiltros = http_build_query([
     <title>Painel de Administração - Periféricos</title>
     <link rel="stylesheet" href="../css/admin_produto.css">
     <link rel="icon" type="image/png" href="../imagens/icon.png">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.6/css/dataTables.dataTables.css" />
 </head>
 <body>
 <div class="bg">
@@ -77,7 +78,7 @@ $queryFiltros = http_build_query([
         </form>
 
         <div class="table-container">
-            <table class="admin-table">
+        <table id="tabela" class="datatable">
                 <thead>
                 <tr>
                     <th>ID</th>
@@ -151,7 +152,9 @@ $queryFiltros = http_build_query([
         </div>
     </div>
 </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/2.3.6/js/dataTables.js"></script>
+<script src="scriptadmin.js"></script>
 <script>
 function removerPeriferico(id) {
     if (confirm('Tem a certeza que deseja remover este periférico?')) {
