@@ -15,7 +15,7 @@ if (!isset($utilizador)) {
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../css/conta.css">
+    <link rel="stylesheet" href="../css/loja.css">
     <div class="bg">
     <div class="overlay">
     <div class="content">

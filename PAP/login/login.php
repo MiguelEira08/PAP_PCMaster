@@ -36,13 +36,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->fetch();
             $stmt->close();
 
-            // 2️⃣ Garantir registo em utilizador_seguranca
+            // Garantir registo em utilizador_seguranca
             $conn->query("
                 INSERT IGNORE INTO utilizador_seguranca (utilizador_id)
                 VALUES ($id)
             ");
 
-            // 3️⃣ Buscar estado de segurança
+            // Buscar estado de segurança
             $sec = $conn->prepare("
                 SELECT tentativas, bloqueado
                 FROM utilizador_seguranca
@@ -54,11 +54,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $sec->fetch();
             $sec->close();
 
+            $tentativas = (int)$tentativas; // garantir tipo inteiro
+
             if ($bloqueado === 'sim') {
                 $erro = 'Conta bloqueada. Contacte um administrador.';
             } else {
-
-                // 5️⃣ Verificar password
                 if (password_verify($password, $hash)) {
 
                     // Login OK → reset tentativas
@@ -73,42 +73,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $upd->close();
 
                     $_SESSION['user_id'] = $id;
-$_SESSION['nome'] = $nome_bd;
-$_SESSION['tipo'] = $tipo;
+                    $_SESSION['nome'] = $nome_bd;
+                    $_SESSION['tipo'] = $tipo;
 
-if ($tipo === 'admin') {
-    header('Location: ../admin/admin_dashboard.php');
-} else {
-    header('Location: ../index/index.php');
-}
-exit();
+                    if ($tipo === 'admin') {
+                        header('Location: ../admin/admin_dashboard.php');
+                    } else {
+                        header('Location: ../index/index.php');
+                    }
+                    exit();
+
                 } else {
 
-                    // ❌ Password errada
+                    // Password errada → incrementar tentativas
                     $tentativas++;
+                    $bloqueado_update = $tentativas >= 5 ? 'sim' : 'nao';
 
-                    if ($tentativas >= 5) {
-                        // Bloqueio definitivo
-                        $upd = $conn->prepare("
-                            UPDATE utilizador_seguranca
-                            SET tentativas = ?, bloqueado = 'sim'
-                            WHERE utilizador_id = ?
-                        ");
-                        $upd->bind_param("ii", $tentativas, $id);
-                        $upd->execute();
-                        $upd->close();
+                    $upd = $conn->prepare("
+                        UPDATE utilizador_seguranca
+                        SET tentativas = ?, bloqueado = ?
+                        WHERE utilizador_id = ?
+                    ");
+                    $upd->bind_param("isi", $tentativas, $bloqueado_update, $id);
+                    $upd->execute();
+                    $upd->close();
 
+                    if ($bloqueado_update === 'sim') {
                         $erro = 'Conta bloqueada por excesso de tentativas.';
                     } else {
-                        $upd = $conn->prepare("
-                            UPDATE utilizador_seguranca
-                            SET tentativas = ?
-                            WHERE utilizador_id = ?
-                        ");
-                        $upd->bind_param("ii", $tentativas, $id);
-                        $upd->execute();
-                        $upd->close();
-
                         $erro = 'Senha incorreta! Tentativas restantes: ' . (5 - $tentativas);
                     }
                 }
