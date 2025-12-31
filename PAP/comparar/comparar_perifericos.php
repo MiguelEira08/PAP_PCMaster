@@ -18,6 +18,10 @@ include_once __DIR__ . '/../cabecindex.php';
     <div class="overlay"></div>  
     <div class="content">
     <div class="sidebar">
+      <div class="search-box"></div>
+    <div class="search-box">
+  <input type="text" id="searchInput" placeholder="Pesquisar periféricos...">
+</div>
                <ul>
         <li><a href="comparar_perifericos_lista.php">Todos os Tipos</a></li>
         <li class="has-sub"><a href="#">Fones</a>
@@ -138,9 +142,11 @@ function atualizarCaixa() {
 }
 
 function adicionarComparacao(produto) {
-  if (!produto1) produto1 = produto;
-  else if (!produto2 && produto.id !== produto1.id) produto2 = produto;
-  else if (produto.id === produto1.id || produto.id === produto2?.id) {
+  if (!produto1) {
+    produto1 = produto;
+  } else if (!produto2 && produto.id !== produto1.id) {
+    produto2 = produto;
+  } else if (produto.id === produto1?.id || produto.id === produto2?.id) {
     alert("Este produto já foi selecionado.");
     return;
   } else {
@@ -158,14 +164,19 @@ function comparar() {
 
   const div = document.getElementById("resultado-comparacao");
   div.innerHTML = `
-    <div class="descricao-produto"><strong>${produto1.nome}</strong><br>${produto1.descricao}</div>
-    <div class="descricao-produto"><strong>${produto2.nome}</strong><br>${produto2.descricao}</div>
+    <div class="descricao-produto">
+      <strong>${produto1.nome}</strong><br>
+      ${produto1.descricao}
+    </div>
+    <div class="descricao-produto">
+      <strong>${produto2.nome}</strong><br>
+      ${produto2.descricao}
+    </div>
   `;
 }
 
-
 document.querySelectorAll('.sidebar a').forEach(link => {
-  link.addEventListener('click', function (e) {
+  link.addEventListener('click', function(e) {
     const parentLi = this.closest('.has-sub');
 
     if (parentLi && this === parentLi.querySelector(':scope > a') && this.nextElementSibling) {
@@ -174,16 +185,19 @@ document.querySelectorAll('.sidebar a').forEach(link => {
       return;
     }
 
-    if (this.getAttribute('href') && this.getAttribute('href').includes('comparar_perifericos_lista.php')) {
+    if (this.getAttribute('href').includes('comparar_perifericos_lista.php')) {
       e.preventDefault();
       fetch(this.getAttribute('href'))
-        .then(response => response.text())
+        .then(response => {
+          if (!response.ok) throw new Error('Erro ao carregar os dados');
+          return response.text();
+        })
         .then(html => {
           document.getElementById('lista-produtos').innerHTML = html;
         })
         .catch(err => {
           console.error(err);
-          alert('Não foi possível carregar os periféricos.');
+          alert('Não foi possível carregar os componentes.');
         });
     }
   });
@@ -194,9 +208,32 @@ window.addEventListener('DOMContentLoaded', () => {
     .then(response => response.text())
     .then(html => {
       document.getElementById('lista-produtos').innerHTML = html;
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById('lista-produtos').innerHTML = '<p>Não foi possível carregar os produtos.</p>';
     });
 });
 
+const searchInput = document.getElementById('searchInput');
+if (searchInput) {
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.trim();
+    let url = 'comparar_perifericos_lista.php';
+    if (query) {
+      url += '?q=' + encodeURIComponent(query);
+    }
+    fetch(url)
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('lista-produtos').innerHTML = html;
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById('lista-produtos').innerHTML = '<p>Erro ao pesquisar produtos.</p>';
+      });
+  });
+}
 </script>
 
 </body>

@@ -11,9 +11,6 @@ include_once __DIR__ . '/../cabecindex.php';
   <title>Loja Periféricos</title>
   <link rel="stylesheet" href="../css/comprar.css">
  <link rel="icon" type="image/png" href="/imagens/logo.png?v=2">
-
-
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -21,6 +18,10 @@ include_once __DIR__ . '/../cabecindex.php';
   <div class="loja-container">
   <div class="overlay"></div>
     <aside class="sidebar">
+      <div class="search-box"></div>
+    <div class="search-box">
+  <input type="text" id="searchInput" placeholder="Pesquisar periféricos...">
+</div>
       <ul>
         <li><a href="perifericos_lista.php">Todos os Tipos</a></li>
         <li class="has-sub"><a href="#">Fones</a>
@@ -86,6 +87,7 @@ include_once __DIR__ . '/../cabecindex.php';
           </ul>
         </li>
       </ul>
+      <br>
   <div class="caixa-container">
   <div class="botao-link"  onclick="window.location.href='./loja.php';">
         Voltar atrás
@@ -97,71 +99,78 @@ include_once __DIR__ . '/../cabecindex.php';
     </main>
   </div>
 </div>
-
 <script>
-  document.querySelectorAll('.sidebar a').forEach(link => {
-    link.addEventListener('click', function (e) {
-      const parentLi = this.closest('.has-sub');
+const input = document.getElementById('searchInput');
+const content = document.getElementById('content');
 
-      if (parentLi && this === parentLi.querySelector(':scope > a') && this.nextElementSibling) {
-        e.preventDefault();
-        parentLi.classList.toggle('open');
-        return;
-      }
+// Função para buscar produtos
+function pesquisar() {
+  const query = input.value.trim();
+  let url = 'perifericos_lista.php';
+  if (query) {
+    url += '?q=' + encodeURIComponent(query);
+  }
 
-      const href = this.getAttribute('href');
-
-      if (href.includes('perifericos_lista.php')) {
-        e.preventDefault();
-        fetch(href)
-          .then(response => {
-            if (!response.ok) throw new Error('Erro ao carregar os dados');
-            return response.text();
-          })
-          .then(html => {
-            document.getElementById('content').innerHTML = html;
-          })
-          .catch(err => {
-            console.error(err);
-            alert('Não foi possível carregar os periféricos.');
-          });
-        return;
-      }
-
-      if (href.startsWith('?tipo=')) {
-        e.preventDefault();
-        const url = 'perifericos_lista.php' + href;
-
-        fetch(url)
-          .then(response => {
-            if (!response.ok) throw new Error('Erro ao carregar os dados');
-            return response.text();
-          })
-          .then(html => {
-            document.getElementById('content').innerHTML = html;
-          })
-          .catch(err => {
-            console.error(err);
-            alert('Não foi possível carregar os periféricos.');
-          });
-      }
+  fetch(url)
+    .then(response => {
+      if (!response.ok) throw new Error('Erro ao pesquisar');
+      return response.text();
+    })
+    .then(html => {
+      content.innerHTML = html;
+    })
+    .catch(err => {
+      console.error(err);
+      content.innerHTML = '<p>Erro ao carregar produtos.</p>';
     });
-  });
+}
 
-  window.addEventListener('DOMContentLoaded', () => {
-    fetch('perifericos_lista.php')
-      .then(response => {
-        if (!response.ok) throw new Error('Erro ao carregar os dados');
-        return response.text();
-      })
-      .then(html => {
-        document.getElementById('content').innerHTML = html;
-      })
-      .catch(err => {
-        console.error(err);
-        document.getElementById('content').innerHTML = '<p>Não foi possível carregar os produtos.</p>';
-      });
+input.addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    pesquisar();
+  }
+});
+
+input.addEventListener('input', () => {
+  pesquisar();
+});
+
+document.querySelectorAll('.sidebar a').forEach(link => {
+  link.addEventListener('click', function(e) {
+    const parentLi = this.closest('.has-sub');
+
+    if (parentLi && this === parentLi.querySelector(':scope > a') && this.nextElementSibling) {
+      e.preventDefault();
+      parentLi.classList.toggle('open');
+      return;
+    }
+
+    if (this.getAttribute('href').includes('perifericos_lista.php')) {
+      e.preventDefault();
+      fetch(this.getAttribute('href'))
+        .then(r => r.text())
+        .then(html => {
+          content.innerHTML = html;
+        })
+        .catch(err => {
+          console.error(err);
+          content.innerHTML = '<p>Erro ao carregar produtos.</p>';
+        });
+    }
   });
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  fetch('perifericos_lista.php')
+    .then(r => r.text())
+    .then(html => {
+      content.innerHTML = html;
+    })
+    .catch(err => {
+      console.error(err);
+      content.innerHTML = '<p>Erro ao carregar produtos.</p>';
+    });
+});
 </script>
 
 </body>

@@ -39,44 +39,6 @@ $queryFiltros = http_build_query([
         <h2>Gestão de Componentes</h2>
 
         <form method="GET" class="form-filtros">
-            <label for="stock">Stock:</label>
-            <select name="stock" id="stock">
-                <option value="">Todos</option>
-                <?php
-                $resStock = mysqli_query($conn, "SELECT DISTINCT stock FROM componentes ORDER BY stock ASC");
-                while ($s = mysqli_fetch_assoc($resStock)) {
-                    $val      = $s['stock'];
-                    $selected = ($stock !== null && $stock !== '' && (string)$val === (string)$stock) ? 'selected' : '';
-                    echo '<option value="' . htmlspecialchars($val) . '" ' . $selected . '>' . htmlspecialchars($val) . '</option>';
-                }
-                ?>
-            </select>
-
-            <label for="tipo">Tipo:</label>
-            <select name="tipo" id="tipo">
-                <option value="">Todos</option>
-                <?php
-                $resTipos = mysqli_query($conn, "SELECT DISTINCT tipo FROM componentes ORDER BY tipo ASC");
-                while ($t = mysqli_fetch_assoc($resTipos)) {
-                    $sel = ($tipo !== null && $tipo !== '' && $t['tipo'] === $tipo) ? 'selected' : '';
-                    echo '<option value="' . htmlspecialchars($t['tipo']) . '" ' . $sel . '>' . htmlspecialchars(ucfirst($t['tipo'])) . '</option>';
-                }
-                ?>
-            </select>
-
-            <label for="marca">Marca:</label>
-            <select name="marca" id="marca">
-                <option value="">Todas</option>
-                <?php
-                $resMarcas = mysqli_query($conn, "SELECT DISTINCT marca FROM componentes ORDER BY marca ASC");
-                while ($m = mysqli_fetch_assoc($resMarcas)) {
-                    $sel = ($marca !== null && $marca !== '' && $m['marca'] === $marca) ? 'selected' : '';
-                    echo '<option value="' . htmlspecialchars($m['marca']) . '" ' . $sel . '>' . htmlspecialchars($m['marca']) . '</option>';
-                }
-                ?>
-            </select>
-
-            <button type="submit">Procurar</button>
             <a href="../admin_gestao/adicionar_componentes.php" class="btn criar" style="margin-left:10px;">Adicionar Componentes</a>
             <a href="../admin/admin_dashboard.php" class="btn voltar" style="margin-left:10px;">Voltar</a>
         </form>
@@ -176,6 +138,45 @@ $(document).ready(function(){
         }
     });
 });
+</script>
+<script>
+  // Pesquisa simples
+  document.getElementById('searchBtn').addEventListener('click', pesquisar);
+  document.getElementById('searchInput').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') pesquisar();
+  });
+
+  function pesquisar() {
+    const query = document.getElementById('searchInput').value.trim();
+
+    if (query === '') {
+      alert('Escreve algo para pesquisar.');
+      return;
+    }
+
+    fetch(`componentes_lista.php?q=${encodeURIComponent(query)}`)
+      .then(response => {
+        if (!response.ok) throw new Error('Erro na pesquisa');
+        return response.text();
+      })
+      .then(html => {
+        document.getElementById('content').innerHTML = html;
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById('content').innerHTML =
+          '<p>Erro ao pesquisar componentes.</p>';
+      });
+  }
+
+  // Mantém o carregamento inicial
+  window.addEventListener('DOMContentLoaded', () => {
+    fetch('componentes_lista.php')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('content').innerHTML = html;
+      });
+  });
 </script>
 
 </body>

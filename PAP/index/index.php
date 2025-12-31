@@ -45,7 +45,7 @@ include_once __DIR__ . '/../cabecindex.php';
     <div class="content">
       <h1 align="center" class="amiko-semibold"> <b>Encontre aqui os melhores produtos de Informática</b></h1>
       <br>
-      <p align="center" class="amiko-semibold">Aceda à nossa loja e aproveite os melhores produtos de informática para si
+      <p align="center" class="amiko-semibold">Bem vindo á PcMaster <br>Aceda à nossa loja e aproveite os melhores produtos de informática para si
       
 
       </p>

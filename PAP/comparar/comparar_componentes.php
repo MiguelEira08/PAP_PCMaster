@@ -17,6 +17,10 @@ include_once __DIR__ . '/../cabecindex.php';
   <div class="overlay"></div>
   <div class="loja-container">
     <div class="sidebar">
+      <div class="search-box"></div>
+    <div class="search-box">
+  <input type="text" id="searchInput" placeholder="Pesquisar componentes...">
+</div>
     <ul>
         <li><a href="comparar_componentes_lista.php">Todos os Tipos</a></li>
         <li class="has-sub">
@@ -110,7 +114,7 @@ include_once __DIR__ . '/../cabecindex.php';
           </ul>
         </li>
       </ul>
-
+<br>
       <div class="caixa-container">
         <div class="botao-link" onclick="window.location.href='./comparar.php';">
           Voltar atrás
@@ -133,7 +137,6 @@ include_once __DIR__ . '/../cabecindex.php';
     </main>
   </div>
 </div>
-
 <script>
 let produto1 = null;
 let produto2 = null;
@@ -144,9 +147,11 @@ function atualizarCaixa() {
 }
 
 function adicionarComparacao(produto) {
-  if (!produto1) produto1 = produto;
-  else if (!produto2 && produto.id !== produto1.id) produto2 = produto;
-  else if (produto.id === produto1.id || produto.id === produto2?.id) {
+  if (!produto1) {
+    produto1 = produto;
+  } else if (!produto2 && produto.id !== produto1.id) {
+    produto2 = produto;
+  } else if (produto.id === produto1?.id || produto.id === produto2?.id) {
     alert("Este produto já foi selecionado.");
     return;
   } else {
@@ -164,14 +169,19 @@ function comparar() {
 
   const div = document.getElementById("resultado-comparacao");
   div.innerHTML = `
-    <div class="descricao-produto"><strong>${produto1.nome}</strong><br>${produto1.descricao}</div>
-    <div class="descricao-produto"><strong>${produto2.nome}</strong><br>${produto2.descricao}</div>
+    <div class="descricao-produto">
+      <strong>${produto1.nome}</strong><br>
+      ${produto1.descricao}
+    </div>
+    <div class="descricao-produto">
+      <strong>${produto2.nome}</strong><br>
+      ${produto2.descricao}
+    </div>
   `;
 }
 
-// 🔹 Sidebar + AJAX (igual ao do teu amigo)
 document.querySelectorAll('.sidebar a').forEach(link => {
-  link.addEventListener('click', function (e) {
+  link.addEventListener('click', function(e) {
     const parentLi = this.closest('.has-sub');
 
     if (parentLi && this === parentLi.querySelector(':scope > a') && this.nextElementSibling) {
@@ -203,12 +213,34 @@ window.addEventListener('DOMContentLoaded', () => {
     .then(response => response.text())
     .then(html => {
       document.getElementById('lista-produtos').innerHTML = html;
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById('lista-produtos').innerHTML = '<p>Não foi possível carregar os produtos.</p>';
     });
 });
 
-
-
+const searchInput = document.getElementById('searchInput');
+if (searchInput) {
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.trim();
+    let url = 'comparar_componentes_lista.php';
+    if (query) {
+      url += '?q=' + encodeURIComponent(query);
+    }
+    fetch(url)
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('lista-produtos').innerHTML = html;
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById('lista-produtos').innerHTML = '<p>Erro ao pesquisar produtos.</p>';
+      });
+  });
+}
 </script>
+
 </body>
 </html>
 
