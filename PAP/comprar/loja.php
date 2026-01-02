@@ -26,9 +26,7 @@ include_once __DIR__ . '/../cabecindex.php';
   </div>
 </div>
   <div class="caixa-container">
-  <div class="botao-link"  onclick="window.location.href='../index/index.php';">
-        Voltar atrás
-  </div>
+  <div class="botao-link"  onclick="window.location.href='../index/index.php';">Voltar ao início</div>
 
 </div>
 </div>

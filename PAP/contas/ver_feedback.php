@@ -84,9 +84,9 @@ $stmt->close();
             <?php else: ?>
                 <p style="color: white;">Sem feedbacks lidos.</p>
             <?php endif; ?>
-            <center>
-        <a href="conta.php" class="btn voltar" style="margin-left: 10px;">Voltar</a>
-            </center>
+            <div class="caixa-container">
+            <div class="botao-link"  onclick="window.location.href='./conta.php';">Voltar atrás</div>
+            </div>
         </div>
     </div>
 </div>

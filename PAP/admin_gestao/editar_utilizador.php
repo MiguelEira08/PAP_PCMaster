@@ -194,9 +194,10 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
             <option value="nao" <?= ($utilizador['bloqueado'] ?? 'nao') === 'nao' ? 'selected' : '' ?>>Ativa</option>
             <option value="sim" <?= ($utilizador['bloqueado'] ?? 'nao') === 'sim' ? 'selected' : '' ?>>Bloqueada</option>
         </select>
-
-        <button type="submit">Guardar Alterações</button>
-        <a href="../admin/admin_utilizadores.php" class="btn voltar" style="margin-left:10px;">Voltar</a>
+            <br><br>
+           <div align="center"><button type="submit" class="botao">Guardar alterações</button></div> 
+            <br>
+        <div align="center"><button type="button" class="botao2" onclick="window.location.href='../admin/admin_utilizadores.php';">Voltar</button></div>
 
     <?php endif; ?>
 

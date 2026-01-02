@@ -1,10 +1,9 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
-
 }
-include_once __DIR__ . '/../db.php';
 
+include_once __DIR__ . '/../db.php';
 
 if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
     header("Location: ../index/index.php");
@@ -52,9 +51,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['responder'])) {
     $mensagem_resposta = trim($_POST['mensagem']);
     $data_resposta = date('Y-m-d H:i:s');
 
-    if (isset($_SESSION['admin_id']) && !empty($mensagem_resposta)) {
-        $stmt = $conn->prepare("SELECT nome FROM admin WHERE id = ?");
-        $stmt->bind_param("i", $_SESSION['admin_id']);
+    // ✅ Usar user_id da sessão para identificar o admin
+    if (isset($_SESSION['user_id']) && !empty($mensagem_resposta)) {
+        $stmt = $conn->prepare("SELECT nome FROM utilizadores WHERE id = ? AND tipo = 'admin'");
+        $stmt->bind_param("i", $_SESSION['user_id']);
         $stmt->execute();
         $stmt->bind_result($admin_nome);
         $stmt->fetch();
@@ -156,8 +156,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['responder'])) {
                     <input type="hidden" name="feedback_id" value="<?= $feedback_id ?>">
                     <label for="mensagem">Sua resposta:</label><br>
                     <textarea name="mensagem" id="mensagem" required rows="6" style="width: 100%;"></textarea><br><br>
-                    <button type="submit" name="responder" class="btn criar">Enviar Resposta</button>
-                    <a href="feedback_cliente.php" class="btn voltar">Cancelar</a>
+            <br>
+           <div align="center"><button type="submit" class="botao">Enviar Resposta</button></div> 
+            <br>
+        <div align="center"><button type="button" class="botao2" onclick="window.location.href='./feedback_cliente.php';">Voltar</button></div>
                 </form>
             <?php else: ?>
                 <p>Feedback não encontrado ou inválido.</p>

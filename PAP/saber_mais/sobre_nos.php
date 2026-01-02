@@ -54,6 +54,10 @@ if (!isset($utilizador)) {
         </a>
     </div>
 </div>
+<br>
+  <div class="caixa-container">
+  <div class="botao-link"  onclick="window.location.href='./saber_mais.php';">Voltar atrás</div>
+</div>
 
 
   </div>

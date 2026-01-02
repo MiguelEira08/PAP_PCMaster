@@ -37,11 +37,7 @@ $queryFiltros = http_build_query([
     <br><br><br>
     <div class="content">
         <h2>Gestão de Componentes</h2>
-
-        <form method="GET" class="form-filtros">
             <a href="../admin_gestao/adicionar_componentes.php" class="btn criar" style="margin-left:10px;">Adicionar Componentes</a>
-            <a href="../admin/admin_dashboard.php" class="btn voltar" style="margin-left:10px;">Voltar</a>
-        </form>
 
         <div class="table-container">
            <table id="tabela" class="datatable">
@@ -104,7 +100,7 @@ $queryFiltros = http_build_query([
                         echo '<td><img src="../imagens/' . htmlspecialchars($row['caminho_arquivo']) . '" width="60" alt="Imagem do componente"></td>';
                         echo '<td class="acoes">';
                         echo '  <a href="../admin_gestao/editar_componentes.php?id=' . $row['id'] . '&' . $queryFiltros . '#linha-' . $row['id'] . '" class="btn editar">Editar</a>';                    
-                        echo '  <button class="btn remover" data-id="' . $row['id'] . '">Apagar</button>';
+                        echo '  <button class="btn btn-remover" data-id="' . $row['id'] . '">Apagar</button>';
                         echo '</td>';
                         echo '</tr>';
                     }
@@ -114,7 +110,9 @@ $queryFiltros = http_build_query([
                 ?>
                 </tbody>
             </table>
-            <a href="../admin/admin_dashboard.php" class="btn voltar" style="margin-top:15px;">Voltar</a>
+            <center>
+            <a href="../admin/admin_dashboard.php" class="btn voltar" style="margin-top:15px;">Voltar á Dashboard</a>
+            </center>
         </div>
     </div>
 </div>

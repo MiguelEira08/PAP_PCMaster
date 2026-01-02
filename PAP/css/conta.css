@@ -210,6 +210,29 @@ form input, form select {
 }
 
 
+.botao-link {
+  width: 200px;
+  height: 60px;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+}
+
+.botao-link:hover {
+  transform: scale(1.1);
+  background-color: burlywood;
+  color: white;
+}
+
 .error-message {
   color: #d00000;
   text-align: center;

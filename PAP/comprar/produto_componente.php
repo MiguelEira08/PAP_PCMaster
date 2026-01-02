@@ -63,7 +63,7 @@ if (!$produto) {
     <button type="submit" name="acao" value="carrinho" class="btn-adicionar">Adicionar ao carrinho</button>
     <button type="submit" name="acao" value="comprar" class="btn-adicionar">Comprar já</button>
     <center>
-<button type="button" class="btn-adicionar2" onclick="window.history.back()">Voltar</button>
+<button type="button" class="btn-adicionar2" onclick="window.location.href='./componentes.php';">Voltar</button>
     </center>
 
 </form>

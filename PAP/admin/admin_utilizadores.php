@@ -25,12 +25,8 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
   <div class="content">
 
     <h2>Gestão de Contas</h2>
+    <a href="../admin_gestao/adicionar_utilizador.php" class="btn criar" style="margin-bottom:15px;">Adicionar Conta</a>
 
-    <a href="../admin_gestao/adicionar_utilizador.php" class="btn criar" style="margin-bottom:15px;">
-    Adicionar Conta
-    </a>
-    <a href="../admin/admin_dashboard.php" class="btn voltar" style="margin-left:10px;">Voltar</a>
-    
 <div class="table-container">
    <table  id="tabela" class="datatable">
     <thead>
@@ -86,7 +82,9 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
     ?>
     </tbody>
   </table>
-
+        <center>
+            <a href="../admin/admin_dashboard.php" class="btn voltar" style="margin-top:15px;">Voltar á Dashboard</a>
+        </center>
 
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

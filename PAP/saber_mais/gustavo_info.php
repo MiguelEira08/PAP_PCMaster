@@ -20,9 +20,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <body>
 <main class="bg">
-
     <div class="overlay"></div>
-
     <section class="content">
         <div class="hero-container">
                 <div class="hero-image">
@@ -35,6 +33,10 @@ if (session_status() === PHP_SESSION_NONE) {
         </div>
         <br><br>
         <h3 align="left"><b>Gustavo Figueiredo</b> é um dos criadores do projeto PcMaster.<br> Este, está encarregue da comparação dos produtos que são vendidos<br>Nasceu a 3 de Dezembro de 2008, atualmente tem 17 anos e vive na Branca.<br>Gustavo estudou o 1º ciclo inteiro na Escola Primária das Laginhas, seguiu os 2º e 3º ciclos na Escola Básica de Branca, no curso regular.<br>Finalmente, frequentou a Escola Secundária de Albergaria-A-Velha, concluindo o 12º ano com 20 na PAP.</h3> 
+        <br><center>
+  <div class="caixa-container">
+  <div class="botao-link"  onclick="window.location.href='./sobre_nos.php';">Voltar atrás</div>
+            </center>
     </section>
 </main>
 </body>

@@ -53,8 +53,7 @@ $estadoF = filter_input(INPUT_GET, 'estado',  FILTER_SANITIZE_FULL_SPECIAL_CHARS
                                 }
                                 ?>
                             </select>
-                            <button type="submit">Filtrar</button>
-                            <a href="../admin/admin_dashboard.php" class="btn voltar" style="margin-left:10px;">Voltar</a>
+                            <button type="submit" class="btn voltar">Filtrar</button>
                         </form>
                     </td>
                 </tr>
@@ -125,7 +124,9 @@ $estadoF = filter_input(INPUT_GET, 'estado',  FILTER_SANITIZE_FULL_SPECIAL_CHARS
             ?>
             </tbody>
         </table>
-            <a href="admin_dashboard.php" class="btn voltar">Voltar</a>
+        <center>
+            <a href="admin_dashboard.php" class="btn voltar">Voltar á Dashboard</a>
+        </center>
     </div>
 </div>
 </body>

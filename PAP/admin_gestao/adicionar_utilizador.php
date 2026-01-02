@@ -88,9 +88,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <option value="utilizador" <?= isset($_POST['tipo']) && $_POST['tipo'] === 'utilizador' ? 'selected' : '' ?>>Utilizador</option>
             <option value="admin" <?= isset($_POST['tipo']) && $_POST['tipo'] === 'admin' ? 'selected' : '' ?>>Admin</option>
         </select>
-
-        <button type="submit">Adicionar</button>
-        <a href="../admin/admin_utilizadores.php" class="btn voltar" style="margin-left: 10px;">Voltar</a>
+            <br><br>
+           <div align="center"><button type="submit" class="botao">Adicionar Utilizador</button></div> 
+            <br>
+        <div align="center"><button type="button" class="botao2" onclick="window.location.href='../admin/admin_utilizadores.php';">Voltar</button></div>
       </form>
 
     </div>

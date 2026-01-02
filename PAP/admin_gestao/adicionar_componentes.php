@@ -125,9 +125,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <label for="imagem">Imagem:</label>
         <input type="file" name="imagem" accept="image/*" required>
-
-        <button type="submit">Adicionar</button>
-        <a href="../admin/admin_componentes.php" class="btn voltar" style="margin-left: 10px;">Voltar</a>
+            <br><br>
+           <div align="center"><button type="submit" class="botao">Adicionar Componente</button></div> 
+            <br>
+        <div align="center"><button type="button" class="botao2" onclick="window.location.href='../admin/admin_componentes.php';">Voltar</button></div>
     </form>
 </div>
 </div>

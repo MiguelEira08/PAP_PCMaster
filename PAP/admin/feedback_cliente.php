@@ -66,18 +66,6 @@ $result = $stmt->get_result();
         <div class="admin-container">
             <h2>Gestão de Feedback</h2>
 
-            <form method="get" class="form-filtros" style="margin-bottom: 20px;">
-                <label for="status">Status:</label>
-                <select name="status" id="status">
-                    <option value="">Todos</option>
-                    <option value="por ler" <?= $status_filtro === 'por ler' ? 'selected' : '' ?>>Por ler</option>
-                    <option value="lida" <?= $status_filtro === 'lida' ? 'selected' : '' ?>>Lida</option>
-                </select>
-
-                <button type="submit" class="btn criar">Filtrar</button>
-                <a href="../admin/admin_dashboard.php" class="btn voltar" style="margin-left: 10px;">Voltar</a>
-            </form>
-
             <?php if ($result->num_rows > 0): ?>
                    <table  id="tabela" class="datatable">
                     <thead>
@@ -116,8 +104,9 @@ $result = $stmt->get_result();
             <?php else: ?>
                 <p>Nenhum feedback encontrado com os critérios selecionados.</p>
             <?php endif; ?>
-
+            <center>
             <a href="../admin/admin_dashboard.php" class="btn voltar" style="margin-top: 20px;">Voltar</a>
+            </center>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/2.3.6/js/dataTables.js"></script>
 <script src="scriptadmin.js"></script>

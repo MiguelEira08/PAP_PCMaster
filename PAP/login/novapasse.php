@@ -13,7 +13,28 @@ ini_set('display_errors', 1);
 
 $mensagem = '';
 $erro = '';
+$erro_email = '';
+$email_pref = '';
 
+// Verifica se o email foi passado na URL
+if (isset($_GET['email'])) {
+    $email_pref = trim($_GET['email']);
+
+    // Verifica se o email existe na base de dados
+    $stmt = $conn->prepare("SELECT id FROM utilizadores WHERE email = ?");
+    $stmt->bind_param("s", $email_pref);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows === 0) {
+        $erro_email = 'Este email não está associado a nenhuma conta!';
+        $email_pref = ''; // limpa se não estiver na base
+    }
+
+    $stmt->close();
+}
+
+// Processa o POST do formulário
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email']);
     $nova_pass = trim($_POST['nova_pass']);
@@ -24,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($nova_pass !== $confirmar_pass) {
         $erro = 'As palavras-passe não coincidem!';
     } else {
+        // Verifica novamente se o email existe
         $stmt = $conn->prepare("SELECT id FROM utilizadores WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -37,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($stmt_update->execute()) {
                 try {
+                    // Envia email de confirmação
                     $mail = new PHPMailer(true);
                     $mail->CharSet = 'UTF-8';
                     $mail->isSMTP();
@@ -57,23 +80,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     $mail->send();
                 } catch (Exception $e) {
+                    // Opcional: guardar erro de envio
                 }
 
-                $mensagem = 'Palavra-passe alterada com sucesso! Pode fazer login agora.';
+                $mensagem = 'Palavra-passe alterada com sucesso! A redirecionar para o login...';
             } else {
                 $erro = 'Erro ao atualizar a palavra-passe. Tente novamente.';
             }
 
             $stmt_update->close();
         } else {
-            $erro = 'Email não encontrado!';
+            $erro = 'Este email não está associado a nenhuma conta!';
         }
 
         $stmt->close();
-        $conn->close();
     }
 }
+
+$conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -91,13 +117,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <h2 class="amiko-semibold">Repor Palavra-Passe</h2>
                 <img src="../imagens/logo.png" height="200px" width="200px" alt="Logo">
 
+                <?php if ($erro_email): ?>
+                    <p style="color: #ff4d4d; font-weight: bold;"> <?= htmlspecialchars($erro_email) ?> </p>
+                <?php endif; ?>
+
                 <?php if ($erro): ?>
                     <p style="color: #ff4d4d; font-weight: bold;"> <?= htmlspecialchars($erro) ?> </p>
                 <?php endif; ?>
 
                 <?php if ($mensagem): ?>
                     <p style="color: #000000; font-weight: bold;"> <?= htmlspecialchars($mensagem) ?> </p>
-
                     <script>
                         setTimeout(function() {
                             window.location.href = "../login/login.php";
@@ -105,9 +134,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </script>
                 <?php endif; ?>
 
-                <?php if (!$mensagem): ?>
+                <?php if (!$mensagem && !$erro_email): ?>
                     <label class="amiko-semibold">Email</label>
-                    <input type="email" name="email" required><br>
+                    <input type="email" name="email" required value="<?= htmlspecialchars($email_pref) ?>" readonly><br>
 
                     <label class="amiko-semibold">Nova Palavra-Passe</label>
                     <input type="password" name="nova_pass" required><br>

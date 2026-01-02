@@ -18,7 +18,7 @@ if (!isset($utilizador)) {
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/conta.css">
     <div class="bg">
-    <div class="overlay"></div>
+    <div class="overlay">
     <div class="content">
   <div class="caixa-container">
     <a href="gerir_conta.php" class="caixa">
@@ -34,11 +34,12 @@ if (!isset($utilizador)) {
     <a href="ver_feedback.php" class="caixa">
       <img src="../imagens/feedback.png" alt="imagem" class="caixa-imagem">Ver Feedback</a>
   </div>
-
-
+</div>
+  <div class="caixa-container">
+  <div class="botao-link"  onclick="window.location.href='../index/index.php';">Voltar ao início</div>
 </div>
 </div>
-
+</div>
 
 </body>
 </html>

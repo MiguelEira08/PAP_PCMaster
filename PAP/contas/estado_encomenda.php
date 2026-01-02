@@ -110,9 +110,9 @@ $stmt->close();
       <?php else: ?>
         <p>Sem encomendas entregues.</p>
         <br><br>
-            <center>
-        <a href="conta.php" class="btn voltar" style="margin-left: 10px;">Voltar</a>
-            </center>
+            <div class="caixa-container">
+            <div class="botao-link"  onclick="window.location.href='./conta.php';">Voltar atrás</div>
+            </div>
       <?php endif; ?>
     </div>
   </div>

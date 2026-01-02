@@ -95,11 +95,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../css/conta.css">
 </head>
 <body>
-
 <div class="bg">
     <div class="overlay"></div>
     <div class="content">
-
         <h2 style="color: white;">Enviar Feedback</h2>
 
         <form method="POST" action="">
@@ -127,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
            <div align="center"><button type="submit" class="botao">Enviar Feedback</button></div> 
             <br>
-        <div align="center"><button type="button" class="botao2" onclick="window.history.back()">Voltar</button></div>
+        <div align="center"><button type="button" class="botao2" onclick="window.location.href='./conta.php';">Voltar</button></div>
             </div>
         </form>
 

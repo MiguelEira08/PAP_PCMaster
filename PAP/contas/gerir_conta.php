@@ -127,14 +127,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="overlay"></div>
     <div class="content">
         <h2 style="color: white;">Editar Conta</h2>
-
+        <form method="POST">
         <?php if ($erro): ?>
             <p style="color: red;"><?= htmlspecialchars($erro) ?></p>
         <?php elseif ($sucesso): ?>
             <p style="color: green;"><?= htmlspecialchars($sucesso) ?></p>
         <?php endif; ?>
-
-        <form method="POST">
+            <br>
             <label>Nome:</label>
             <input type="text" name="nome" value="<?= htmlspecialchars($utilizador['nome']) ?>" required>
 
@@ -146,10 +145,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <label>Nova Password (opcional):</label>
             <input type="password" name="password" minlength="6">
-
-            <button type="submit">Guardar Alterações</button>
             <br>
-            <a href="conta.php" class="btn voltar" style="margin-left: 10px;">Voltar</a>
+           <div align="center"><button type="submit" class="botao">Guardar alterações</button></div> 
+            <br>
+        <div align="center"><button type="button" class="botao2" onclick="window.location.href='./conta.php';">Voltar</button></div>
         </form>
     </div>
 </div>

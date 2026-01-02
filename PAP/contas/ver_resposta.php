@@ -68,9 +68,9 @@ $stmt->close();
                 <strong>Data: </strong> <?= htmlspecialchars($data_resposta) ?><br>
                 <strong>Resposta: </strong> <?= nl2br(htmlspecialchars($resposta_admin)) ?>
             </p>
-            <center>
-        <a href="ver_feedback.php" class="btn voltar" style="margin-left: 10px;">Voltar</a>
-            </center>
+            <div class="caixa-container">
+            <div class="botao-link"  onclick="window.location.href='./ver_feedback.php';">Voltar atrás</div>
+            </div>
         </div>
 </div>
 </div>

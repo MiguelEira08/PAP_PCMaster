@@ -33,49 +33,7 @@ $queryFiltros = http_build_query([
     <br><br><br>
     <div class="content">
         <h2>Gestão de Periféricos</h2>
-
-        <form method="GET" class="form-filtros">
-            <label for="stock">Stock:</label>
-            <select name="stock" id="stock">
-                <option value="">Todos</option>
-                <?php
-                $resStock = mysqli_query($conn, "SELECT DISTINCT stock FROM perifericos ORDER BY stock ASC");
-                while ($s = mysqli_fetch_assoc($resStock)) {
-                    $val = $s['stock'];
-                    $sel = ($stock !== null && $stock !== '' && (string)$val === (string)$stock) ? 'selected' : '';
-                    echo '<option value="' . htmlspecialchars($val) . '" ' . $sel . '>' . htmlspecialchars($val) . '</option>';
-                }
-                ?>
-            </select>
-
-            <label for="tipo">Tipo:</label>
-            <select name="tipo" id="tipo">
-                <option value="">Todos</option>
-                <?php
-                $resTipos = mysqli_query($conn, "SELECT DISTINCT tipo FROM perifericos ORDER BY tipo ASC");
-                while ($t = mysqli_fetch_assoc($resTipos)) {
-                    $sel = ($tipo !== null && $tipo !== '' && $t['tipo'] === $tipo) ? 'selected' : '';
-                    echo '<option value="' . htmlspecialchars($t['tipo']) . '" ' . $sel . '>' . htmlspecialchars(ucfirst($t['tipo'])) . '</option>';
-                }
-                ?>
-            </select>
-
-            <label for="marca">Marca:</label>
-            <select name="marca" id="marca">
-                <option value="">Todas</option>
-                <?php
-                $resMarcas = mysqli_query($conn, "SELECT DISTINCT marca FROM perifericos ORDER BY marca ASC");
-                while ($m = mysqli_fetch_assoc($resMarcas)) {
-                    $sel = ($marca !== null && $marca !== '' && $m['marca'] === $marca) ? 'selected' : '';
-                    echo '<option value="' . htmlspecialchars($m['marca']) . '" ' . $sel . '>' . htmlspecialchars($m['marca']) . '</option>';
-                }
-                ?>
-            </select>
-
-            <button type="submit">Procurar</button>
             <a href="../admin_gestao/adicionar_perifericos.php" class="btn criar" style="margin-left:10px;">Adicionar Periféricos</a>
-            <a href="../admin/admin_dashboard.php" class="btn voltar" style="margin-left:10px;">Voltar</a>
-        </form>
 
         <div class="table-container">
         <table id="tabela" class="datatable">
@@ -148,7 +106,9 @@ $queryFiltros = http_build_query([
                 ?>
                 </tbody>
             </table>
-            <a href="../admin/admin_dashboard.php" class="btn voltar" style="margin-top:15px;">Voltar</a>
+        <center>
+            <a href="../admin/admin_dashboard.php" class="btn voltar" style="margin-top:15px;">Voltar á Dashboard</a>
+        </center>
         </div>
     </div>
 </div>

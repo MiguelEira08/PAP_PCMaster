@@ -87,10 +87,9 @@ include_once __DIR__ . '/../cabecindex.php';
           </ul>
         </li>
       </ul>
+<br>
         <div class="caixa-container">
-            <div class="botao-link"  onclick="window.location.href='./comparar.php';">
-                Voltar atrás
-        </div>
+            <div class="botao-link"  onclick="window.location.href='./comparar.php';">Voltar atrás</div>
 </div>
 </div>
 

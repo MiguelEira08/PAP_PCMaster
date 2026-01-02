@@ -115,21 +115,51 @@ form input, form select {
   color: #000;
 }
 
-form button {
-  background-color: #1c12af;
-  color: white;
-  border: none;
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 6px;
+.botao {
+  margin-top: auto;
+  width: 200px;
+  height: 45px;
+  color: black;
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  font-size: 1.0rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  border: 1px solid #ffffff;
+  transition: transform 0.2s ease, background-color 0.3s ease;
   cursor: pointer;
-  transition: background 0.3s;
-  margin-top: 10px;
+  text-align: center;
 }
 
-form button:hover {
+.botao:hover {
+  transform: scale(1.1);
   background-color: burlywood;
+  color: white;
+}
+.botao2 {
+  margin-top: auto;
+  width: 100px;
+  height: 45px;
   color: black;
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  font-size: 1.0rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  border: 1px solid #ffffff;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+}
+
+.botao2:hover {
+  transform: scale(1.1);
+  background-color: burlywood;
+  color: white;
 }
 
 .error-message {
