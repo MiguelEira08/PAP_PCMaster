@@ -74,7 +74,7 @@ p {
 
 nav {
   margin-right: 0;
-
+ 
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -89,6 +89,7 @@ nav ul {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 nav a {

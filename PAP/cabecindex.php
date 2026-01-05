@@ -24,7 +24,7 @@ require_once __DIR__ . "/db.php";
 
     <ul class="menu-links">
     <?php
-    $sql = $conn->query("SELECT * FROM menu WHERE ativo = 1 ORDER BY id_menu ASC");
+    $sql = $conn->query("SELECT * FROM menu WHERE ativo = 1 ORDER BY ordem ASC");
 
     while ($row = $sql->fetch_assoc()) {
 

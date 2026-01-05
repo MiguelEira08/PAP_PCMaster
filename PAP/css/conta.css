@@ -60,6 +60,7 @@ nav {
   background-color: burlywood;
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
+ 
 }
 
 nav ul {
@@ -68,6 +69,7 @@ nav ul {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 nav a {

@@ -65,7 +65,7 @@ nav {
   align-items: center;
   background-color: burlywood;
   font-family: 'Inter', sans-serif;
-  line-height: 1.6;
+  line-height: 1.0;
 }
 
 nav ul {
@@ -73,11 +73,12 @@ nav ul {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 nav a {
  
-  margin: 40px 30px;
+margin: 30px 40px;
   font-size: 1.0rem;
   color: black;
   text-decoration: none;

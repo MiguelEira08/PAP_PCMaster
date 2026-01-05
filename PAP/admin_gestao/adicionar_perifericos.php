@@ -68,12 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <title>Adicionar Componente</title>
     <link rel="stylesheet" href="../css/admin_criar.css">
-    <style>
-      select[name="marca"] {
-        max-height: 150px;
-        overflow-y: auto;
-      }
-    </style>
+    
 </head>
 <body>
 <div class="bg">

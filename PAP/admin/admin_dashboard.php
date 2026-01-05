@@ -39,6 +39,9 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
     
     <a href="admin_compras.php" class="caixa">
       <img src="../imagens/compra.png" alt="Comprar" class="caixa-imagem">Gerir Compras Feitas</a>
+      
+    <a href="admin_menu.php" class="caixa">
+      <img src="../imagens/compra.png" alt="Comprar" class="caixa-imagem">Gerir Menu</a>
 </div>
 </div>
 </div>
