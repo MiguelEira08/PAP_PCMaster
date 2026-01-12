@@ -44,6 +44,7 @@ $stmt->close();
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../imagens/icon.png">
     <title>Ver Resposta</title>
     <link rel="stylesheet" href="../css/conta_compra.css">
 </head>

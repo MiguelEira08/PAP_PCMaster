@@ -13,7 +13,6 @@ if (!isset($_POST['id']) || !is_numeric($_POST['id'])) {
 
 $id = intval($_POST['id']);
 
-// Verifica se o utilizador existe
 $stmt = $conn->prepare("SELECT id FROM utilizadores WHERE id = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
@@ -25,7 +24,6 @@ if ($result->num_rows === 0) {
 }
 $stmt->close();
 
-// Verifica se existe a tabela 'carrinho' e deleta os itens associados ao utilizador
 $result = $conn->query("SHOW TABLES LIKE 'carrinho'");
 if ($result && $result->num_rows > 0) {
     $stmt = $conn->prepare("DELETE FROM carrinho WHERE id_utilizador = ?");
@@ -38,7 +36,6 @@ if ($result && $result->num_rows > 0) {
     $stmt->close();
 }
 
-// Verifica se existe a tabela 'fim_compra' e deleta as compras associadas ao utilizador
 $result = $conn->query("SHOW TABLES LIKE 'fim_compra'");
 if ($result && $result->num_rows > 0) {
     $stmt = $conn->prepare("DELETE FROM fim_compra WHERE utilizador_id = ?");
@@ -51,7 +48,6 @@ if ($result && $result->num_rows > 0) {
     $stmt->close();
 }
 
-// Verifica se existe a tabela 'feedback' e deleta os feedbacks associados ao utilizador
 $result = $conn->query("SHOW TABLES LIKE 'feedback'");
 $ids_feedback = [];
 
@@ -70,7 +66,6 @@ if ($result && $result->num_rows > 0) {
     $stmt->close();
 
     if (!empty($ids_feedback)) {
-        // Verifica se existe a tabela 'resposta_admin' e deleta as respostas associadas aos feedbacks
         $result2 = $conn->query("SHOW TABLES LIKE 'resposta_admin'");
         if ($result2 && $result2->num_rows > 0) {
             $placeholders = implode(',', array_fill(0, count($ids_feedback), '?'));
@@ -87,7 +82,6 @@ if ($result && $result->num_rows > 0) {
         }
     }
 
-    // Deleta os feedbacks do utilizador
     $stmt = $conn->prepare("DELETE FROM feedback WHERE user_id = ?");
     if (!$stmt) {
         echo 'Erro DELETE feedback: ' . $conn->error;
@@ -98,7 +92,6 @@ if ($result && $result->num_rows > 0) {
     $stmt->close();
 }
 
-// Deleta o utilizador da tabela 'utilizadores'
 $stmt = $conn->prepare("DELETE FROM utilizadores WHERE id = ?");
 if (!$stmt) {
     echo 'Erro DELETE utilizador: ' . $conn->error;
@@ -107,7 +100,7 @@ if (!$stmt) {
 $stmt->bind_param("i", $id);
 
 if ($stmt->execute()) {
-    echo 'ok';  // Utilizador deletado com sucesso
+    echo 'ok';  
 } else {
     echo 'Erro ao remover utilizador: ' . $stmt->error;
 }

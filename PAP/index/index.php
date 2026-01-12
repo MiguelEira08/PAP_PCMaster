@@ -8,12 +8,12 @@ include_once __DIR__ . '/../cabecindex.php';
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../imagens/icon.png">
   <title>Página Inicial</title>
   <link rel="stylesheet" href="../css/naveindex.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiko:wght@600&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/png" href="./imagens/icon.png">
 </head>
 <body>
 <?php if (isset($_GET['logout']) && $_GET['logout'] == 1): ?>

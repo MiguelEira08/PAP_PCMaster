@@ -3,7 +3,6 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
   font-family: "Poppins",sans-serif;
 }
 
@@ -60,15 +59,18 @@ p {
 }
 
 nav {
+  margin-right: 0;
   display: flex;
   justify-content: space-around;
   align-items: center;
   background-color: burlywood;
   font-family: 'Inter', sans-serif;
-  line-height: 1.0;
+  line-height: 1.6;
+  
 }
 
 nav ul {
+  margin-right: 0;
   list-style: none;
   display: flex;
   justify-content: space-around;
@@ -77,9 +79,10 @@ nav ul {
 }
 
 nav a {
- 
-margin: 30px 40px;
+  margin-right: 0;
+  margin: 40px 30px;
   font-size: 1.0rem;
+  text-align: center;
   color: black;
   text-decoration: none;
   transition: color 0.3s ease;
@@ -179,4 +182,17 @@ a:-webkit-any-link {
   gap: 40px;
   margin-top: 50px;
   flex-wrap: wrap;
+}
+.foto-perfil-menu {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    vertical-align: middle;
+}
+
+.perfil-link {
+    display: flex;
+    align-items: center;
 }

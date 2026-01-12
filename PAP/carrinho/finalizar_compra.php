@@ -134,14 +134,13 @@ if (isset($_POST['confirmar_compra'])) {
             try {
                 $mail->CharSet = 'UTF-8';
                 $mail->isSMTP();
-                $mail->Host       = 'smtp.gmail.com';      // <- Substituir
+                $mail->Host       = 'smtp.gmail.com';     
                 $mail->SMTPAuth   = true;
-                $mail->Username   = 'pcmastergeral@gmail.com';  // <- Substituir
-                $mail->Password   = 'mjsv oxar shbz dfzp';          // <- Substituir
+                $mail->Username   = 'pcmastergeral@gmail.com'; 
+                $mail->Password   = 'mjsv oxar shbz dfzp';         
                 $mail->SMTPSecure = 'tls';
                 $mail->Port       = 587;
 
-                // Enviar para o cliente
                 $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
                 $mail->addAddress($cliente_email, $cliente_nome);
 
@@ -159,10 +158,9 @@ if (isset($_POST['confirmar_compra'])) {
                 ";
                 $mail->send();
 
-                // Enviar para o ADMIN
                 $mail->CharSet = 'UTF-8';
                 $mail->clearAddresses();
-                $mail->addAddress('migueleira08@gmail.com', 'Miguel'); // <- Substituir
+                $mail->addAddress('migueleira08@gmail.com', 'Miguel');
 
                 $mail->Subject = 'Compra Realizada';
                 $mail->Body = "
@@ -197,6 +195,7 @@ if (isset($_POST['confirmar_compra'])) {
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../imagens/icon.png">
   <title>Finalizar Compra</title>
   <link rel="stylesheet" href="../css/comprar.css">
 </head>
@@ -236,10 +235,10 @@ if (isset($_POST['confirmar_compra'])) {
 
           <label>Número do Cartão:</label>
           <input type="text" name="numero_cartao" placeholder="Somente dígitos" required>
-<br>
-        <button type="submit" name="confirmar_compra" class="botao-visualizar">Confirmar Compra</button>
-          <br>
-          <button type="button" class="btn-voltar" onclick="window.history.back()">Voltar</button>
+            <br>
+           <div align="center"><button type="submit" class="botao">Finalizar compra</button></div> 
+            <br>
+        <div align="center"><button type="button" class="botao2" onclick="window.location.href='./carrinho.php';">Voltar</button></div>
         </form>
     <?php endif; ?>
   </div>

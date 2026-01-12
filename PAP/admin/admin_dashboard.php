@@ -14,7 +14,7 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/admin_dash.css">
-    <title>Loja</title>
+    <title>Painel de Administração</title>
     <link rel="icon" type="image/png" href="../imagens/icon.png">
 </head>
 <body>
@@ -41,7 +41,7 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
       <img src="../imagens/compra.png" alt="Comprar" class="caixa-imagem">Gerir Compras Feitas</a>
       
     <a href="admin_menu.php" class="caixa">
-      <img src="../imagens/compra.png" alt="Comprar" class="caixa-imagem">Gerir Menu</a>
+      <img src="../imagens/menu.png" alt="Comprar" class="caixa-imagem">Gerir Menu</a>
 </div>
 </div>
 </div>

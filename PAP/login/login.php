@@ -36,13 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->fetch();
             $stmt->close();
 
-            // Garantir registo em utilizador_seguranca
             $conn->query("
                 INSERT IGNORE INTO utilizador_seguranca (utilizador_id)
                 VALUES ($id)
             ");
 
-            // Buscar estado de segurança
             $sec = $conn->prepare("
                 SELECT tentativas, bloqueado
                 FROM utilizador_seguranca
@@ -54,14 +52,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $sec->fetch();
             $sec->close();
 
-            $tentativas = (int)$tentativas; // garantir tipo inteiro
+            $tentativas = (int)$tentativas;
 
             if ($bloqueado === 'sim') {
                 $erro = 'Conta bloqueada. Contacte um administrador.';
             } else {
                 if (password_verify($password, $hash)) {
 
-                    // Login OK → reset tentativas
                     $upd = $conn->prepare("
                         UPDATE utilizador_seguranca
                         SET tentativas = 0,
@@ -76,6 +73,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['nome'] = $nome_bd;
                     $_SESSION['tipo'] = $tipo;
 
+                    if (isset($_SESSION['redirect_after_login'])) {
+                        $url = $_SESSION['redirect_after_login'];
+                        unset($_SESSION['redirect_after_login']);
+                        header("Location: $url");
+                        exit();
+                    }
+
                     if ($tipo === 'admin') {
                         header('Location: ../admin/admin_dashboard.php');
                     } else {
@@ -85,7 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 } else {
 
-                    // Password errada → incrementar tentativas
                     $tentativas++;
                     $bloqueado_update = $tentativas >= 5 ? 'sim' : 'nao';
 
@@ -115,6 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="../imagens/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

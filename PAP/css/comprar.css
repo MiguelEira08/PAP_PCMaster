@@ -352,6 +352,53 @@ form input, form select {
   font-style: normal;
 }
 
+.botao {
+  margin-top: auto;
+  width: 200px;
+  height: 45px;
+  color: black;
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  font-size: 1.0rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  border: 1px solid #ffffff;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+}
+
+.botao:hover {
+  transform: scale(1.1);
+  background-color: burlywood;
+  color: white;
+}
+.botao2 {
+  margin-top: auto;
+  width: 100px;
+  height: 45px;
+  color: black;
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  font-size: 1.0rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  border: 1px solid #ffffff;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+}
+
+.botao2:hover {
+  transform: scale(1.1);
+  background-color: burlywood;
+  color: white;
+}
+
 .botao-link {
   width: 200px;
   height: 60px;

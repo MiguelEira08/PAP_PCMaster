@@ -2,6 +2,7 @@
 session_start();
 include_once __DIR__ . '/../db.php';
 include_once __DIR__ . '/../cabecindex.php';  
+
 if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
     header("Location: ../index/index.php");
     exit;
@@ -28,23 +29,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $hash = password_hash($password, PASSWORD_DEFAULT);
 
-        // Agora, a query vai inserir também o campo 'tipo'
-        $stmt = $conn->prepare(
-            "INSERT INTO utilizadores (nome, email, numtel, password, tipo) VALUES (?, ?, ?, ?, ?)"
-        );
+        $caminho_arquivo = "imagens/user.png";
 
-        if ($stmt) {
-            // Bindando os parâmetros da query incluindo o tipo
-            $stmt->bind_param("sssss", $nome, $email, $numtel, $hash, $tipo);
+        if (!empty($_FILES['foto']['name']) && $_FILES['foto']['error'] === 0) {
 
-            if ($stmt->execute()) {
-                $sucesso = 'Utilizador adicionado com sucesso!';
-            } else {
-                $erro = 'Erro ao adicionar utilizador: ' . $stmt->error;
+            $pasta = "../imagens/";
+            if (!is_dir($pasta)) {
+                mkdir($pasta, 0777, true);
             }
-            $stmt->close();
-        } else {
-            $erro = 'Erro na preparação da query: ' . $conn->error;
+
+            $ext = strtolower(pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION));
+            $permitidas = ['jpg', 'jpeg', 'png', 'webp'];
+
+            if (in_array($ext, $permitidas)) {
+                $nome_ficheiro = uniqid('perfil_') . '.' . $ext;
+                $destino = $pasta . $nome_ficheiro;
+
+                if (move_uploaded_file($_FILES['foto']['tmp_name'], $destino)) {
+                    $caminho_arquivo = "imagens/" . $nome_ficheiro;
+                }
+            } else {
+                $erro = "Formato de imagem inválido!";
+            }
+        }
+
+        if (!$erro) {
+            $stmt = $conn->prepare(
+                "INSERT INTO utilizadores (nome, email, numtel, password, tipo, caminho_arquivo) 
+                 VALUES (?, ?, ?, ?, ?, ?)"
+            );
+
+            if ($stmt) {
+                $stmt->bind_param("ssssss", $nome, $email, $numtel, $hash, $tipo, $caminho_arquivo);
+
+                if ($stmt->execute()) {
+                    $sucesso = 'Utilizador adicionado com sucesso!';
+                } else {
+                    $erro = 'Erro ao adicionar utilizador: ' . $stmt->error;
+                }
+                $stmt->close();
+            } else {
+                $erro = 'Erro na preparação da query: ' . $conn->error;
+            }
         }
     }
 }
@@ -54,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../imagens/icon.png">
     <title>Adicionar Utilizador</title>
     <link rel="stylesheet" href="../css/admin_criar.css">
 </head>
@@ -62,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="overlay"></div>
     <div class="content">
 
-      <form method="POST">
+      <form method="POST" enctype="multipart/form-data">
         <h2>Adicionar Utilizador</h2>
 
         <?php if ($erro): ?>
@@ -73,6 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <label for="nome">Nome:</label>
         <input type="text" name="nome" value="<?= isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : '' ?>" required>
+            <br>
 
         <label for="email">E-mail:</label>
         <input type="email" name="email" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>" required>
@@ -82,16 +110,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <label for="password">Password:</label>
         <input type="password" name="password" required minlength="6">
-        
+
         <label for="tipo">Tipo:</label>
         <select name="tipo" required>
             <option value="utilizador" <?= isset($_POST['tipo']) && $_POST['tipo'] === 'utilizador' ? 'selected' : '' ?>>Utilizador</option>
             <option value="admin" <?= isset($_POST['tipo']) && $_POST['tipo'] === 'admin' ? 'selected' : '' ?>>Admin</option>
         </select>
-            <br><br>
-           <div align="center"><button type="submit" class="botao">Adicionar Utilizador</button></div> 
-            <br>
-        <div align="center"><button type="button" class="botao2" onclick="window.location.href='../admin/admin_utilizadores.php';">Voltar</button></div>
+
+        <label for="foto">Foto de Perfil:</label>
+        <input type="file" name="foto" accept="image/*">
+
+        <br><br>
+        <div align="center"><button type="submit" class="botao">Adicionar Utilizador</button></div>
+        <br>
+        <div align="center"><button type="button" class="botao2" onclick="window.location.href='../admin/gerir_utilizadores.php';">Voltar</button></div>
       </form>
 
     </div>

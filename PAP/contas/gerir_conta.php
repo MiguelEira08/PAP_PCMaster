@@ -19,7 +19,11 @@ $id = $_SESSION['user_id'];
 $erro = '';
 $sucesso = '';
 
-$stmt = $conn->prepare("SELECT nome, email, numtel FROM utilizadores WHERE id = ?");
+$stmt = $conn->prepare("
+    SELECT nome, email, numtel, caminho_arquivo 
+    FROM utilizadores 
+    WHERE id = ?
+");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -31,6 +35,7 @@ if (!$utilizador) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $nome = trim($_POST['nome']);
     $email = trim($_POST['email']);
     $numtel = trim($_POST['numtel']);
@@ -43,73 +48,96 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (!preg_match('/^\d{9}$/', $numtel)) {
         $erro = 'Telefone inválido (9 dígitos)!';
     } else {
-        $senhaEnviada = '';
-        if ($senhaNova !== '') {
-            $hash = password_hash($senhaNova, PASSWORD_DEFAULT);
-            $stmt = $conn->prepare("
-                UPDATE utilizadores
-                SET nome = ?, email = ?, numtel = ?, password = ?
-                WHERE id = ?
-            ");
-            $stmt->bind_param("ssssi", $nome, $email, $numtel, $hash, $id);
-            $senhaEnviada = $senhaNova;
-        } else {
-            $stmt = $conn->prepare("
-                UPDATE utilizadores
-                SET nome = ?, email = ?, numtel = ?
-                WHERE id = ?
-            ");
-            $stmt->bind_param("sssi", $nome, $email, $numtel, $id);
-        }
 
-        if ($stmt->execute()) {
-            $sucesso = 'Conta atualizada com sucesso!';
-            $utilizador['nome'] = $nome;
-            $utilizador['email'] = $email;
-            $utilizador['numtel'] = $numtel;
-            $stmt->close();
+        $caminho_arquivo = $utilizador['caminho_arquivo'];
 
-            // ENVIAR EMAIL COM AS CREDENCIAIS ATUALIZADAS
-            $mail = new PHPMailer(true);
+        if (!empty($_FILES['foto']['name']) && $_FILES['foto']['error'] === 0) {
 
-            try {
-                $mail->CharSet = 'UTF-8';
-                $mail->isSMTP();
-                $mail->Host       = 'smtp.gmail.com'; // Ex: smtp.gmail.com
-                $mail->SMTPAuth   = true;
-                $mail->Username   = 'pcmastergeral@gmail.com';
-                $mail->Password   = 'mjsv oxar shbz dfzp';
-                $mail->SMTPSecure = 'tls'; // ou 'ssl'
-                $mail->Port       = 587; // ou 465
-
-                $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
-                $mail->addAddress($email, $nome);
-
-                $mail->isHTML(true);
-                $mail->Subject = 'Credênciais atualizadas';
-
-                $body = "<h2>Olá, <strong>$nome!</strong></h2>
-                    <p>As suas credênciais foram atualizados com sucesso. Segue um resumo:</p>
-                    <ul>
-                        <li><strong>Nome:</strong> $nome</li>
-                        <li><strong>Email:</strong> $email</li>";
-                if ($senhaEnviada !== '') {
-                    $body .= "<li><strong>Nova Password:</strong> $senhaEnviada</li>";
-                }else{
-                    $body .= "<li>Não alterou a sua password, então não a compartilharemos</li>";
-                }
-                $body .= "</ul><p>Se não realizou esta alteração, contacte-nos imediatamente. <br>PcMaster</p>";
-
-                $mail->Body = $body;
-
-                $mail->send();
-            } catch (Exception $e) {
-                $erro = "Conta atualizada, mas falha ao enviar email: {$mail->ErrorInfo}";
+            $pasta = '../imagens/'; 
+            if (!is_dir($pasta)) {
+                mkdir($pasta, 0777, true);
             }
 
-        } else {
-            $erro = 'Erro ao atualizar: ' . $stmt->error;
-            $stmt->close();
+            $ext = strtolower(pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION));
+            $permitidas = ['jpg', 'jpeg', 'png', 'webp'];
+
+            if (in_array($ext, $permitidas)) {
+
+                $novo_nome = uniqid('perfil_') . '.' . $ext;
+                $destino = $pasta . $novo_nome;
+
+                if (move_uploaded_file($_FILES['foto']['tmp_name'], $destino)) {
+
+                    $caminho_arquivo = './imagens/' . $novo_nome;
+                }
+
+            } else {
+                $erro = 'Formato de imagem inválido!';
+            }
+        }
+
+        if (!$erro) {
+
+            if ($senhaNova !== '') {
+                $hash = password_hash($senhaNova, PASSWORD_DEFAULT);
+                $stmt = $conn->prepare("
+                    UPDATE utilizadores
+                    SET nome = ?, email = ?, numtel = ?, password = ?, caminho_arquivo = ?
+                    WHERE id = ?
+                ");
+                $stmt->bind_param("sssssi", $nome, $email, $numtel, $hash, $caminho_arquivo, $id);
+                $senhaEnviada = $senhaNova;
+            } else {
+                $stmt = $conn->prepare("
+                    UPDATE utilizadores
+                    SET nome = ?, email = ?, numtel = ?, caminho_arquivo = ?
+                    WHERE id = ?
+                ");
+                $stmt->bind_param("ssssi", $nome, $email, $numtel, $caminho_arquivo, $id);
+                $senhaEnviada = '';
+            }
+
+            if ($stmt->execute()) {
+                $sucesso = 'Conta atualizada com sucesso!';
+                $utilizador['nome'] = $nome;
+                $utilizador['email'] = $email;
+                $utilizador['numtel'] = $numtel;
+                $utilizador['caminho_arquivo'] = $caminho_arquivo;
+                $stmt->close();
+
+                // EMAIL
+                $mail = new PHPMailer(true);
+                try {
+                    $mail->CharSet = 'UTF-8';
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'pcmastergeral@gmail.com';
+                    $mail->Password = 'mjsv oxar shbz dfzp';
+                    $mail->SMTPSecure = 'tls';
+                    $mail->Port = 587;
+
+                    $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
+                    $mail->addAddress($email, $nome);
+                    $mail->isHTML(true);
+                    $mail->Subject = 'Credenciais atualizadas';
+
+                    $body = "<h3>Olá, $nome!</h3>
+                        <p>A sua conta foi atualizada com sucesso.</p>
+                        <ul>
+                            <li><strong>Email:</strong> $email</li>";
+                    if ($senhaEnviada !== '') {
+                        $body .= "<li><strong>Nova Password:</strong> $senhaEnviada</li>";
+                    }
+                    $body .= "</ul><p>PcMaster</p>";
+
+                    $mail->Body = $body;
+                    $mail->send();
+                } catch (Exception $e) {}
+            } else {
+                $erro = 'Erro ao atualizar dados!';
+                $stmt->close();
+            }
         }
     }
 }
@@ -119,38 +147,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../imagens/icon.png">
     <title>Editar Conta</title>
     <link rel="stylesheet" href="../css/conta.css">
 </head>
 <body>
+
 <div class="bg">
     <div class="overlay"></div>
+
     <div class="content">
-        <h2 style="color: white;">Editar Conta</h2>
-        <form method="POST">
-        <?php if ($erro): ?>
-            <p style="color: red;"><?= htmlspecialchars($erro) ?></p>
-        <?php elseif ($sucesso): ?>
-            <p style="color: green;"><?= htmlspecialchars($sucesso) ?></p>
-        <?php endif; ?>
+        <h2>Editar Conta</h2>
+
+        <form method="POST" enctype="multipart/form-data" class="form-conta">
+<?php if ($erro): ?>
+    <p class="error-message"><?= htmlspecialchars($erro) ?></p>
+<?php elseif ($sucesso): ?>
+    <p class="success-message"><?= htmlspecialchars($sucesso) ?></p>
+<?php endif; ?>
+
+<center>
+    <label>Imagem atual:</label><br> <br>
+
+    <img src="../<?= htmlspecialchars($utilizador['caminho_arquivo']) ?>" alt="Foto de perfil" class="foto-perfil">
+</center>
+
+            <label>Alterar foto de perfil</label>
+            <input type="file" name="foto" accept="image/*">
             <br>
-            <label>Nome:</label>
+            <label>Nome</label>
             <input type="text" name="nome" value="<?= htmlspecialchars($utilizador['nome']) ?>" required>
+            <br>
 
-            <label>E-mail:</label>
+            <label>Email</label>
             <input type="email" name="email" value="<?= htmlspecialchars($utilizador['email']) ?>" required>
+            <br>
 
-            <label>Telefone (9 dígitos):</label>
+            <label>Telefone</label>
             <input type="text" name="numtel" value="<?= htmlspecialchars($utilizador['numtel']) ?>" pattern="\d{9}" required>
+            <br>
 
-            <label>Nova Password (opcional):</label>
+            <label>Nova password (opcional)</label>
             <input type="password" name="password" minlength="6">
-            <br>
-           <div align="center"><button type="submit" class="botao">Guardar alterações</button></div> 
-            <br>
-        <div align="center"><button type="button" class="botao2" onclick="window.location.href='./conta.php';">Voltar</button></div>
+
+<center>
+    <br>
+    <button type="submit" class="botao">Guardar alterações</button><br>
+    <button type="button" class="botao2" onclick="window.location.href='conta.php'">Voltar</button>
+</center>
+
         </form>
     </div>
 </div>
+
 </body>
 </html>

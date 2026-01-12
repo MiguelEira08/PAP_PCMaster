@@ -19,6 +19,7 @@ if (!$produto) {
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../imagens/icon.png">
     <title><?= htmlspecialchars($produto['nome']) ?> - Detalhes</title>
     <link rel="stylesheet" href="../css/explorar.css">
     <link rel="icon" type="image/png" href="../imagens/icon.png">

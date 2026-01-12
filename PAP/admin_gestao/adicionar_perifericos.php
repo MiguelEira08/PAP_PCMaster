@@ -66,7 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Adicionar Componente</title>
+  <link rel="icon" type="image/png" href="../imagens/icon.png">
+    <title>Adicionar Periférico</title>
     <link rel="stylesheet" href="../css/admin_criar.css">
     
 </head>

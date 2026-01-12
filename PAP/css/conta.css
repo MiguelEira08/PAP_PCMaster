@@ -7,6 +7,9 @@ h1 {
   font-family: 'Anton', sans-serif;
   color: rgb(0, 0, 0);
 }
+h2 {
+  color: rgb(255, 255, 255);
+}
 
 p {
   font-family: 'Calibri', sans-serif;
@@ -248,19 +251,11 @@ form input, form select {
   font-weight: bold;
   margin-bottom: 10px;
 }
-
-form p {
-  font-size: 14px;
-  text-align: center;
-  color: #444;
-}
-
-form p a {
-  color: #1c12af;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-form p a:hover {
-  text-decoration: underline;
+.foto-perfil {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 12px;
+    border: 2px solid #fff;
 }

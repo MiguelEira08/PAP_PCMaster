@@ -8,6 +8,7 @@ include_once __DIR__ . '/../cabecindex.php';
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../imagens/icon.png">
   <title>Loja Periféricos</title>
   <link rel="stylesheet" href="../css/comprar.css">
  <link rel="icon" type="image/png" href="/imagens/logo.png?v=2">
@@ -103,7 +104,6 @@ include_once __DIR__ . '/../cabecindex.php';
 const input = document.getElementById('searchInput');
 const content = document.getElementById('content');
 
-// Função para buscar produtos
 function pesquisar() {
   const query = input.value.trim();
   let url = 'perifericos_lista.php';

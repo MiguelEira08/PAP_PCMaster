@@ -42,6 +42,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../imagens/icon.png">
   <title>Ver Encomenda</title>
   <link rel="stylesheet" href="../css/conta_compra.css">
 </head>

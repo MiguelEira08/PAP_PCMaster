@@ -138,7 +138,6 @@ $(document).ready(function(){
 });
 </script>
 <script>
-  // Pesquisa simples
   document.getElementById('searchBtn').addEventListener('click', pesquisar);
   document.getElementById('searchInput').addEventListener('keypress', function (e) {
     if (e.key === 'Enter') pesquisar();
@@ -167,7 +166,6 @@ $(document).ready(function(){
       });
   }
 
-  // Mantém o carregamento inicial
   window.addEventListener('DOMContentLoaded', () => {
     fetch('componentes_lista.php')
       .then(r => r.text())

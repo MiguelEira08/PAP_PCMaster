@@ -7,37 +7,78 @@ if (session_status() === PHP_SESSION_NONE) {
 include_once __DIR__ . '/../db.php';
 include_once __DIR__ . '/../cabecindex.php';
 
-if (!isset($utilizador)) {
-    $utilizador = ['id' => 0]; 
-}
-?>
+$id = $_SESSION['user_id'] ?? 0;
 
+if ($id > 0) {
+    $sql = "SELECT * FROM utilizadores WHERE id = $id";
+    $result = mysqli_query($conn, $sql);
+    $utilizador = mysqli_fetch_assoc($result);
+}
+
+if (!isset($utilizador)) {
+    $utilizador = [
+        'id' => 0,
+        'caminho_arquivo' => ''
+    ];
+}
+
+if (!empty($utilizador['caminho_arquivo'])) {
+    $foto = '../' . ltrim($utilizador['caminho_arquivo'], '/');
+} else {
+    $foto = '../imagens/user.png';
+}
+
+?>
 <!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../imagens/icon.png">
+  <title>A minha conta</title>
     <link rel="stylesheet" href="../css/conta.css">
-    <div class="bg">
-    <div class="overlay">
-    <div class="content">
+</head>
+
+<body>
+<div class="bg">
+<div class="overlay">
+<div class="content">
+
   <div class="caixa-container">
+
     <a href="gerir_conta.php" class="caixa">
-      <img src="../imagens/user.png" alt="imagem" class="caixa-imagem">Gerir Conta</a>
+      <img src="<?php echo $foto; ?>" alt="imagem" class="foto-perfil">
+      Gerir Conta
+    </a>
 
     <a href="estado_encomenda.php" class="caixa">
-      <img src="../imagens/compra.png" alt="imagem" class="caixa-imagem">Estado da Encomenda</a>
+      <img src="../imagens/compra.png" alt="imagem" class="caixa-imagem">
+      Estado da Encomenda
+    </a>
+
   </div>
+
   <div class="caixa-container">
+
     <a href="enviar_feedback.php" class="caixa">
-      <img src="../imagens/feedback.png" alt="imagem" class="caixa-imagem">Enviar Feedback</a>
+      <img src="../imagens/feedback.png" alt="imagem" class="caixa-imagem">
+      Enviar Feedback
+    </a>
 
     <a href="ver_feedback.php" class="caixa">
-      <img src="../imagens/feedback.png" alt="imagem" class="caixa-imagem">Ver Feedback</a>
+      <img src="../imagens/feedback.png" alt="imagem" class="caixa-imagem">
+      Ver Feedback
+    </a>
+
+  </div>
+
+</div>
+
+<div class="caixa-container">
+  <div class="botao-link" onclick="window.location.href='../index/index.php';">
+    Voltar ao início
   </div>
 </div>
-  <div class="caixa-container">
-  <div class="botao-link"  onclick="window.location.href='../index/index.php';">Voltar ao início</div>
-</div>
+
 </div>
 </div>
 

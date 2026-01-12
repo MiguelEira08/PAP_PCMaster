@@ -25,13 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['compra_id'], $_POST['
     $estadosValid = ['Pendente', 'A caminho', 'Entregue'];
 
     if (in_array($novoEstado, $estadosValid, true)) {
-        // Atualiza estado
         $stmtUpd = $conn->prepare('UPDATE fim_compra SET estado = ? WHERE id = ?');
         $stmtUpd->bind_param('si', $novoEstado, $compraId);
         $stmtUpd->execute();
         $stmtUpd->close();
 
-        // Buscar info do utilizador
         $stmtUser = $conn->prepare("SELECT u.nome, u.email, fc.data_compra 
                                     FROM fim_compra fc 
                                     JOIN utilizadores u ON fc.utilizador_id = u.id 
@@ -48,7 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['compra_id'], $_POST['
         }
         $stmtUser->close();
 
-        // Buscar produtos
         $stmtItens = $conn->prepare("SELECT nome_produto, quantidade, preco FROM fim_compra_itens WHERE compra_id = ?");
         $stmtItens->bind_param("i", $compraId);
         $stmtItens->execute();
@@ -62,7 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['compra_id'], $_POST['
         }
         $stmtItens->close();
 
-        // Envia email
         $mail = new PHPMailer(true);
         try {
             $mail->CharSet = 'UTF-8';

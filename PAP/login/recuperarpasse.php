@@ -50,6 +50,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="../imagens/icon.png">
+    <title>Recuperar Palavra-Passe</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

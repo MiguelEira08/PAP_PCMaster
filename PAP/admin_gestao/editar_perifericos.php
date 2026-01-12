@@ -95,6 +95,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../imagens/icon.png">
   <title>Editar Periférico</title>
   <link rel="stylesheet" href="../css/admin_criar.css">
 </head>

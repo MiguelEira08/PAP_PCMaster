@@ -33,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($erros)) {
-        // Obter nome do utilizador
         $stmtNome = $conn->prepare("SELECT nome FROM utilizadores WHERE id = ?");
         $stmtNome->bind_param("i", $utilizador_id);
         $stmtNome->execute();
@@ -41,7 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nomeUtilizador = $resultNome->fetch_assoc()['nome'] ?? 'Utilizador Desconhecido';
         $stmtNome->close();
 
-        // Inserir feedback no BD
         $stmt = $conn->prepare("
             INSERT INTO feedback (user_id, Motivo, feedback, origem_pagina, data_envio, status)
             VALUES (?, ?, ?, ?, ?, ?)
@@ -54,7 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->close();
             $mensagem_sucesso = "Feedback enviado com sucesso!";
 
-            // Enviar email ao admin
             $mail = new PHPMailer(true);
             try {
                 $mail->CharSet = 'UTF-8';
@@ -67,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mail->Port       = 587;
 
                 $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
-                $mail->addAddress('migueleira08@gmail.com', 'Miguel'); // Substitui por email real do admin
+                $mail->addAddress('migueleira08@gmail.com', 'Miguel');
                 $mail->isHTML(true);
                 $mail->Subject = "Novo Feedback Recebido";
 
@@ -91,6 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../imagens/icon.png">
     <title>Enviar Feedback</title>
     <link rel="stylesheet" href="../css/conta.css">
 </head>

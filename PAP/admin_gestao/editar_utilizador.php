@@ -2,19 +2,13 @@
 session_start();
 include_once __DIR__ . '/../db.php';
 include_once __DIR__ . '/../cabecindex.php';
+
 if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
     header("Location: ../index/index.php");
     exit;
 }
 
-require_once '../PHPMailer/PHPMailer.php';
-require_once '../PHPMailer/SMTP.php';
-require_once '../PHPMailer/Exception.php';
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-$erro    = '';
+$erro = '';
 $sucesso = '';
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
@@ -22,14 +16,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 } else {
     $id = (int) $_GET['id'];
 
-    // Buscar utilizador + estado
-    $stmt = $conn->prepare("
-        SELECT u.*, us.bloqueado
-        FROM utilizadores u
-        LEFT JOIN utilizador_seguranca us
-            ON u.id = us.utilizador_id
-        WHERE u.id = ?
-    ");
+    $stmt = $conn->prepare("SELECT * FROM utilizadores WHERE id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -38,16 +25,14 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
         $erro = 'Utilizador não encontrado.';
     } else {
         $utilizador = $result->fetch_assoc();
-        $estadoAnterior = $utilizador['bloqueado'] ?? 'nao';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $nome       = trim($_POST['nome']);
-            $email      = trim($_POST['email']);
-            $numtel     = trim($_POST['numtel']);
-            $senhaNova  = trim($_POST['password']);
-            $tipo       = $_POST['tipo'];
-            $bloqueado  = $_POST['bloqueado']; // sim | nao
+            $nome      = trim($_POST['nome']);
+            $email     = trim($_POST['email']);
+            $numtel    = trim($_POST['numtel']);
+            $senhaNova = trim($_POST['password']);
+            $tipo      = $_POST['tipo'];
 
             if (empty($nome) || empty($email) || empty($numtel) || empty($tipo)) {
                 $erro = 'Nome, e-mail, telefone e tipo são obrigatórios.';
@@ -55,92 +40,64 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
                 $erro = 'E-mail inválido.';
             } elseif (!preg_match('/^\d{9}$/', $numtel)) {
                 $erro = 'Telefone inválido.';
-            } elseif (!in_array($bloqueado, ['sim', 'nao'])) {
-                $erro = 'Estado inválido.';
             } else {
 
-                // Atualizar utilizador
-                if ($senhaNova !== '') {
-                    $hash = password_hash($senhaNova, PASSWORD_DEFAULT);
-                    $stmt = $conn->prepare("
-                        UPDATE utilizadores
-                           SET nome = ?, email = ?, numtel = ?, password = ?, tipo = ?
-                         WHERE id = ?
-                    ");
-                    $stmt->bind_param("sssssi", $nome, $email, $numtel, $hash, $tipo, $id);
-                } else {
-                    $stmt = $conn->prepare("
-                        UPDATE utilizadores
-                           SET nome = ?, email = ?, numtel = ?, tipo = ?
-                         WHERE id = ?
-                    ");
-                    $stmt->bind_param("ssssi", $nome, $email, $numtel, $tipo, $id);
-                }
+                $caminho_arquivo = $utilizador['caminho_arquivo'];
 
-                if ($stmt->execute()) {
+                if (!empty($_FILES['foto']['name']) && $_FILES['foto']['error'] === 0) {
 
-                    // Atualizar estado de segurança
-                    $stmtSeg = $conn->prepare("
-                        INSERT INTO utilizador_seguranca (utilizador_id, bloqueado)
-                        VALUES (?, ?)
-                        ON DUPLICATE KEY UPDATE bloqueado = ?
-                    ");
-                    $stmtSeg->bind_param("iss", $id, $bloqueado, $bloqueado);
-                    $stmtSeg->execute();
-                    $stmtSeg->close();
-
-                    // 👉 SE O ESTADO MUDOU → ENVIAR EMAIL
-                    if ($estadoAnterior !== $bloqueado) {
-
-                        $mail = new PHPMailer(true);
-                        try {
-                            $mail->CharSet = 'UTF-8';
-                            $mail->isSMTP();
-                            $mail->Host       = 'smtp.gmail.com';
-                            $mail->SMTPAuth   = true;
-                            $mail->Username   = 'pcmastergeral@gmail.com';
-                            $mail->Password   = 'mjsv oxar shbz dfzp';
-                            $mail->SMTPSecure = 'tls';
-                            $mail->Port       = 587;
-
-                            $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
-                            $mail->addAddress($email, $nome);
-                            $mail->isHTML(true);
-                            
-                            if ($bloqueado === 'sim') {
-                                $mail->Subject = 'Conta Bloqueada';
-                                $mail->Body = "
-                                    <p>Olá <strong>{$nome}</strong>,</p>
-                                    <p>A sua conta foi <strong style='color:red;'>bloqueada</strong> por um administrador.</p>
-                                    <p>Se acha que se trata de um erro, entre em contacto com o suporte.</p>
-                                ";
-                            } else {
-                                $mail->Subject = 'Conta Desbloqueada';
-                                $mail->Body = "
-                                    <p>Olá <strong>{$nome}</strong>,</p>
-                                    <p>A sua conta foi <strong style='color:green;'>desbloqueada</strong>.</p>
-                                    <p>Já pode voltar a aceder normalmente.</p>
-                                ";
-                            }
-
-                            $mail->send();
-                        } catch (Exception $e) {
-                            error_log('Erro ao enviar email de estado: ' . $mail->ErrorInfo);
-                        }
+                    $pasta = "../imagens/";
+                    if (!is_dir($pasta)) {
+                        mkdir($pasta, 0777, true);
                     }
 
-                    $sucesso = 'Utilizador atualizado com sucesso!';
+                    $ext = strtolower(pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION));
+                    $permitidas = ['jpg', 'jpeg', 'png', 'webp'];
 
-                    $utilizador['nome']      = $nome;
-                    $utilizador['email']     = $email;
-                    $utilizador['numtel']    = $numtel;
-                    $utilizador['tipo']      = $tipo;
-                    $utilizador['bloqueado'] = $bloqueado;
+                    if (in_array($ext, $permitidas)) {
+                        $nome_ficheiro = uniqid('perfil_') . '.' . $ext;
+                        $destino = $pasta . $nome_ficheiro;
 
-                } else {
-                    $erro = 'Erro ao atualizar utilizador.';
+                        if (move_uploaded_file($_FILES['foto']['tmp_name'], $destino)) {
+                            $caminho_arquivo = "imagens/" . $nome_ficheiro;
+                        }
+                    } else {
+                        $erro = "Formato de imagem inválido!";
+                    }
                 }
-                $stmt->close();
+
+                if (!$erro) {
+                    if ($senhaNova !== '') {
+                        $hash = password_hash($senhaNova, PASSWORD_DEFAULT);
+                        $stmt = $conn->prepare("
+                            UPDATE utilizadores
+                               SET nome = ?, email = ?, numtel = ?, password = ?, tipo = ?, caminho_arquivo = ?
+                             WHERE id = ?
+                        ");
+                        $stmt->bind_param("ssssssi", $nome, $email, $numtel, $hash, $tipo, $caminho_arquivo, $id);
+                    } else {
+                        $stmt = $conn->prepare("
+                            UPDATE utilizadores
+                               SET nome = ?, email = ?, numtel = ?, tipo = ?, caminho_arquivo = ?
+                             WHERE id = ?
+                        ");
+                        $stmt->bind_param("sssssi", $nome, $email, $numtel, $tipo, $caminho_arquivo, $id);
+                    }
+
+                    if ($stmt->execute()) {
+                        $sucesso = 'Utilizador atualizado com sucesso!';
+
+                        $utilizador['nome'] = $nome;
+                        $utilizador['email'] = $email;
+                        $utilizador['numtel'] = $numtel;
+                        $utilizador['tipo'] = $tipo;
+                        $utilizador['caminho_arquivo'] = $caminho_arquivo;
+
+                    } else {
+                        $erro = 'Erro ao atualizar utilizador.';
+                    }
+                    $stmt->close();
+                }
             }
         }
     }
@@ -150,6 +107,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../imagens/icon.png">
     <title>Editar Utilizador</title>
     <link rel="stylesheet" href="../css/admin_criar.css">
 </head>
@@ -159,7 +117,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
  <div class="overlay"></div>
  <div class="content">
 
-  <form method="POST">
+  <form method="POST" enctype="multipart/form-data">
     <h2>Editar Utilizador</h2>
 
     <?php if ($erro): ?>
@@ -169,6 +127,15 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     <?php endif; ?>
 
     <?php if (isset($utilizador)): ?>
+
+        <label>Foto de Perfil Atual:</label>
+        <br><br>
+        <img src="../<?= $utilizador['caminho_arquivo'] ?>" 
+             style="width:120px; height:120px; border-radius:50%; object-fit:cover; border:2px solid #fff;">
+        <br><br>
+
+        <label>Alterar Foto:</label>
+        <input type="file" name="foto" accept="image/*">
 
         <label>Nome:</label>
         <input type="text" name="nome" value="<?= htmlspecialchars($utilizador['nome']) ?>" required>
@@ -189,15 +156,10 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
             <option value="admin" <?= $utilizador['tipo'] === 'admin' ? 'selected' : '' ?>>Admin</option>
         </select>
 
-        <label>Estado da Conta:</label>
-        <select name="bloqueado" required>
-            <option value="nao" <?= ($utilizador['bloqueado'] ?? 'nao') === 'nao' ? 'selected' : '' ?>>Ativa</option>
-            <option value="sim" <?= ($utilizador['bloqueado'] ?? 'nao') === 'sim' ? 'selected' : '' ?>>Bloqueada</option>
-        </select>
-            <br><br>
-           <div align="center"><button type="submit" class="botao">Guardar alterações</button></div> 
-            <br>
-        <div align="center"><button type="button" class="botao2" onclick="window.location.href='../admin/admin_utilizadores.php';">Voltar</button></div>
+        <br><br>
+        <div align="center"><button type="submit" class="botao">Guardar alterações</button></div>
+        <br>
+        <div align="center"><button type="button" class="botao2" onclick="window.location.href='../admin/gerir_utilizadores.php';">Voltar</button></div>
 
     <?php endif; ?>
 

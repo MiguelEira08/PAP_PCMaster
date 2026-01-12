@@ -2,7 +2,6 @@
 session_start();
 require_once '../db.php';
 
-// PHPMailer sem Composer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -13,11 +12,14 @@ require_once '../PHPMailer/Exception.php';
 $erro = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $email = trim($_POST['email']);
     $nome = trim($_POST['username']);
     $numtel = trim($_POST['telefone']);
     $password = trim($_POST['password']);
     $confirm_password = trim($_POST['confirm_password']);
+
+    $caminho_arquivo = './imagens/user.png';
 
     if (empty($email) || empty($nome) || empty($password) || empty($confirm_password) || empty($numtel)) {
         $erro = 'Preencha todos os campos!';
@@ -26,115 +28,142 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($password !== $confirm_password) {
         $erro = 'As passwords não coincidem!';
     } else {
-        $stmt = $conn->prepare("SELECT id FROM utilizadores WHERE email = ? OR nome = ?");
-        $stmt->bind_param("ss", $email, $nome);
+
+        $stmt = $conn->prepare("
+            SELECT id FROM utilizadores WHERE email = ?
+            UNION
+            SELECT id FROM verificacao_utilizadores WHERE email = ?
+        ");
+        $stmt->bind_param("ss", $email, $email);
         $stmt->execute();
         $stmt->store_result();
 
         if ($stmt->num_rows > 0) {
-            $erro = 'Email ou utilizador já existe!';
+            $erro = 'Email já está registado!';
         } else {
             $stmt->close();
 
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            if (!empty($_FILES['foto']['name']) && $_FILES['foto']['error'] === 0) {
 
-            $stmt = $conn->prepare("INSERT INTO utilizadores (nome, email, numtel, password) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $nome, $email, $numtel, $hashed_password);
-
-            if ($stmt->execute()) {
-                $_SESSION['nome'] = $nome;
-                $_SESSION['user_id'] = $stmt->insert_id;
-                $_SESSION['role'] = 'cliente';
-
-                // Enviar email de boas-vindas
-                $mail = new PHPMailer(true);
-
-                try {
-                    $mail->CharSet = 'UTF-8';
-                    $mail->isSMTP();
-                    $mail->Host       = 'smtp.gmail.com';
-                    $mail->SMTPAuth   = true;
-                    $mail->Username   = 'pcmastergeral@gmail.com'; // teu email
-                    $mail->Password   = 'mjsv oxar shbz dfzp'; // senha ou senha de aplicação
-                    $mail->SMTPSecure = 'tls';
-                    $mail->Port       = 587;
-
-                    $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
-                    $mail->addAddress($email, $nome);
-
-                    $mail->isHTML(true);
-                    $mail->Subject = 'Bem-vindo á PcMaster!';
-                    $mail->Body    = "
-                        <h2>Olá, $nome!</h2>
-                        <p>Obrigado por se registar no nosso site.</p>
-                        <p><strong>As suas credenciais:</strong></p>
-                        <ul>
-                            <li><strong>Nome:</strong> $nome</li>
-                            <li><strong>Email:</strong> $email</li>
-                            <li>Não podemos fornecer a password, caso se tenha esquecido, contacte-nos em pcmastergeral@gmail.com</li>
-                        </ul>
-                        <p>Estamos felizes por tê-lo connosco!<br><strong>PcMaster</strong></p>
-                    ";
-
-                    $mail->send();
-                    // Email enviado com sucesso
-                } catch (Exception $e) {
-                    error_log("Erro ao enviar email: {$mail->ErrorInfo}");
+                $pasta = '../imagens/';
+                if (!is_dir($pasta)) {
+                    mkdir($pasta, 0777, true);
                 }
 
-                header('Location: login.php');
-                exit();
-            } else {
-                $erro = 'Erro ao registar!';
+                $ext = strtolower(pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION));
+                $permitidas = ['jpg', 'jpeg', 'png', 'webp'];
+
+                if (in_array($ext, $permitidas)) {
+                    $nome_ficheiro = uniqid('perfil_') . '.' . $ext;
+                    $destino = $pasta . $nome_ficheiro;
+
+                    if (move_uploaded_file($_FILES['foto']['tmp_name'], $destino)) {
+                        $caminho_arquivo = './imagens/' . $nome_ficheiro;
+                    }
+                } else {
+                    $erro = 'Formato de imagem inválido!';
+                }
             }
-            $stmt->close();
+
+            if (!$erro) {
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+                $stmt = $conn->prepare("
+                    INSERT INTO verificacao_utilizadores
+                    (nome, email, numtel, password, caminho_arquivo, tipo, Verificada, duracao)
+                    VALUES (?, ?, ?, ?, ?, 'utilizador', 'nao', NOW())
+                ");
+                $stmt->bind_param("sssss", $nome, $email, $numtel, $hashed_password, $caminho_arquivo);
+
+                if ($stmt->execute()) {
+
+                    $mail = new PHPMailer(true);
+                    try {
+                        $mail->CharSet = 'UTF-8';
+                        $mail->isSMTP();
+                        $mail->Host = 'smtp.gmail.com';
+                        $mail->SMTPAuth = true;
+                        $mail->Username = 'pcmastergeral@gmail.com';
+                        $mail->Password = 'mjsv oxar shbz dfzp';
+                        $mail->SMTPSecure = 'tls';
+                        $mail->Port = 587;
+
+                        $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
+                        $mail->addAddress($email, $nome);
+
+                        $mail->isHTML(true);
+                        $mail->Subject = 'Verifique a sua conta - PcMaster';
+
+                        $link = "http://localhost/PcMaster/PAP/login/verificar_conta.php?email=" . urlencode($email);
+
+                        $mail->Body = "
+                            <h2>Olá, $nome!</h2>
+                            <p>Obrigado por se registar na PcMaster.</p>
+                            <p>Clique no botão abaixo para verificar a sua conta:</p>
+                            <a href='$link'>
+                                <button style='padding:12px 20px; background:#007bff; color:white; border:none; border-radius:6px; cursor:pointer;'>
+                                    Verificar Conta
+                                </button>
+                            </a>
+                            <p><small>Caso não verifique a conta, iremos apagá-la.</small></p>
+                        ";
+
+                        $mail->send();
+                    } catch (Exception $e) {}
+
+                    header('Location: login.php');
+                    exit();
+                } else {
+                    $erro = 'Erro ao registar!';
+                }
+
+                $stmt->close();
+            }
         }
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiko:wght@600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../imagens/icon.png">
     <title>Registar</title>
     <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
 <div class="bg">
     <div class="overlay">
-    <center>
+        <center>
+        <form method="POST" enctype="multipart/form-data">
+            <h2>Registar</h2>
 
-        <form method="POST" action="">
-            <h2 class="amiko-semibold">Registar</h2>
             <?php if ($erro): ?>
-                <p style="color: red;"> <?= htmlspecialchars($erro) ?> </p>
+                <p style="color:red"><?= htmlspecialchars($erro) ?></p>
             <?php endif; ?>
-                <br>
-            <label class="amiko-semibold">Nome de utilizador:</label>
-            <input type="text" name="username" required><br>
 
-            <label class="amiko-semibold">Email:</label>
-            <input type="email" name="email" required><br>
+            <label>Nome de utilizador:</label>
+            <input type="text" name="username" required>
 
-            <label class="amiko-semibold">Telefone:</label>
-            <input type="text" name="telefone" pattern="\d{9}" maxlength="9" required title="Digite exatamente 9 números."><br>
+            <label>Email:</label>
+            <input type="email" name="email" required>
 
-            <label class="amiko-semibold">Password:</label>
-            <input type="password" name="password" required minlength="6"><br>
+            <label>Telefone:</label>
+            <input type="text" name="telefone" pattern="\d{9}" maxlength="9" required>
 
-            <label class="amiko-semibold">Confirmar Password:</label>
-            <input type="password" name="confirm_password" required minlength="6"><br><br>
+            <label>Foto de perfil:</label>
+            <input type="file" name="foto" accept="image/*">
 
-            <button type="submit">Registar</button>
+            <label>Password:</label>
+            <input type="password" name="password" required minlength="6">
+
+            <label>Confirmar Password:</label>
+            <input type="password" name="confirm_password" required minlength="6">
             <br>
+            <button type="submit">Registar</button>
             <p>Já tem conta? <a href="login.php">Iniciar Sessão</a></p>
         </form>
-    </center>
+        </center>
     </div>
 </div>
 </body>

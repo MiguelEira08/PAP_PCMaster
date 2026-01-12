@@ -16,11 +16,9 @@ $erro = '';
 $erro_email = '';
 $email_pref = '';
 
-// Verifica se o email foi passado na URL
 if (isset($_GET['email'])) {
     $email_pref = trim($_GET['email']);
 
-    // Verifica se o email existe na base de dados
     $stmt = $conn->prepare("SELECT id FROM utilizadores WHERE email = ?");
     $stmt->bind_param("s", $email_pref);
     $stmt->execute();
@@ -28,13 +26,12 @@ if (isset($_GET['email'])) {
 
     if ($stmt->num_rows === 0) {
         $erro_email = 'Este email não está associado a nenhuma conta!';
-        $email_pref = ''; // limpa se não estiver na base
+        $email_pref = ''; 
     }
 
     $stmt->close();
 }
 
-// Processa o POST do formulário
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email']);
     $nova_pass = trim($_POST['nova_pass']);
@@ -45,7 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($nova_pass !== $confirmar_pass) {
         $erro = 'As palavras-passe não coincidem!';
     } else {
-        // Verifica novamente se o email existe
         $stmt = $conn->prepare("SELECT id FROM utilizadores WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -59,7 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($stmt_update->execute()) {
                 try {
-                    // Envia email de confirmação
                     $mail = new PHPMailer(true);
                     $mail->CharSet = 'UTF-8';
                     $mail->isSMTP();
@@ -80,7 +75,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     $mail->send();
                 } catch (Exception $e) {
-                    // Opcional: guardar erro de envio
                 }
 
                 $mensagem = 'Palavra-passe alterada com sucesso! A redirecionar para o login...';
@@ -104,6 +98,7 @@ $conn->close();
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="../imagens/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recuperar Palavra-Passe</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiko:wght@600&display=swap" rel="stylesheet">

@@ -44,6 +44,7 @@ $stmt->close();
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../imagens/icon.png">
     <title>Os Meus Feedbacks</title>
     <link rel="stylesheet" href="../css/conta_compra.css">
 </head>
@@ -82,7 +83,7 @@ $stmt->close();
                 <?php endforeach; ?>
                 </ul>
             <?php else: ?>
-                <p style="color: white;">Sem feedbacks lidos.</p>
+                <p style="color: black;">Sem feedbacks lidos.</p>
             <?php endif; ?>
             <div class="caixa-container">
             <div class="botao-link"  onclick="window.location.href='./conta.php';">Voltar atrás</div>

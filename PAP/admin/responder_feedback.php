@@ -51,7 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['responder'])) {
     $mensagem_resposta = trim($_POST['mensagem']);
     $data_resposta = date('Y-m-d H:i:s');
 
-    // ✅ Usar user_id da sessão para identificar o admin
     if (isset($_SESSION['user_id']) && !empty($mensagem_resposta)) {
         $stmt = $conn->prepare("SELECT nome FROM utilizadores WHERE id = ? AND tipo = 'admin'");
         $stmt->bind_param("i", $_SESSION['user_id']);
@@ -79,8 +78,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['responder'])) {
                 $mail->isSMTP();
                 $mail->Host       = 'smtp.gmail.com';
                 $mail->SMTPAuth   = true;
-                $mail->Username   = 'pcmastergeral@gmail.com'; // Altere se necessário
-                $mail->Password   = 'mjsv oxar shbz dfzp';      // App Password
+                $mail->Username   = 'pcmastergeral@gmail.com'; 
+                $mail->Password   = 'mjsv oxar shbz dfzp';     
                 $mail->SMTPSecure = 'tls';
                 $mail->Port       = 587;
 
