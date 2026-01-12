@@ -1,5 +1,7 @@
 * {
   margin: 0;
+  padding: 0;
+  font-family: "Poppins",sans-serif;
 }
 
 h1 {
@@ -258,4 +260,32 @@ form input, form select {
     object-fit: cover;
     margin-bottom: 12px;
     border: 2px solid #fff;
+}
+.menu-conta {
+    width: 250px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin: 20px;
+}
+
+.menu-opcao {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    border-radius: 5px;
+}
+
+.menu-opcao:hover {
+    background: #f0f0f0;
+}
+
+.menu-opcao.sair {
+    color: #c0392b;
+}
+
+.conteudo-conta {
+    margin-left: 20px;
 }

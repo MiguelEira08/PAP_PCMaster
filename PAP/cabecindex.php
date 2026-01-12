@@ -52,6 +52,39 @@ if (isset($_SESSION['user_id'])) {
             object-fit: contain;
             vertical-align: middle;
         }
+        .menu-user {
+    position: relative; /* MUITO IMPORTANTE */
+    display: inline-block;
+}
+
+.user-dropdown {
+    position: absolute;
+    top: 55px;           /* aparece por baixo da imagem */
+    right: 0;
+    background: #fff;
+    border-radius: 8px;
+    min-width: 180px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: none;
+    z-index: 9999;
+}
+
+.user-dropdown a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+}
+
+.user-dropdown a:hover {
+    background: #f2f2f2;
+}
+
+.user-dropdown .logout {
+    color: #c0392b;
+}
+
     </style>
 </head>
 
@@ -88,12 +121,18 @@ if (isset($_SESSION['user_id'])) {
 
         if ($mostrar) {
 
-            if ($row['Nome'] === 'Conta') {
-                echo '
-                <a href="'.BASE_URL.'/'.$row['link'].'" class="perfil-link">
-                    <img src="'.$fotoPerfil.'" class="foto-perfil-menu">
-                </a>';
-            }
+           if ($row['Nome'] === 'Conta') {
+    echo '
+    <div class="menu-user">
+        <img src="'.$fotoPerfil.'" class="foto-perfil-menu" id="userAvatar">
+
+        <div class="user-dropdown" id="userDropdown">
+            <a href="'.BASE_URL.'./contas/conta.php">Gerir perfil</a>
+            <a href="'.BASE_URL.'./login/logout.php" class="logout">Terminar sessão</a>
+        </div>
+    </div>';
+}
+
 
             elseif ($row['Nome'] === 'Carrinho') {
                 echo '
@@ -111,6 +150,22 @@ if (isset($_SESSION['user_id'])) {
     </ul>
 </nav>
 </header>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const avatar = document.getElementById("userAvatar");
+    const dropdown = document.getElementById("userDropdown");
+
+    avatar.addEventListener("click", function (e) {
+        e.stopPropagation();
+        dropdown.style.display =
+            dropdown.style.display === "block" ? "none" : "block";
+    });
+
+    document.addEventListener("click", function () {
+        dropdown.style.display = "none";
+    });
+});
+</script>
 
 </body>
 </html>
