@@ -1,20 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 * {
   margin: 0;
+  font-family: 'Poppins', sans-serif;
 }
 
 h1 {
   margin-top: 250px;
-  font-family: 'Anton', sans-serif;
-  color: black;
+  font-family: 'Poppins', sans-serif;
+  color: rgb(255, 255, 255);
 }
 h2 {
-  font-family: 'Anton', sans-serif;
-  color: black;
+  font-family: 'Poppins', sans-serif;
+  color: rgb(255, 255, 255);
 }
 
 
 p {
-  font-family: 'Calibri', sans-serif;
+  font-family: 'Poppins', sans-serif;
   color: white;
 }
 
@@ -63,7 +65,7 @@ nav {
   justify-content: space-around;
   align-items: center;
   background-color: burlywood;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   line-height: 1.6;
 
 }
@@ -167,7 +169,7 @@ a:-webkit-any-link {
 .search-box input {
   flex: 1;
   padding: 8px 8px;
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 14px;
   color: #fff;
   background: rgba(255, 255, 255, 0.08);
@@ -189,7 +191,7 @@ a:-webkit-any-link {
 /* BOTÃO */
 .search-box button {
   padding: 6px 6px;
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 14px;
   font-weight: 600;
   color: #fff;
@@ -220,16 +222,15 @@ a:-webkit-any-link {
   display: flex;
   flex-direction: column;         
   justify-content: space-between; 
-  align-items: center;
-  max-width: 260px;
-  width: 240px;
-  background-color: #fff;
-  border: 2px solid #333;
-  border-radius: 10px;
-  padding: 15px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    flex: 1;
+    min-width: 300px;
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
   transition: transform 0.2s ease;
+  align-items: center;
 }
 .produto-card:hover {
   transform: scale(1.03);
@@ -260,18 +261,19 @@ a:-webkit-any-link {
   margin-top: auto;
   width: 200px;
   height: 45px;
-  color: black;
-  font-family: 'Inter', sans-serif;
+  color: rgb(255, 255, 255);
+  font-family: 'Poppins', sans-serif;
   font-weight: bold;
   font-size: 1.0rem;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  border: 1px solid #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   transition: transform 0.2s ease, background-color 0.3s ease;
   cursor: pointer;
   text-align: center;
+  padding: 5px;
 }
 
 .botao-visualizar:hover {
@@ -294,54 +296,27 @@ a:-webkit-any-link {
 }
 
 .comparacao-box {
-  flex-basis: 100%;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 10px;
-  border-radius: 12px;
-  text-align: center;
-  align-items: center;  
-  margin-bottom: 30px;
-  grid-column:1 / -1;               
-  width: 10px;                       
-  max-width: 600px;
-  margin-left: 540px;      
-  
- 
-}
-.comparar-btn {
-  width: 250px;
-  height: 45px;
-  color: black;
-  font-family: 'Inter', sans-serif;
-  font-weight: bold;
-  font-size: 1.1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 12px;
-  border-color: ffffff;
-  transition: transform 0.2s ease, background-color 0.3s ease;
-  cursor: pointer;
-
-}
-
-.comparar-btn:hover {
-  transform: scale(1.1);
-  background-color: burlywood;
-  color: white;
-}
-
-
+    margin: 40px auto; 
+    min-width: 400px;
+    max-width: 600px;
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    
+} 
 #produto1, #produto2, #resultado-comparacao {
-  font-family: Calibri, sans-serif;
-  color: #003366;
+  font-family: 'Poppins', sans-serif;
+  color: #a0a0a0;
   font-weight: bold;
   margin-top: 10px;
 }
 
 .descricao-produto {
+  color: #fff;
   margin-top: 10px;
-  background: #f8f8f8;
+  background: rgba(255, 255, 255, 0.1);
   padding: 10px;
   border-radius: 8px;
 }

@@ -49,29 +49,29 @@ $stmt->close();
     <link rel="stylesheet" href="../css/conta_compra.css">
 </head>
 <body>
+      <a href="./ver_feedback.php" class="voltar-fixo">← Voltar</a>
+
 <div class="bg">
     <div class="overlay"></div>
+     <h1 style=" margin-top: 50px; z-index: 2;">Resposta ao Seu Feedback</h1>
     <div class="content">
-        <h1 style="color: white;">Resposta ao Seu Feedback</h1>
+       
 
         <div class="estado-bloco">
-            <h2>O Seu Feedback</h2>
-            <p style="color: black;">
+            <h2 class="titulo-estado">O Seu Feedback</h2>
+            <p>
                 <strong>Data: </strong> <?= htmlspecialchars($data_envio) ?><br>
-                <strong>Feedvack: </strong><?= nl2br(htmlspecialchars($feedback_texto)) ?>
+                <strong>Feedback: </strong><?= nl2br(htmlspecialchars($feedback_texto)) ?>
             </p>
         </div>
 
         <div class="estado-bloco">
-            <h2>Resposta do Admin</h2>
-            <p style="color: black;">
+            <h2 class="titulo-estado">Resposta do Admin</h2>
+            <p>
                 <strong>Admin: </strong> <?= htmlspecialchars($nome_admin) ?><br>
                 <strong>Data: </strong> <?= htmlspecialchars($data_resposta) ?><br>
                 <strong>Resposta: </strong> <?= nl2br(htmlspecialchars($resposta_admin)) ?>
             </p>
-            <div class="caixa-container">
-            <div class="botao-link"  onclick="window.location.href='./ver_feedback.php';">Voltar atrás</div>
-            </div>
         </div>
 </div>
 </div>

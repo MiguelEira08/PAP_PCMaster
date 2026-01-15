@@ -157,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="overlay"></div>
 
     <div class="content">
-        <h2>Editar Conta</h2>
+        
 
         <form method="POST" enctype="multipart/form-data" class="form-conta">
 <?php if ($erro): ?>
@@ -167,6 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php endif; ?>
 
 <center>
+    <h2 align="center">Editar Conta</h2>
     <label>Imagem atual:</label><br> <br>
 
     <img src="../<?= htmlspecialchars($utilizador['caminho_arquivo']) ?>" alt="Foto de perfil" class="foto-perfil">

@@ -56,30 +56,38 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
         <a href="estado_encomendas.php" class="voltar-btn">Voltar</a>
       </form>
     <?php else: ?>
-      <form>
-        <h2>Detalhes da Encomenda</h2>
+      <div class="estado-bloco" style =" margin-top: 100px; ">
+        <h2 class="titulo-estado">Detalhes da Encomenda</h2>
+        <div class="cards-container">
+        
         <p><strong>Morada:</strong> <?= htmlspecialchars($encomenda['rua']) ?>, <?= htmlspecialchars($encomenda['distrito']) ?> (<?= htmlspecialchars($encomenda['codigo_postal']) ?>)</p>
         <p><strong>Data:</strong> <?= htmlspecialchars($encomenda['data_compra']) ?></p>
         <p><strong>Estado:</strong> <?= htmlspecialchars($encomenda['estado']) ?></p>
 
-        <h3 style="margin-top: 20px;">Produtos:</h3>
+        
         <?php if ($itens): ?>
+          
           <ul style="text-align: left; padding-left: 0;">
             <?php foreach ($itens as $item): ?>
               <li style="margin-bottom: 8px; list-style: none;">
-                <?= htmlspecialchars($item['tipo_produto']) ?>: <br>
-                <?= htmlspecialchars($item['nome_produto']) ?> <br>
-                Quantidade: <?= $item['quantidade'] ?> <br>
-                Preço: €<?= number_format($item['preco'], 2, ',', '.') ?>
+                <p><strong>Produtos:</strong><br>
+                 <?= htmlspecialchars($item['tipo_produto']) ?>:<br>
+                <?= htmlspecialchars($item['nome_produto']) ?> <br></p><br> 
+                <p><strong>Quantidade:</strong> <?= $item['quantidade'] ?></p>
+               <p><strong>Preço:</strong>  €<?= number_format($item['preco'], 2, ',', '.') ?></p>
               </li>
             <?php endforeach; ?>
           </ul>
         <?php else: ?>
           <p>Sem produtos nesta encomenda.</p>
         <?php endif; ?>
-
-        <a href="estado_encomenda.php" class="voltar-btn">Voltar</a>
-      </form>
+<div align="center">
+          <a href="javascript:history.back()" class="botao-link">
+    ← Voltar
+</a>
+</div>
+</div>
+      </div>
     <?php endif; ?>
   </div>
 </div>

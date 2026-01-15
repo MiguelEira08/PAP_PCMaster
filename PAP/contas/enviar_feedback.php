@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="bg">
     <div class="overlay"></div>
     <div class="content">
-        <h2 style="color: white;">Enviar Feedback</h2>
+        
 
         <form method="POST" action="">
         <?php if (!empty($mensagem_sucesso)): ?>
@@ -110,16 +110,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>
-
+<h2 style="color: white;">Enviar Feedback</h2>
             <div style="text-align: center;">
-            <label for="Motivo">Motivo do Feedback:</label><br>
-            <input type="text" name="Motivo" id="Motivo" maxlength="250" required><br><br>
+            <label for="Motivo">Motivo do Feedback:</label>
+            <input type="text" name="Motivo" id="Motivo" maxlength="250" required><br>
 
             <label for="origem_pagina">Origem (página ou funcionalidade):</label><br>
-            <input type="text" name="origem_pagina" id="origem_pagina" maxlength="250"><br><br>
+            <input type="text" name="origem_pagina" id="origem_pagina" maxlength="250"><br>
 
             <label for="feedback">Mensagem:</label><br>
-            <input type="text" name="feedback" id="feedback" maxlength="100"><br><br>
+            <input type="text" name="feedback" id="feedback" maxlength="100"><br>
 
            <div align="center"><button type="submit" class="botao">Enviar Feedback</button></div> 
             <br>

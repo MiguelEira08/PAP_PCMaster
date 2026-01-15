@@ -1,23 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 * {
   margin: 0;
   box-sizing: border-box;
+  font-family: "Poppins",sans-serif;
 }
 
 h1 {
-  font-family: 'Anton', sans-serif;
-  color: #000;
+  font-family: 'Poppins', sans-serif;
+  color: #ffffff;
   text-align: center;
 }
 h2 {
   margin-top: 10px;
-  font-family: 'Anton', sans-serif;
-  color: #000;
+  font-family: "Poppins",sans-serif;
+  color: #ffffff;
   text-align: center;
 }
 
 p {
-  font-family: 'Calibri', sans-serif;
+  font-family: "Poppins",sans-serif;
   margin: 5px 0;
+  color: #ffffff;
 }
 
 
@@ -49,6 +52,7 @@ p {
     gap: 20px;
     justify-content: center;
     padding: 20px;
+    z-index: 2;
 }
 .logo {
   width: 120px;
@@ -129,108 +133,10 @@ a:-webkit-any-link {
   height: 120px;
   margin-bottom: 50px;
 }
-
-form {
-  background-color: #fff;
-  border-radius: 17px;
-  padding: 30px;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 600px;
-  margin-top: 100px;
-}
-
-form h2 {
-  color: #222;
-  font-size: 26px;
-  margin-bottom: 20px;
-  font-weight: bold;
-}
-
-form label {
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 6px;
-}
-
-form input, form select {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  padding: 12px;
-  font-size: 15px;
-  border-radius: 6px;
-  width: 100%;
-  color: #000;
-  margin-bottom: 15px;
-}
-
-form button, .voltar-btn {
-  background-color: #1c12af;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  font-size: 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s, color 0.3s;
-  margin-top: 10px;
-  text-align: center;
-}
-
-form button:hover, .voltar-btn:hover {
-  background-color: burlywood;
-  color: black;
-}
-
-.error-message {
-  color: #d00000;
-  text-align: center;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.success-message {
-  color: green;
-  text-align: center;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-form p {
-  font-size: 14px;
-  text-align: center;
-  color: #444;
-}
-
-form p a {
-  color: #1c12af;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-form p a:hover {
-  text-decoration: underline;
-}
-
-@media (max-width: 600px) {
-  .caixa {
-    width: 90%;
-    font-size: 1rem;
-    padding: 20px;
-  }
-
-  form {
-    margin-top: 0;
-    padding: 20px;
-  }
-}
-
  .estado-bloco {
     flex: 1;
     min-width: 300px;
-    background: rgba(255, 255, 255, 0.1); /* Fundo semi-transparente */
+    background: rgba(255, 255, 255, 0.1); 
     backdrop-filter: blur(10px);
     border-radius: 15px;
     padding: 15px;
@@ -238,7 +144,7 @@ form p a:hover {
 }
 
     .titulo-estado {
-    color: white;
+    color: rgb(255, 255, 255);
     text-align: center;
     border-bottom: 2px solid #fff;
     padding-bottom: 10px;
@@ -250,7 +156,7 @@ form p a:hover {
   height: 60px;
   background-color: rgba(255, 255, 255, 0.05);
   color: rgb(0, 0, 0);
-  font-family: 'Inter', sans-serif;
+  font-family: "Poppins",sans-serif;
   font-weight: bold;
   font-size: 1.1rem;
   display: flex;
@@ -289,7 +195,6 @@ form p a:hover {
     border: 2px solid #df7700; /* Cor de destaque ao passar o rato */
 }
 
-/* Cabeçalho do Card */
 .card-header {
     display: flex;
     justify-content: space-between;
@@ -299,12 +204,6 @@ form p a:hover {
     padding-bottom: 5px;
 }
 
-.order-id {
-    font-weight: bold;
-    font-size: 1.1em;
-}
-
-/* Badges de Estado */
 .status-badge {
     padding: 5px 10px;
     border-radius: 20px;
@@ -317,14 +216,34 @@ form p a:hover {
 .status-badge.caminho { background: #df7700; color: #000; }
 .status-badge.entregue { background: #df7700; color: #000 ; }
 
-.card-body p {
-    margin: 5px 0;
-    font-size: 0.9em;
-}
-
-
 .empty-msg {
     color: #ddd;
     text-align: center;
     font-style: italic;
+}
+.voltar-fixo {
+  width: 200px;
+  height: 60px;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: rgb(255, 255, 255);
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 9999; 
+  text-decoration: none;
+}
+.voltar-fixo:hover {
+  transform: scale(1.1);
+  background-color: burlywood;
+  color: rgb(255, 255, 255);
 }

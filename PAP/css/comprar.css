@@ -15,14 +15,14 @@ h3 {
   font-family: 'Poppins', sans-serif;
   color: rgb(255, 255, 255);
 }
-.amiko-semibold {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-style: normal;
-}
+
 p {
   font-family: 'Poppins', sans-serif;
   color: white;
+}
+.p2 {
+  font-family: 'Poppins', sans-serif;
+  color: black;
 }
 
 
@@ -194,7 +194,7 @@ a:-webkit-any-link {
   background: rgba(255, 255, 255, 0.12);
 }
 
-/* BOTÃO */
+
 .search-box button {
   padding: 6px 6px;
   font-family: 'Manrope', sans-serif;
