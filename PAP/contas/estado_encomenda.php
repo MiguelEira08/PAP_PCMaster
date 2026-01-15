@@ -47,75 +47,89 @@ $stmt->close();
   <div class="overlay"></div>
   <div class="content">
 
-    <h1 style="color: white;">Estado das Minhas Encomendas</h1>
+<h1 style="color: white; width: 100%; text-align: center; margin-bottom: 30px;">Estado das Minhas Encomendas</h1>
 
-    <div class="estado-bloco" align="center">
-      <h2>Pendentes</h2>
-      <?php if ($encomendas_pendente): ?>
-        <ul>
-          <?php foreach ($encomendas_pendente as $enc): ?>
-            <li>
-            <a href="ver_encomenda.php?id=<?= $enc['id'] ?>" style="text-decoration: none; color: inherit;">
-                <strong>ID:</strong> #<?= $enc['id'] ?><br>
-                <p><strong>Morada:</strong> <?= htmlspecialchars($enc['rua']) ?>, <?= htmlspecialchars($enc['distrito']) ?> (<?= $enc['codigo_postal'] ?>)</p>
-                <p><strong>Data:</strong> <?= $enc['data_compra'] ?></p>
-                <p><strong>Estado:</strong> <?= htmlspecialchars($enc['estado']) ?></p>
-            </a>
-            </li>
-
-          <?php endforeach; ?>
-        </ul>
-      <?php else: ?>
-        <p>Sem encomendas pendentes.</p>
-      <?php endif; ?>
+<div class="estado-bloco">
+    <h2 class="titulo-estado">Pendentes</h2>
+    <div class="cards-container">
+        <?php if ($encomendas_pendente): ?>
+            <?php foreach ($encomendas_pendente as $enc): ?>
+                <div class="encomenda-card" onclick="window.location.href='ver_encomenda.php?id=<?= $enc['id'] ?>'">
+                    <div class="card-header">
+                        <span class="order-id">#<?= $enc['id'] ?></span>
+                        <span class="status-badge pendente">Pendente</span>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Data:</strong> <?= date('d/m/Y', strtotime($enc['data_compra'])) ?></p>
+                        <p><strong>Morada:</strong> <?= htmlspecialchars($enc['rua']) ?></p>
+                        <p><?= htmlspecialchars($enc['distrito']) ?> (<?= $enc['codigo_postal'] ?>)</p>
+                    </div>
+                    
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p class="empty-msg">Sem encomendas pendentes.</p>
+        <?php endif; ?>
     </div>
+</div>
 
-    <div class="estado-bloco">
-      <h2>A Caminho</h2>
-      <?php if ($encomendas_caminho): ?>
-        <ul>
-          <?php foreach ($encomendas_caminho as $enc): ?>
-            <li>
-            <a href="ver_encomenda.php?id=<?= $enc['id'] ?>" style="text-decoration: none; color: inherit;">
-                <strong>ID:</strong> #<?= $enc['id'] ?><br>
-                <p><strong>Morada:</strong> <?= htmlspecialchars($enc['rua']) ?>, <?= htmlspecialchars($enc['distrito']) ?> (<?= $enc['codigo_postal'] ?>)</p>
-                <p><strong>Data:</strong> <?= $enc['data_compra'] ?></p>
-                <p><strong>Estado:</strong> <?= htmlspecialchars($enc['estado']) ?></p>
-            </a>
-            </li>
-
-          <?php endforeach; ?>
-        </ul>
-      <?php else: ?>
-        <p>Sem encomendas a caminho.</p>
-      <?php endif; ?>
+<div class="estado-bloco">
+    <h2 class="titulo-estado">A Caminho</h2>
+    <div class="cards-container">
+        <?php if ($encomendas_caminho): ?>
+            <?php foreach ($encomendas_caminho as $enc): ?>
+                <div class="encomenda-card" onclick="window.location.href='ver_encomenda.php?id=<?= $enc['id'] ?>'">
+                    <div class="card-header">
+                        <span class="order-id">#<?= $enc['id'] ?></span>
+                        <span class="status-badge caminho">A caminho</span>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Data:</strong> <?= date('d/m/Y', strtotime($enc['data_compra'])) ?></p>
+                        <p><strong>Morada:</strong> <?= htmlspecialchars($enc['rua']) ?></p>
+                        <p><?= htmlspecialchars($enc['distrito']) ?> (<?= $enc['codigo_postal'] ?>)</p>
+                    </div>
+                   
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p class="empty-msg">Nenhuma encomenda em trânsito.</p>
+        <?php endif; ?>
     </div>
+</div>
 
-    <div class="estado-bloco">
-      <h2>Entregues</h2>
-      <?php if ($encomendas_entregue): ?>
-        <ul>
-          <?php foreach ($encomendas_entregue as $enc): ?>
-            <li>
-            <a href="ver_encomenda.php?id=<?= $enc['id'] ?>" style="text-decoration: none; color: inherit;">
-                <strong>ID:</strong> #<?= $enc['id'] ?><br>
-                <p><strong>Morada:</strong> <?= htmlspecialchars($enc['rua']) ?>, <?= htmlspecialchars($enc['distrito']) ?> (<?= $enc['codigo_postal'] ?>)</p>
-                <p><strong>Data:</strong> <?= $enc['data_compra'] ?></p>
-                <p><strong>Estado:</strong> <?= htmlspecialchars($enc['estado']) ?></p>
-            </a>
-            </li>
-
-          <?php endforeach; ?>
-        </ul>
-      <?php else: ?>
-        <p>Sem encomendas entregues.</p>
-        <br><br>
-            <div class="caixa-container">
-            <div class="botao-link"  onclick="window.location.href='./conta.php';">Voltar atrás</div>
-            </div>
-      <?php endif; ?>
+<div class="estado-bloco">
+    <h2 class="titulo-estado">Entregues</h2>
+    <div class="cards-container">
+        <?php if ($encomendas_entregue): ?>
+            <?php foreach ($encomendas_entregue as $enc): ?>
+                <div class="encomenda-card entregue-hover" onclick="window.location.href='ver_encomenda.php?id=<?= $enc['id'] ?>'">
+                    <div class="card-header">
+                        <span class="order-id">#<?= $enc['id'] ?></span>
+                        <span class="status-badge entregue">Entregue</span>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Data:</strong> <?= date('d/m/Y', strtotime($enc['data_compra'])) ?></p>
+                        <p><strong>Morada:</strong> <?= htmlspecialchars($enc['rua']) ?></p>
+                        <p><?= htmlspecialchars($enc['distrito']) ?> (<?= $enc['codigo_postal'] ?>)</p>
+                    </div>
+                    
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p class="empty-msg">Ainda não recebeu encomendas.</p>
+        <?php endif; ?>
     </div>
-  </div>
+    
+</div>
+       <div style="width: 100%; text-align: center; margin-top: 30px; margin-bottom: 50px;">
+    <a href="javascript:history.back()" class="botao-voltar" style="text-decoration: none;">
+        ← Voltar
+    </a>
+</div>
+
+</div>
+
+</div>
 </div>
 </body>
 </html>

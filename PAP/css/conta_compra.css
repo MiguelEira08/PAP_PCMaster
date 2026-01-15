@@ -44,18 +44,12 @@ p {
 }
 
 .content {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 40px;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 30px;
-  position: relative;
-  z-index: 1;
-  color: rgb(0, 0, 0);
-  text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
 }
-
 .logo {
   width: 120px;
   height: auto;
@@ -233,36 +227,23 @@ form p a:hover {
   }
 }
 
-    .estado-bloco {
-      background-color: white;
-      border-radius: 15px;
-      padding: 30px;
-      width: 75%;
-      
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
-      text-align: left;
-    }
-    .estado-bloco h2 {
-      color: #000;
-      font-size: 22px;
-      margin-bottom: 15px;
-    }
-    .estado-bloco ul {
-      list-style: none;
-      padding-left: 0;
-    }
-    .estado-bloco li {
-      border-bottom: 1px solid #ddd;
-      padding: 10px 0;
-    }
-    .estado-bloco li:last-child {
-      border-bottom: none;
-    }
-    .estado-bloco p {
-      margin: 2px 0;
-      font-family: 'Calibri', sans-serif;
-      color: #333;
-    }
+ .estado-bloco {
+    flex: 1;
+    min-width: 300px;
+    background: rgba(255, 255, 255, 0.1); /* Fundo semi-transparente */
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+    .titulo-estado {
+    color: white;
+    text-align: center;
+    border-bottom: 2px solid #fff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
     
 .botao-link {
   width: 200px;
@@ -285,4 +266,65 @@ form p a:hover {
   transform: scale(1.1);
   background-color: burlywood;
   color: rgb(0, 0, 0);
+}
+.cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.encomenda-card {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    color: #333;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border: 2px solid transparent;
+}
+
+.encomenda-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    border: 2px solid #df7700; /* Cor de destaque ao passar o rato */
+}
+
+/* Cabeçalho do Card */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.order-id {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+/* Badges de Estado */
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-badge.pendente { background: #df7700; color: #000; }
+.status-badge.caminho { background: #df7700; color: #000; }
+.status-badge.entregue { background: #df7700; color: #000 ; }
+
+.card-body p {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+
+
+.empty-msg {
+    color: #ddd;
+    text-align: center;
+    font-style: italic;
 }

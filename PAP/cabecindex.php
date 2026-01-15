@@ -40,6 +40,11 @@ if (isset($_SESSION['user_id'])) {
             border: 2px solid #fff;
             vertical-align: middle;
         }
+       .foto-perfil-menu:hover {
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+            transition: box-shadow 0.3s ease;
+            border: 2px solid #ff9100;
+        } 
 
         .perfil-link {
             display: flex;
@@ -59,17 +64,20 @@ if (isset($_SESSION['user_id'])) {
 
 .user-dropdown {
     position: absolute;
-    top: 55px;           /* aparece por baixo da imagem */
+    top: 55px;          /* aparece por baixo da imagem */
     right: 0;
-    background: #fff;
+    background: #ffffffc0;
     border-radius: 8px;
     min-width: 180px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     display: none;
     z-index: 9999;
+    
 }
 
 .user-dropdown a {
+    border: 2px solid;
+    border-radius: 75px;
     display: block;
     padding: 10px 15px;
     text-decoration: none;
@@ -79,6 +87,9 @@ if (isset($_SESSION['user_id'])) {
 
 .user-dropdown a:hover {
     background: #f2f2f2;
+    border: 2px solid #ff9100;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+    transition: box-shadow 0.3s ease;
 }
 
 .user-dropdown .logout {
@@ -121,14 +132,20 @@ if (isset($_SESSION['user_id'])) {
 
         if ($mostrar) {
 
-           if ($row['Nome'] === 'Conta') {
+if ($row['Nome'] === 'Conta') {
+
+    $nomeExibir = isset($_SESSION['nome']) ? htmlspecialchars($_SESSION['nome']) : 'Utilizador';
+
     echo '
     <div class="menu-user">
-        <img src="'.$fotoPerfil.'" class="foto-perfil-menu" id="userAvatar">
+        <img src="'.$fotoPerfil.'" class="foto-perfil-menu" id="userAvatar" style="cursor:pointer;">
 
         <div class="user-dropdown" id="userDropdown">
+            <div style="padding: 5px 5px; border-bottom: 1px solid #eeeeee00;">
+                <span style="display:block; font-weight: bold; color: #333;">Olá, ' . $nomeExibir . '!</span>
+            </div>
             <a href="'.BASE_URL.'./contas/conta.php">Gerir perfil</a>
-            <a href="'.BASE_URL.'./login/logout.php" class="logout">Terminar sessão</a>
+            <a href="'.BASE_URL.'./login/logout.php" class="logout">Logout</a>
         </div>
     </div>';
 }
