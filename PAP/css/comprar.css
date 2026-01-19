@@ -224,13 +224,18 @@ a:-webkit-any-link {
 }
 
 .cartao-produto {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+ display: flex;
+  flex-direction: column;         
+  justify-content: space-between; 
+    flex: 1;
+    min-width: 300px;
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
   transition: transform 0.2s ease;
+  align-items: center;
 }
 .cartao-produto:hover {
   transform: translateY(-5px);

@@ -224,12 +224,14 @@ a:-webkit-any-link {
   justify-content: space-between; 
     flex: 1;
     min-width: 300px;
-    background: rgba(255, 255, 255, 0.1); 
-    backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.30); 
+   backdrop-filter: blur(8px);
+   -webkit-backdrop-filter: blur(8px);
     border-radius: 15px;
     padding: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.6);
   transition: transform 0.2s ease;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
   align-items: center;
 }
 .produto-card:hover {
@@ -261,7 +263,7 @@ a:-webkit-any-link {
   margin-top: auto;
   width: 200px;
   height: 45px;
-  color: rgb(255, 255, 255);
+ color: black;
   font-family: 'Poppins', sans-serif;
   font-weight: bold;
   font-size: 1.0rem;
@@ -269,7 +271,7 @@ a:-webkit-any-link {
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid #ffffff;
   transition: transform 0.2s ease, background-color 0.3s ease;
   cursor: pointer;
   text-align: center;
@@ -279,7 +281,7 @@ a:-webkit-any-link {
 .botao-visualizar:hover {
   transform: scale(1.1);
   background-color: burlywood;
-  color: white;
+  color: chocolate;
 }
 
 
@@ -299,16 +301,16 @@ a:-webkit-any-link {
     margin: 40px auto; 
     min-width: 400px;
     max-width: 600px;
-    background: rgba(255, 255, 255, 0.1); 
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.30); 
+    backdrop-filter: blur(8px);
     border-radius: 15px;
     padding: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.6);
     
 } 
 #produto1, #produto2, #resultado-comparacao {
   font-family: 'Poppins', sans-serif;
-  color: #a0a0a0;
+  color:  #131010;
   font-weight: bold;
   margin-top: 10px;
 }
@@ -331,14 +333,15 @@ a:-webkit-any-link {
   width: 200px;
   height: 60px;
   background-color: rgba(255, 255, 255, 0.05);
-  color: white;
-  font-family: 'Inter', sans-serif;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
   font-weight: bold;
   font-size: 1.1rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 12px;
+    border-radius: 12px;
+   border: 1px solid #ffffff;
   transition: transform 0.2s ease, background-color 0.3s ease;
   cursor: pointer;
   text-align: center;
@@ -347,5 +350,5 @@ a:-webkit-any-link {
 .botao-link:hover {
   transform: scale(1.1);
   background-color: burlywood;
-  color: white;
+  color: chocolate;
 }

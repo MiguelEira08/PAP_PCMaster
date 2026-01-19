@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="overlay"></div>
     <div class="content">
 
-        <h2 style="color: white;">Contactar Suporte</h2>
+        
 
         <form method="POST">
 
@@ -95,6 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
 
             <div style="text-align: center;">
+                <h2 style="color: white;">Contactar Suporte</h2>
                 <label>Nome de Utilizador:</label><br>
                 <input type="nome" name="nome" maxlength="250" required><br><br>
 

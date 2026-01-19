@@ -127,7 +127,7 @@ include_once __DIR__ . '/../cabecindex.php';
         <h2>Comparação de Produtos</h2>
         <div id="produto1">Produto 1: Nenhum</div>
         <div id="produto2">Produto 2: Nenhum</div>
-        <div class="alinhar"><button class="comparar-btn" onclick="comparar()">Comparar</button></div>
+        <div class="alinhar"><button class="botao-link" onclick="comparar()">Comparar</button></div>
         <div id="resultado-comparacao"></div>
       </div>
 
