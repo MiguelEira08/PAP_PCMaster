@@ -40,7 +40,7 @@ if (!$produto) {
                         <img src="../imagens/<?= htmlspecialchars($produto['caminho_arquivo']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
                     </div>
                     <div class="info-produto">
-                        <h1><?= htmlspecialchars($produto['nome']) ?></h1>
+                        <h1 ><?= htmlspecialchars($produto['nome']) ?></h1>
                         <p class="descricao"><?= !empty($produto['descricao']) ? nl2br(htmlspecialchars($produto['descricao'])) : 'Sem descrição disponível.' ?></p>
                         <p class="preco">Preço: <strong>€<?= number_format($produto['preco'], 2) ?></strong></p>
                         <p class="stock">Stock disponível: <?= (int)$produto['stock'] ?></p>
@@ -87,9 +87,9 @@ if (!$produto) {
   position: fixed;
   top: 20px;
   right: 20px;
-  background-color: #000999;
-  font-family: 'Inter', sans-serif;
-  color: white;
+  background-color: burlywood;
+  font-family: 'Poppins', sans-serif;
+  color: black;
   padding: 15px 25px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);

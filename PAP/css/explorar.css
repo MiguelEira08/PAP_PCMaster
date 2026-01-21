@@ -3,22 +3,17 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: "Poppins",sans-serif;
+  font-family: 'Poppins',sans-serif;
 }
 
 h1 {
-  margin-top: 250px;
+ 
   font-family: 'Poppins', sans-serif;
   color: rgb(0, 0, 0);
 }
 h3 {
   font-family: 'Poppins', sans-serif;
   color: rgb(255, 255, 255);
-}
-.amiko-semibold {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-style: normal;
 }
 p {
   font-family: 'Poppins', sans-serif;
@@ -108,15 +103,18 @@ a:-webkit-any-link {
     padding: 30px;
     max-width: 1000px;
     margin: auto;
-    background: #fff;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(1px);
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     margin-top: 50px;
+    font-family: 'Poppins', sans-serif;
 }
 
 .produto-detalhe {
     display: flex;
     flex-wrap: wrap;
+font-family: 'Poppins', sans-serif;
     gap: 30px;
 }
 
@@ -137,32 +135,22 @@ a:-webkit-any-link {
     gap: 15px;
 }
 
-h1 {
-   font-family: "Menbere", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 700;
-  font-style: normal;
-  color: #000000;
-  margin-top: 0px;
-}
+
 
 .descricao {
-    color: #555;
-  font-family: "Noto Sans JP", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 200;
-  font-style: normal;
+    color: #000000;
+  font-family: "Poppins", sans-serif;
 }
 
 .preco {
     font-size: 1.5em;
-    color: rgb(28, 18, 175);
+    color: rgb(0, 0, 0);
     font-weight: bold;
 }
 
 .stock {
     font-size: 1em;
-    color: #555;
+    color: #000000;
 }
 
 .form-carrinho {
@@ -179,48 +167,54 @@ input[type="number"] {
 }
 
 .btn-adicionar {
-  width: 500px;
-  height: 45px;
+  width: auto;
+  height: auto;
   color: black;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: bold;
   font-size: 1.1rem;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  border-color: ffffff;
+  border: 1px;
   transition: transform 0.2s ease, background-color 0.3s ease;
   cursor: pointer;
   text-align: center;
+   background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(1px);
+    padding: 10px;
 }
 
 .btn-adicionar:hover {
   transform: scale(1.1);
   background-color: burlywood;
-  color: white;
+  color: chocolate;
 }
 .btn-adicionar2 {
-  width: 100px;
-  height: 25px;
+  width: auto;
+  height: auto;
   color: black;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: bold;
   font-size: 1.1rem;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  border-color: ffffff;
+  border: 1px;
   transition: transform 0.2s ease, background-color 0.3s ease;
   cursor: pointer;
   text-align: center;
+   background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(1px);
+    padding: 9px;
 }
 
 .btn-adicionar2:hover {
   transform: scale(1.1);
   background-color: burlywood;
-  color: white;
+  color: chocolate;
 }
 
 .caixa-container {

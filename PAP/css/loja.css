@@ -112,8 +112,9 @@ a:-webkit-any-link {
 .caixa {
   width: 500px;
   height: 250px;
-  background: rgba(255, 255, 255, 0.30); 
-  color: rgb(255, 255, 255);
+ background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(1px);
+  color: rgb(0, 0, 0);
   backdrop-filter: blur(8px);
   font-family: 'Poppins', sans-serif;
   font-size: 1.1rem;
@@ -144,12 +145,11 @@ a:-webkit-any-link {
 .botao-link {
   width: 200px;
   height: 60px;
-  background-color: rgba(255, 255, 255, 0.30);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  color: #fff; 
+  color: #000000; 
   font-family: 'Poppins', sans-serif;
   font-weight: bold;
   font-size: 1.1rem;

@@ -3,7 +3,7 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: "Poppins",sans-serif;
+  font-family: 'Poppins',sans-serif;
 }
 
 h1 {
@@ -71,7 +71,7 @@ nav {
   justify-content: space-around;
   align-items: center;
   background-color: burlywood;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   line-height: 1.6;
 
 }
@@ -112,7 +112,7 @@ a:-webkit-any-link {
   height: 1px;
   background-color: burlywood;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   z-index: 1000;
   border-right: 1px solid burlywood;
 }
@@ -175,7 +175,7 @@ a:-webkit-any-link {
 .search-box input {
   flex: 1;
   padding: 8px 8px;
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 14px;
   color: #fff;
   background: rgba(255, 255, 255, 0.08);
@@ -197,7 +197,7 @@ a:-webkit-any-link {
 
 .search-box button {
   padding: 6px 6px;
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 14px;
   font-weight: 600;
   color: #fff;
@@ -214,7 +214,7 @@ a:-webkit-any-link {
 }
 
 .grid-produtos {
-  display: flex;
+  display: flex; 
   flex-wrap: wrap;
   gap: 30px;
   padding: 20px 40px;
@@ -225,31 +225,32 @@ a:-webkit-any-link {
 
 .cartao-produto {
  display: flex;
-  flex-direction: column;         
-  justify-content: space-between; 
-    flex: 1;
-    min-width: 300px;
-    background: rgba(255, 255, 255, 0.1); 
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    padding: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: transform 0.2s ease;
-  align-items: center;
+flex-direction: column;         
+justify-content: space-between; 
+flex: 1;
+min-width: 300px;
+background: rgba(255, 255, 255, 0.5);
+backdrop-filter: blur(1px); 
+border-radius: 15px;
+padding: 15px;
+border: 1px solid rgba(255, 255, 255, 0.2);
+transition: transform 0.2s ease;
+align-items: center;
+font-family: 'Poppins', sans-serif;
 }
 .cartao-produto:hover {
   transform: translateY(-5px);
 }
 
 .cartao-imagem {
-  width: 100%;
-  padding-top: 90%;
+  width: 70%;
+  padding-top: 70%;
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
+  background: #00000000;
   padding: 12px;
   box-sizing: border-box;
 }
@@ -259,7 +260,7 @@ a:-webkit-any-link {
   object-fit: contain;
   display: block;
   border-radius: 6px;
-  background: #fff;
+  background: #ffffff00;
   padding: 4px;
   box-sizing: border-box;
 }
@@ -279,14 +280,15 @@ a:-webkit-any-link {
 .preco {
   font-size: 1.2em;
   font-weight: bold;
+  font-family: 'Poppins', sans-serif;
   margin-bottom: 15px;
-  color: rgb(28, 18, 175);
+  color: burlywood;
 }
 .btn-adicionar {
   width: 200px;
   height: 45px;
   color: black;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: bold;
   font-size: 1.1rem;
   display: flex;
@@ -302,7 +304,7 @@ a:-webkit-any-link {
 .btn-adicionar:hover {
   transform: scale(1.1);
   background-color: burlywood;
-  color: white;
+  color: chocolate;
 }
 
 
@@ -344,27 +346,6 @@ form input, form select {
   color: #000;
 }
 
-
-
-.error-message {
-  color: #d00000;
-  text-align: center;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.success-message {
-  color: green;
-  text-align: center;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-.menbere-sigma {
-  font-family: "Menbere", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 100;
-  font-style: normal;
-}
 
 .botao {
   margin-top: auto;
@@ -448,7 +429,7 @@ form input, form select {
   max-width: 45%;
 }
 .manrope-titulo {
-  font-family: "Manrope", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-optical-sizing: auto;
   font-weight: 700;
   font-style: normal;

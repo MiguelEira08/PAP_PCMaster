@@ -39,7 +39,7 @@ if ($result && mysqli_num_rows($result) > 0) {
         echo '<div class="produto-card">';
         echo '<img class="produto-imagem" src="../imagens/' . $row["caminho_arquivo"] . '" alt="' . htmlspecialchars($row["nome"]) . '">';
         echo '<h2 class="produto-nome">' . htmlspecialchars($row["nome"]) . '</h2>';
-        echo '<a class="botao-visualizar" href="javascript:void(0)" onclick="adicionarComparacao(' . $produtoJS . ')">Adicionar à comparação</a>';
+        echo '<a class="botao-visualizar" href="javascript:void(0)" onclick="adicionarComparacao(' . $produtoJS . ')">Adicionar</a>';
         echo '</div>';
     }
     echo '</div>';

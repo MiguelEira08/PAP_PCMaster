@@ -12,12 +12,6 @@ h1 {
   margin-top: 110px;
 
 }
-
-.amiko-semibold {
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
-  font-style: normal;
-}
 p {
   font-family: "Poppins", sans-serif;
   color: white;
@@ -109,9 +103,10 @@ a:-webkit-any-link {
 .botao-link {
   width: 200px;
   height: 60px;
-  background-color: rgba(255, 255, 255, 0.05);
-  color: white;
-  font-family: 'Inter', sans-serif;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(1px);
+  color: black;
+  font-family: 'Poppins', sans-serif;
   font-weight: bold;
   font-size: 1.1rem;
   display: flex;
@@ -126,7 +121,7 @@ a:-webkit-any-link {
 .botao-link:hover {
   transform: scale(1.1);
   background-color: burlywood;
-  color: white;
+  color: chocolate;
 }
 
 .linha-botoes {

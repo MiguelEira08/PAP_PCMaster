@@ -222,16 +222,15 @@ a:-webkit-any-link {
   display: flex;
   flex-direction: column;         
   justify-content: space-between; 
-    flex: 1;
-    min-width: 300px;
-      background: rgba(255, 255, 255, 0.30); 
-   backdrop-filter: blur(8px);
-   -webkit-backdrop-filter: blur(8px);
-    border-radius: 15px;
-    padding: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
+  flex: 1;
+  min-width: 300px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 15px;
+  padding: 15px;
+  border: 1px;
   transition: transform 0.2s ease;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
   align-items: center;
 }
 .produto-card:hover {
@@ -271,7 +270,7 @@ a:-webkit-any-link {
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  border: 1px solid #ffffff;
+  border: 1px;
   transition: transform 0.2s ease, background-color 0.3s ease;
   cursor: pointer;
   text-align: center;
@@ -301,11 +300,11 @@ a:-webkit-any-link {
     margin: 40px auto; 
     min-width: 400px;
     max-width: 600px;
-    background: rgba(255, 255, 255, 0.30); 
-    backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(1px);
     border-radius: 15px;
     padding: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    border: 1px;
     
 } 
 #produto1, #produto2, #resultado-comparacao {
@@ -331,17 +330,17 @@ a:-webkit-any-link {
 
 .botao-link {
   width: 200px;
-  height: 60px;
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #ffffff;
+  height: 60px; 
+  background: rgba(255, 255, 255, 0.5);
+  color: black;
   font-family: 'Poppins', sans-serif;
   font-weight: bold;
   font-size: 1.1rem;
   display: flex;
   justify-content: center;
   align-items: center;
-    border-radius: 12px;
-   border: 1px solid #ffffff;
+  border-radius: 12px;
+  border: 1px;
   transition: transform 0.2s ease, background-color 0.3s ease;
   cursor: pointer;
   text-align: center;
