@@ -39,6 +39,7 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
         <th>Tipo</th>
         <th>Verificada</th>
         <th>Data Criação</th>
+        <th>Código</th>
         <th>Ações</th>
       </tr>
     </thead>
@@ -66,8 +67,9 @@ if ($result && mysqli_num_rows($result) > 0) {
         echo "<td>{$row['tipo']}</td>";
         echo "<td>{$row['Verificada']}</td>";
         echo "<td>" . date('d/m/Y H:i', strtotime($row['duracao'])) . "</td>";
-
+        echo '<td>' . $row['codigo_verificacao'] . '</td>';   
         echo '<td class="acoes">';
+       
         echo '<button class="btn remover" onclick="removerVerificacao(' . $row['id'] . ', this)">Apagar</button>';
         echo '</td>';
         echo '</tr>';

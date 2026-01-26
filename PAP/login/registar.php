@@ -64,16 +64,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $erro = 'Formato de imagem inválido!';
                 }
             }
+            $codigo = random_int(100000, 999999);
 
             if (!$erro) {
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-                $stmt = $conn->prepare("
-                    INSERT INTO verificacao_utilizadores
-                    (nome, email, numtel, password, caminho_arquivo, tipo, Verificada, duracao)
-                    VALUES (?, ?, ?, ?, ?, 'utilizador', 'nao', NOW())
-                ");
-                $stmt->bind_param("sssss", $nome, $email, $numtel, $hashed_password, $caminho_arquivo);
+               $stmt = $conn->prepare("
+    INSERT INTO verificacao_utilizadores
+    (nome, email, numtel, password, caminho_arquivo, tipo, Verificada, duracao, codigo_verificacao)
+    VALUES (?, ?, ?, ?, ?, 'utilizador', 'nao', NOW(), ?)
+");
+
+$stmt->bind_param("ssssss", $nome, $email, $numtel, $hashed_password, $caminho_arquivo, $codigo);
+
 
                 if ($stmt->execute()) {
 
@@ -96,23 +99,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         $link = "http://localhost/PcMaster/PAP/login/verificar_conta.php?email=" . urlencode($email);
 
-                        $mail->Body = "
-                            <h2>Olá, $nome!</h2>
-                            <p>Obrigado por se registar na PcMaster.</p>
-                            <p>Clique no botão abaixo para verificar a sua conta:</p>
-                            <a href='$link'>
-                                <button style='padding:12px 20px; background:#007bff; color:white; border:none; border-radius:6px; cursor:pointer;'>
-                                    Verificar Conta
-                                </button>
-                            </a>
-                            <p><small>Caso não verifique a conta, iremos apagá-la.</small></p>
-                        ";
+                      $mail->Body = "
+    <h2>Olá, $nome!</h2>
+    <p>Obrigado por se registar na PcMaster.</p>
+    <p>O seu código de verificação é:</p>
+
+    <h1 style='letter-spacing:5px;'>$codigo</h1>
+
+    <p>Introduza este código no site para verificar a sua conta.</p>
+    <p><small>Este código é válido por tempo limitado.</small></p>
+";
 
                         $mail->send();
                     } catch (Exception $e) {}
 
-                    header('Location: login.php');
-                    exit();
+                   header("Location: verificar_codigo.php?email=" . urlencode($email));
+exit();
+
                 } else {
                     $erro = 'Erro ao registar!';
                 }
