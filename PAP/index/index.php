@@ -21,13 +21,13 @@ include_once __DIR__ . '/../cabecindex.php';
     position: fixed;
     top: 20px;
     right: 20px;
-    background-color: #d4edda;
-    color: #155724;
+    background-color: #burlywood;
+    color: #000000;
     padding: 12px 20px;
-    border: 1px solid #c3e6cb;
+    border: 1px;
     border-radius: 5px;
-    font-family: Calibri, sans-serif;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    font-family: Poppins, sans-serif;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.4);
     z-index: 9999;
   ">
     Logout realizado com sucesso.

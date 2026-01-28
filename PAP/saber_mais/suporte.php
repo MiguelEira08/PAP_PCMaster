@@ -42,12 +42,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster');
             $mail->addAddress('migueleira08@gmail.com', 'Administrador');
             $mail->addAddress('al.919786@aeaav.pt', 'Administrador');
+            $mail->addAddress('al.919783@aeaav.pt', 'Administrador');
+            $mail->addAddress('gustavofigueiredo.a.f@gmail.com', 'Administrador');
+            
 
             $mail->isHTML(true);
             $mail->Subject = 'Suporte ao Cliente - Novo Pedido';
 
             $mail->Body = "
-            <p>O seguinnte utilzador enviou um pedido de suporte:</p><br>
+            <p>O seguinte utilizador enviou um pedido de suporte:</p><br>
                 <p><strong>Nome do utilizador:</strong> {$nome}</p>
                 <p><strong>Email do utilizador:</strong> {$email}</p>
                 <p><strong>Motivo do contacto:</strong> {$motivo}</p>
@@ -57,7 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ";
 
             $mail->send();
-            $mensagem_sucesso = 'Pedido de suporte enviado com sucesso!';
+            $mensagem_sucesso = 'Pedido de suporte enviado com sucesso! Voltando em 1 segundo...';
+            $redir = true;
         } catch (Exception $e) {
             $erros[] = 'Erro ao enviar o pedido de suporte.';
         }
@@ -84,6 +88,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <?php if ($mensagem_sucesso): ?>
                 <p class="success-message"><?= htmlspecialchars($mensagem_sucesso) ?></p>
+            <?php if (!empty($redir)): ?>
+        <script>
+            setTimeout(function () {
+                window.location.href = '../saber_mais/saber_mais.php';
+            }, 1000);
+        </script>
+    <?php endif; ?>
             <?php endif; ?>
 
             <?php if ($erros): ?>

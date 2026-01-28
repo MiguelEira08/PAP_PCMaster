@@ -149,6 +149,7 @@ function atualizarCaixa() {
 function adicionarComparacao(produto) {
   if (!produto1) {
     produto1 = produto;
+  
   } else if (!produto2 && produto.id !== produto1.id) {
     produto2 = produto;
   } else if (produto.id === produto1?.id || produto.id === produto2?.id) {
