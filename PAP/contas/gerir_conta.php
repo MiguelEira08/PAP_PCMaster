@@ -19,6 +19,7 @@ $id = $_SESSION['user_id'];
 $erro = '';
 $sucesso = '';
 
+
 $stmt = $conn->prepare("
     SELECT nome, email, numtel, caminho_arquivo 
     FROM utilizadores 
@@ -123,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $mail->Subject = 'Credenciais atualizadas';
 
                     $body = "<h3>Olá, $nome!</h3>
-                        <p>A sua conta foi atualizada com sucesso.</p>
+                        <p>A sua conta foi atualizada com sucesso. Voltando em 1 segundo ...</p>
                         <ul>
                             <li><strong>Email:</strong> $email</li>";
                     if ($senhaEnviada !== '') {
@@ -133,6 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     $mail->Body = $body;
                     $mail->send();
+                    $redir = true;
                 } catch (Exception $e) {}
             } else {
                 $erro = 'Erro ao atualizar dados!';
@@ -164,6 +166,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <p class="error-message"><?= htmlspecialchars($erro) ?></p>
 <?php elseif ($sucesso): ?>
     <p class="success-message"><?= htmlspecialchars($sucesso) ?></p>
+                <?php if (!empty($redir)): ?>
+        <script>
+            setTimeout(function () {
+                window.location.href = 'conta.php';
+            }, 1000);
+        </script>
+    <?php endif; ?>
 <?php endif; ?>
 
 <center>

@@ -123,6 +123,10 @@ include_once __DIR__ . '/../cabecindex.php';
     </div>
 
     <main class="content" id="content">
+<div id="toast" class="toast">
+  Produto adicionado à comparação!
+</div>
+
       <div class="comparacao-box" id="caixa-comparacao">
         <h2>Comparação de Produtos</h2>
         <div id="produto1">Produto 1: Nenhum</div>
@@ -149,18 +153,25 @@ function atualizarCaixa() {
 function adicionarComparacao(produto) {
   if (!produto1) {
     produto1 = produto;
-  
-  } else if (!produto2 && produto.id !== produto1.id) {
+    mostrarToast("Produto adicionado!");
+  } 
+  else if (!produto2 && produto.id !== produto1.id) {
     produto2 = produto;
-  } else if (produto.id === produto1?.id || produto.id === produto2?.id) {
-    alert("Este produto já foi selecionado.");
+    mostrarToast("Produto adicionado!");
+  } 
+  else if (produto.id === produto1?.id || produto.id === produto2?.id) {
+    mostrarToast("Este produto já foi selecionado.");
     return;
-  } else {
-    alert("Só pode comparar dois produtos de cada vez.");
+  } 
+  else {
+    mostrarToast("Só pode comparar dois produtos de cada vez!");
     return;
   }
+
   atualizarCaixa();
 }
+
+
 
 function comparar() {
   if (!produto1 || !produto2) {
@@ -239,6 +250,18 @@ if (searchInput) {
         document.getElementById('lista-produtos').innerHTML = '<p>Erro ao pesquisar produtos.</p>';
       });
   });
+}
+
+  function mostrarToast(mensagem) {
+  const toast = document.getElementById("toast");
+  if (!toast) return;
+
+  toast.innerText = mensagem;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
 }
 </script>
 

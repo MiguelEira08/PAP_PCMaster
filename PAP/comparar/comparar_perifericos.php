@@ -95,6 +95,9 @@ include_once __DIR__ . '/../cabecindex.php';
 
 
 <div class="content">
+  <div id="toast" class="toast">
+
+</div>
         <div class="comparacao-box" id="caixa-comparacao">
             <h2>Comparação de Produtos</h2>
             <div id="produto1">Produto 1: Nenhum</div>
@@ -104,31 +107,9 @@ include_once __DIR__ . '/../cabecindex.php';
         </div>
         
 <div id="lista-produtos">
-        <div class="produtos-linha">
-        <?php
-        $tipoSelecionado = isset($_GET['tipo']) ? strtolower($_GET['tipo']) : null;
-        $sql = "SELECT * FROM perifericos";
-        if ($tipoSelecionado) {
-            $sql .= " WHERE tipo = '$tipoSelecionado'";
-        }
-        $result = mysqli_query($conn, $sql);
-
-        if (mysqli_num_rows($result) > 0) {
-            while($row = mysqli_fetch_assoc($result)) {
-                $produtoJS = htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8');
-                echo '<div class="produto-card">';
-                    echo '<img class="produto-imagem" src="../imagens/' . $row["caminho_arquivo"] . '" alt="' . htmlspecialchars($row["nome"]) . '">';
-                    echo '<h2 class="produto-nome">' . htmlspecialchars($row["nome"]) . '</h2>';
-                    echo '<a class="botao-visualizar" href="javascript:void(0)" onclick="adicionarComparacao(' . $produtoJS . ')">Adicionar</a>';
-                echo '</div>';
-            }
-        } else {
-            echo "<p>Nenhum periférico encontrado.</p>";  
-        }
-        ?>
-        </div>
-    </div>
-    </div>
+   <h3 class="nao-encontrado">A Carregar produtos...</h3>
+   </div>
+   </div>
 </div>
 
 <script>
@@ -143,15 +124,21 @@ function atualizarCaixa() {
 function adicionarComparacao(produto) {
   if (!produto1) {
     produto1 = produto;
-  } else if (!produto2 && produto.id !== produto1.id) {
+    mostrarToast("Produto adicionado!");
+  } 
+  else if (!produto2 && produto.id !== produto1.id) {
     produto2 = produto;
-  } else if (produto.id === produto1?.id || produto.id === produto2?.id) {
-    alert("Este produto já foi selecionado.");
+    mostrarToast("Produto adicionado!");
+  } 
+  else if (produto.id === produto1?.id || produto.id === produto2?.id) {
+    mostrarToast("Este produto já foi selecionado.");
     return;
-  } else {
-    alert("Só pode comparar dois produtos de cada vez.");
+  } 
+  else {
+    mostrarToast("Só pode comparar dois produtos de cada vez!");
     return;
   }
+
   atualizarCaixa();
 }
 
@@ -233,6 +220,17 @@ if (searchInput) {
       });
   });
 }
+  function mostrarToast(mensagem) {
+  const toast = document.getElementById("toast");
+  if (!toast) return;
+
+  toast.innerText = mensagem;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+  }
 </script>
 
 </body>

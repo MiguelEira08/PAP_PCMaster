@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bind_param("isssss", $utilizador_id, $motivo, $mensagem, $origem, $data_envio, $status);
             $stmt->execute();
             $stmt->close();
-            $mensagem_sucesso = "Feedback enviado com sucesso!";
+            $mensagem_sucesso = "Feedback enviado com sucesso! Voltando em 1 segundo ...";
 
             $mail = new PHPMailer(true);
             try {
@@ -76,6 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <p><strong>Data do feedback:</strong> {$data_envio}</p>
                 ";
                 $mail->send();
+                $redir = true;
             } catch (Exception $e) {
                 error_log("Erro ao enviar email para o admin: " . $mail->ErrorInfo);
             }
@@ -101,6 +102,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="POST" action="">
         <?php if (!empty($mensagem_sucesso)): ?>
             <p class="success-message"><?= htmlspecialchars($mensagem_sucesso) ?></p>
+            <?php if (!empty($redir)): ?>
+                <script>
+                    setTimeout(function () {
+                        window.location.href = 'conta.php';
+                    }, 1000);
+                </script>
+                <?php endif; ?>
         <?php endif; ?>
 
         <?php if ($erros): ?>
@@ -110,7 +118,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>
-<h2 style="color: white;">Enviar Feedback</h2>
+        <h2>Enviar Feedback</h2>
+        <br>
             <div style="text-align: center;">
             <label for="Motivo">Motivo do Feedback:</label>
             <input type="text" name="Motivo" id="Motivo" maxlength="250" required><br>
