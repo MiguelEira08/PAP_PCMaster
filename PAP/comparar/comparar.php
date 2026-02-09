@@ -14,6 +14,9 @@ include_once __DIR__ . '/../cabecindex.php';
     <link rel="icon" type="image/png" href="../imagens/icon.png">
 </head>
 <body>
+   <a href="javascript:history.back()" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
     <div class= "bg">
     <div class="overlay">
     <div class="content">
@@ -25,10 +28,7 @@ include_once __DIR__ . '/../cabecindex.php';
       <img src="../imagens/perifericos.png" alt="imagem" class="caixa-imagem">Comparar Periféricos</a>
   </div>
 </div>
-  <div class="caixa-container">
-  <div class="botao-link"  onclick="window.location.href='../index/index.php';">Voltar ao início</div>
 
-</div>
 </div>
 </div>  
 </body>

@@ -47,6 +47,9 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
   <link rel="stylesheet" href="../css/conta_compra.css">
 </head>
 <body>
+      <a href="javascript:history.back()" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
   <div class="overlay"></div>
   <div class="content">
@@ -81,11 +84,6 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
         <?php else: ?>
           <p>Sem produtos nesta encomenda.</p>
         <?php endif; ?>
-<div align="center">
-          <a href="javascript:history.back()" class="botao-link">
-    ← Voltar
-</a>
-</div>
 </div>
       </div>
     <?php endif; ?>

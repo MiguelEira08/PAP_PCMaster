@@ -179,12 +179,12 @@ a:-webkit-any-link {
     gap: 15px;
 }
 .encomenda-card {
-    background: white;
+     background: rgba(255, 255, 255, 0.6);
     border-radius: 10px;
     padding: 15px;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
-    color: #333;
+    color: #000000;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     border: 2px solid transparent;
 }
@@ -212,9 +212,9 @@ a:-webkit-any-link {
     text-transform: uppercase;
 }
 
-.status-badge.pendente { background: #df7700; color: #000; }
+.status-badge.pendente { background: #ff0000; color: #000; }
 .status-badge.caminho { background: #df7700; color: #000; }
-.status-badge.entregue { background: #df7700; color: #000 ; }
+.status-badge.entregue { background: #147401; color: #000 ; }
 
 .empty-msg {
     color: #ddd;
@@ -224,9 +224,9 @@ a:-webkit-any-link {
 .voltar-fixo {
   width: 200px;
   height: 60px;
-  background-color: rgba(255, 255, 255, 0.05);
-  color: rgb(255, 255, 255);
-  font-family: 'Inter', sans-serif;
+  background: rgba(255, 255, 255, 0.5);
+  color: rgb(0, 0, 0);
+  font-family: 'Poppins', sans-serif;
   font-weight: bold;
   font-size: 1.1rem;
   display: flex;
@@ -245,5 +245,5 @@ a:-webkit-any-link {
 .voltar-fixo:hover {
   transform: scale(1.1);
   background-color: burlywood;
-  color: rgb(255, 255, 255);
+  color: chocolate;
 }

@@ -49,7 +49,9 @@ $stmt->close();
     <link rel="stylesheet" href="../css/conta_compra.css">
 </head>
 <body>
-      <a href="./ver_feedback.php" class="voltar-fixo">← Voltar</a>
+    <a href="javascript:history.back()" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 
 <div class="bg">
     <div class="overlay"></div>

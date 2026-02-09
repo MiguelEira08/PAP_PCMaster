@@ -154,7 +154,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../css/conta.css">
 </head>
 <body>
-
+   <a href="javascript:history.back()" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
     <div class="overlay"></div>
 
@@ -203,7 +205,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <center>
     <br>
     <button type="submit" class="botao">Guardar alterações</button><br>
-    <button type="button" class="botao2" onclick="window.location.href='conta.php'">Voltar</button>
 </center>
 
         </form>

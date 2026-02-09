@@ -18,6 +18,9 @@ include_once __DIR__ . '/../cabecindex.php';
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+      <a href="javascript:history.back()" class="botao-voltar voltar-fixo">
+    ← Voltar
+</a>
 <div class="bg">
   <div class="overlay"></div>
   <div class="loja-container">
@@ -120,11 +123,7 @@ include_once __DIR__ . '/../cabecindex.php';
         </li>
       </ul>
       <br>
-  <div class="caixa-container">
-  <div class="botao-link"  onclick="window.location.href='./loja.php';">
-        Voltar atrás
-      </div>
-    </div>
+
 </aside>
     <main class="content" id="content">
       <h3 class="nao-encontrado">A Carregar produtos...</h3>

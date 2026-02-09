@@ -3,6 +3,10 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+if (!isset($_SESSION['pagina_anterior'])) {
+    $_SESSION['pagina_anterior'] = $_SERVER['HTTP_REFERER'] ?? 'index.php';
+}
+
 
 include_once __DIR__ . '/../db.php';
 include_once __DIR__ . '/../cabecindex.php';
@@ -37,8 +41,11 @@ if (!empty($utilizador['caminho_arquivo'])) {
   <title>A minha conta</title>
     <link rel="stylesheet" href="../css/conta.css">
 </head>
-
 <body>
+  <a href="<?php echo $_SESSION['pagina_anterior'] ?? 'index.php'; ?>" class="botao-voltar voltar-fixo">
+    ← Sair
+</a>
+
 <div class="bg">
 <div class="overlay">
 <div class="content">
@@ -72,13 +79,6 @@ if (!empty($utilizador['caminho_arquivo'])) {
   </div>
 
 </div>
-
-<div class="caixa-container">
-  <div class="botao-link" onclick="window.location.href='../index/index.php';">
-    Voltar ao início
-  </div>
-</div>
-
 </div>
 </div>
 
