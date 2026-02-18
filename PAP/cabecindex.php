@@ -108,7 +108,7 @@ if (isset($_SESSION['user_id'])) {
     <ul class="menu-links">
     <?php
     $sql = $conn->query("SELECT * FROM menu WHERE ativo = 1 ORDER BY ordem ASC");
-
+    $origemAtual = urlencode($_SERVER['REQUEST_URI']);
     while ($row = $sql->fetch_assoc()) {
 
         $tipoMenu = $row['tipo'];
@@ -135,8 +135,9 @@ if (isset($_SESSION['user_id'])) {
 if ($row['Nome'] === 'Conta') {
 
     $nomeExibir = isset($_SESSION['nome']) ? htmlspecialchars($_SESSION['nome']) : 'Utilizador';
-
+    
     echo '
+
     <div class="menu-user">
         <img src="'.$fotoPerfil.'" class="foto-perfil-menu" id="userAvatar" style="cursor:pointer;">
 
@@ -144,8 +145,8 @@ if ($row['Nome'] === 'Conta') {
             <div style="padding: 5px 5px; border-bottom: 1px solid #eeeeee00;">
                 <span style="display:block; font-weight: bold; color: #333;">Olá, ' . $nomeExibir . '!</span>
             </div>
-            <a href="'.BASE_URL.'./contas/conta.php">Gerir perfil</a>
-            <a href="'.BASE_URL.'./login/logout.php" class="logout">Logout</a>
+            <a href="'.BASE_URL.'/contas/conta.php?from='.$origemAtual.'">Gerir perfil</a>
+            <a href="'.BASE_URL.'/login/logout.php" class="logout">Logout</a>
         </div>
     </div>';
 }
