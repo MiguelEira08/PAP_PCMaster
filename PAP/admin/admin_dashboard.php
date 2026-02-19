@@ -32,17 +32,21 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
   <div class="caixa-container">
     <a href="admin_utilizadores.php" class="caixa">
       <img src="../imagens/user.png" alt="Comprar" class="caixa-imagem">Gerir Utilizadores</a>
-  </div>
-  <div class="caixa-container">
+
     <a href="feedback_cliente.php" class="caixa">
       <img src="../imagens/feedback.png" alt="Comprar" class="caixa-imagem">Feedbacks   </a>
-    
+  </div>
+  <div class="caixa-container">    
     <a href="admin_compras.php" class="caixa">
       <img src="../imagens/compra.png" alt="Comprar" class="caixa-imagem">Gerir Compras Feitas</a>
       
     <a href="admin_menu.php" class="caixa">
       <img src="../imagens/menu.png" alt="Comprar" class="caixa-imagem">Gerir Menu</a>
-</div>
+
+  </div>
+  <div class="caixa-container">    
+    <a href="gerir_agendamento.php" class="caixa">
+      <img src="../imagens/agenda.png" alt="Comprar" class="caixa-imagem">Gerir Agendamentos</a>
 </div>
 </div>
 </body>
