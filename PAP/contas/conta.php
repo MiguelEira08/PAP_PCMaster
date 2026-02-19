@@ -78,6 +78,20 @@ if (!empty($utilizador['caminho_arquivo'])) {
 
   </div>
 
+  <div class="caixa-container">
+
+    <a href="pedido_agenda.php" class="caixa">
+      <img src="../imagens/agendamento.png" alt="imagem" class="caixa-imagem">
+      Pedido de Agendamento
+    </a>
+
+    <a href="gerir_agendamento.php" class="caixa">
+      <img src="../imagens/agendamento.png" alt="imagem" class="caixa-imagem">
+      Ver Agendamento
+    </a>
+
+  </div>
+
 </div>
 </div>
 </div>
