@@ -37,10 +37,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nomeFinal = uniqid() . "." . $extensao;
             $destino = '../imagens/' . $nomeFinal;
             move_uploaded_file($tmp, $destino);
+            $desconto = $_POST['desconto'] !== '' ? floatval($_POST['desconto']) : null;
+            $inicio = $_POST['tempoinicio_desconto'] !== '' ? $_POST['tempoinicio_desconto'] : null;
+            $fim = $_POST['tempofim_desconto'] !== '' ? $_POST['tempofim_desconto'] : null;
 
-            $stmt = $conn->prepare("INSERT INTO perifericos (nome, preco, descricao, caminho_arquivo, stock, marca, tipo) VALUES (?, ?, ?, ?, ?, ?, ?)");
+$stmt = $conn->prepare("INSERT INTO perifericos (nome, preco, descricao, caminho_arquivo, stock, marca, tipo, desconto, tempoinicio_desconto, tempofim_desconto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
             if ($stmt) {
-                $stmt->bind_param("sdssiss", $nome, $preco, $descricao, $nomeFinal, $stock, $marca, $tipo);
+                $stmt->bind_param("sdssissdss", $nome, $preco, $descricao, $nomeFinal, $stock, $marca, $tipo,$desconto,$inicio,$fim);
+
 
                 if ($stmt->execute()) {
                     $sucesso = 'Periférico adicionado com sucesso!';
@@ -116,6 +121,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <option value="<?= htmlspecialchars($tipoOption) ?>"><?= htmlspecialchars(ucfirst($tipoOption)) ?></option>
             <?php endforeach; ?>
         </select>
+
+<label>Desconto (%)</label>
+<input type="number" name="desconto" step="0.01" min="0" max="100">
+
+<label>Início do desconto</label>
+<input type="datetime-local" name="tempoinicio_desconto">
+
+<label>Fim do desconto</label>
+<input type="datetime-local" name="tempofim_desconto">
 
         <label for="imagem">Imagem:</label>
         <input type="file" name="imagem" accept="image/*" required>

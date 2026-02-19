@@ -45,6 +45,7 @@ $queryFiltros = http_build_query([
                     <th>Marca</th>
                     <th>Preço (€)</th>
                     <th>Stock</th>
+                    <th>Desconto</th>
                     <th>Imagem</th>
                     <th>Ações</th>
                 </tr>
