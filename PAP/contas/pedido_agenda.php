@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-include_once __DIR__ . '/../db.php'; // Usando db.php como no seu modelo
+include_once __DIR__ . '/../db.php';
 include_once __DIR__ . '/../cabecindex.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -11,7 +11,7 @@ require_once '../PHPMailer/Exception.php';
 require_once '../PHPMailer/PHPMailer.php';
 require_once '../PHPMailer/SMTP.php';
 
-// Verificação de segurança: No seu modelo a sessão é 'user_id'
+// Verificação de segurança da sessão
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../login/login.php');
     exit();
@@ -20,6 +20,7 @@ if (!isset($_SESSION['user_id'])) {
 $id_utilizador = $_SESSION['user_id'];
 $erro = '';
 $sucesso = '';
+$redir = false;
 
 // Buscar dados do utilizador para o e-mail
 $stmt = $conn->prepare("SELECT nome, email FROM utilizadores WHERE id = ?");
@@ -30,18 +31,31 @@ $stmt->close();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data_agendamento = $_POST['data_agendamento'] ?? '';
+    $hora_inicio = $_POST['hora_inicio'] ?? '';
+    $hora_fim = $_POST['hora_fim'] ?? '';
     $tipo_servico = $_POST['tipo_servico'] ?? '';
     $localidade = trim($_POST['localidade'] ?? '');
 
-    if (empty($data_agendamento) || empty($tipo_servico) || empty($localidade)) {
+    // Array de serviços permitidos
+    $servicos_permitidos = ['montagem', 'reparação'];
+
+    // Validações
+    if (empty($data_agendamento) || empty($hora_inicio) || empty($hora_fim) || empty($tipo_servico) || empty($localidade)) {
         $erro = 'Todos os campos são obrigatórios!';
+    } elseif (!in_array($tipo_servico, $servicos_permitidos)) {
+        $erro = 'O tipo de serviço selecionado é inválido.';
+    } elseif ($hora_inicio >= $hora_fim) {
+        $erro = 'A hora de fim deve ser posterior à hora de início.';
+    } elseif (strtotime($data_agendamento . ' ' . $hora_inicio) < time()) {
+        $erro = 'Não é possível agendar para uma data ou hora no passado.';
     } else {
-        // 1. Inserir na base de dados
-        $stmt = $conn->prepare("INSERT INTO agendamentos (utilizador_id, data_agendamento, tipo_servico, localidade) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("isss", $id_utilizador, $data_agendamento, $tipo_servico, $localidade);
+        // 1. Inserir na base de dados com as novas colunas
+        $stmt = $conn->prepare("INSERT INTO agendamentos (utilizador_id, data_agendamento, hora_inicio, hora_fim, tipo_servico, localidade) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("isssss", $id_utilizador, $data_agendamento, $hora_inicio, $hora_fim, $tipo_servico, $localidade);
 
         if ($stmt->execute()) {
-            $sucesso = 'Agendamento realizado com sucesso! Voltando em 1 segundo...';
+            $sucesso = 'Agendamento realizado com sucesso! A redirecionar...';
+            $redir = true;
             
             // 2. Enviar e-mail de notificação (PHPMailer)
             $mail = new PHPMailer(true);
@@ -50,31 +64,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mail->isSMTP();
                 $mail->Host       = 'smtp.gmail.com';
                 $mail->SMTPAuth   = true;
-                $mail->Username   = 'pcmastergeral@gmail.com';
-                $mail->Password   = 'mjsv oxar shbz dfzp';
-                $mail->SMTPSecure = 'tls';
+                $mail->Username   = 'pcmastergeral@gmail.com'; 
+                $mail->Password   = 'TUA_NOVA_PASSWORD_AQUI'; // LEMBRA-TE DE MUDAR ISTO!
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port       = 587;
 
                 $mail->setFrom('pcmastergeral@gmail.com', 'PcMaster Agendamentos');
                 $mail->addAddress('migueleira08@gmail.com', 'Administrador');
-                // Pode adicionar mais administradores aqui
                 
                 $mail->isHTML(true);
-                $mail->Subject = 'Novo Agendamento - ' . ucfirst($tipo_servico);
+                $mail->Subject = 'Novo Agendamento - ' . mb_convert_case($tipo_servico, MB_CASE_TITLE, "UTF-8");
+                
+                // Formatação das horas e data para o e-mail
+                $data_formatada = date('d/m/Y', strtotime($data_agendamento));
+                $hora_i_formatada = date('H:i', strtotime($hora_inicio));
+                $hora_f_formatada = date('H:i', strtotime($hora_fim));
+
                 $body = "
                     <h3>Novo pedido de agendamento</h3>
-                    <p><strong>Utilizador:</strong> {$utilizador['nome']} ({$utilizador['email']})</p>
-                    <p><strong>Serviço:</strong> " . ucfirst($tipo_servico) . "</p>
-                    <p><strong>Data/Hora:</strong> " . date('d/m/Y H:i', strtotime($data_agendamento)) . "</p>
-                    <p><strong>Localidade:</strong> $localidade</p>
+                    <p><strong>Utilizador:</strong> " . htmlspecialchars($utilizador['nome']) . " (" . htmlspecialchars($utilizador['email']) . ")</p>
+                    <p><strong>Serviço:</strong> " . mb_convert_case($tipo_servico, MB_CASE_TITLE, "UTF-8") . "</p>
+                    <p><strong>Data:</strong> {$data_formatada}</p>
+                    <p><strong>Horário:</strong> Das {$hora_i_formatada} às {$hora_f_formatada}</p>
+                    <p><strong>Localidade:</strong> " . htmlspecialchars($localidade) . "</p>
                 ";
 
                 $mail->Body = $body;
                 $mail->send();
-                $redir = true;
             } catch (Exception $e) {
-                // Mesmo que o email falhe, o agendamento foi salvo
-                $redir = true; 
+                error_log("Falha ao enviar email de agendamento: {$mail->ErrorInfo}");
             }
         } else {
             $erro = 'Erro ao processar o agendamento na base de dados.';
@@ -91,6 +109,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="icon" type="image/png" href="../imagens/icon.png">
     <title>Marcar Agendamento</title>
     <link rel="stylesheet" href="../css/conta.css">
+    <style>
+        .text-center { text-align: center; }
+        .mt-2 { margin-top: 10px; }
+        .mb-2 { margin-bottom: 10px; }
+        
+        /* Estilos adicionais para organizar as horas lado a lado */
+        .row-horas {
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+        .col-hora {
+            flex: 1;
+        }
+        .col-hora input {
+            width: 100%;
+            box-sizing: border-box; /* Garante que o padding não quebre a largura */
+        }
+    </style>
 </head>
 <body>
     <a href="javascript:history.back()" class="botao-voltar voltar-fixo">← Voltar</a>
@@ -104,41 +142,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <p class="error-message"><?= htmlspecialchars($erro) ?></p>
             <?php elseif ($sucesso): ?>
                 <p class="success-message"><?= htmlspecialchars($sucesso) ?></p>
-                <?php if (!empty($redir)): ?>
+                <?php if ($redir): ?>
                     <script>
                         setTimeout(function () {
-                            window.location.href = 'saber_mais.php';
-                        }, 1000);
+                            window.location.href = 'conta.php';
+                        }, 1500);
                     </script>
                 <?php endif; ?>
             <?php endif; ?>
 
-            <center>
-                <h2 align="center">Marcar Agendamento</h2>
+            <div class="text-center mb-2">
+                <h2>Marcar Agendamento</h2>
                 <p style="color: white;">Preencha os dados para solicitar um serviço</p>
-                <br>
-            </center>
+            </div>
 
-            <label>Data e Hora pretendida</label>
-            <input type="datetime-local" name="data_agendamento" required>
-            <br>
+            <label for="data_agendamento">Data pretendida</label>
+            <input type="date" id="data_agendamento" name="data_agendamento" required>
+            <br><br>
 
-            <label>Tipo de Serviço</label>
-            <select name="tipo_servico" required style="width: 100%; padding: 10px; border-radius: 5px; margin-top: 5px;">
+            <div class="row-horas">
+                <div class="col-hora">
+                    <label for="hora_inicio">Hora de Início</label>
+                    <input type="time" id="hora_inicio" name="hora_inicio" required>
+                </div>
+                <div class="col-hora">
+                    <label for="hora_fim">Hora de Fim</label>
+                    <input type="time" id="hora_fim" name="hora_fim" required>
+                </div>
+            </div>
+
+            <label for="tipo_servico">Tipo de Serviço</label>
+            <select id="tipo_servico" name="tipo_servico" required style="width: 100%; padding: 10px; border-radius: 5px; margin-top: 5px;">
                 <option value="">Selecione uma opção...</option>
                 <option value="montagem">Montagem de Equipamento</option>
                 <option value="reparação">Reparação / Manutenção</option>
             </select>
             <br><br>
 
-            <label>Localidade</label>
-            <input type="text" name="localidade" placeholder="Ex: Rua da Saudade, 123, Aveiro" required>
+            <label for="localidade">Localidade</label>
+            <input type="text" id="localidade" name="localidade" placeholder="Ex: Rua da Saudade, 123, Aveiro" required>
             <br>
 
-            <center>
-                <br>
-                <button type="submit" class="botao">Confirmar Marcação</button><br>
-            </center>
+            <div class="text-center mt-2">
+                <button type="submit" class="botao">Confirmar Marcação</button>
+            </div>
         </form>
     </div>
 </div>
