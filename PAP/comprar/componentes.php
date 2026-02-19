@@ -1,8 +1,16 @@
+
 <?php
 session_start();
+if (!isset($_SESSION['origem_loja'])) {
+    $_SESSION['origem_loja'] = $_SERVER['HTTP_REFERER'] ?? 'index.php';
+}
+
+
+include_once __DIR__ . '/../botao_voltar.php';
 include_once __DIR__ . '/../db.php';
 include_once __DIR__ . '/../cabecindex.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -18,9 +26,7 @@ include_once __DIR__ . '/../cabecindex.php';
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-      <a href="javascript:history.back()" class="botao-voltar voltar-fixo">
-    ← Voltar
-</a>
+
 <div class="bg">
   <div class="overlay"></div>
   <div class="loja-container">

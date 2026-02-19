@@ -19,4 +19,7 @@ session_unset();
 session_destroy();
 
 header("Location: ../index/index.php?logout=1");
+unset($_SESSION['origem_conta']);
+unset($_SESSION['voltar_inteligente']);
+
 exit();

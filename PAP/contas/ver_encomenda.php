@@ -1,5 +1,7 @@
 <?php
 session_start();
+$_SESSION['voltar_inteligente'] = 'conta.php';
+include_once __DIR__ . '/../botao_voltar.php';
 include_once __DIR__ . '/../db.php';
 include_once __DIR__ . '/../cabecindex.php';
 
