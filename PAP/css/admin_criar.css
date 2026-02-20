@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 * {
   margin: 0;
+  font-family: 'Poppins', sans-serif;
   box-sizing: border-box;
 }
 
 body, html {
-  font-family: 'Calibri', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .overlay {
@@ -49,16 +51,18 @@ body, html {
 }
 
 nav {
+  margin-right: 0;
   display: flex;
   justify-content: space-around;
   align-items: center;
   background-color: burlywood;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   line-height: 1.6;
-  
+
 }
 
 nav ul {
+  margin-right: 0;
   list-style: none;
   display: flex;
   justify-content: space-around;
@@ -67,9 +71,10 @@ nav ul {
 }
 
 nav a {
- 
+  margin-right: 0;
   margin: 40px 30px;
   font-size: 1.0rem;
+  text-align: center;
   color: black;
   text-decoration: none;
   transition: color 0.3s ease;
@@ -122,7 +127,7 @@ form input, form select {
   width: 200px;
   height: 45px;
   color: black;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: bold;
   font-size: 1.0rem;
   display: flex;
@@ -145,7 +150,7 @@ form input, form select {
   width: 100px;
   height: 45px;
   color: black;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: bold;
   font-size: 1.0rem;
   display: flex;
