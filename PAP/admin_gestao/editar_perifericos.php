@@ -52,6 +52,10 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
             $tipoPost = $_POST['tipo'];
             $imagemAtual = $periferico['caminho_arquivo'];
             $novaImagem = $imagemAtual;
+            $desconto = $_POST['desconto'] !== '' ? floatval($_POST['desconto']) : null;
+            $inicio = $_POST['tempoinicio_desconto'] !== '' ? $_POST['tempoinicio_desconto'] : null;
+            $fim = $_POST['tempofim_desconto'] !== '' ? $_POST['tempofim_desconto'] : null;
+
 
             if (!empty($_FILES['imagem']['name'])) {
                 $tmp = $_FILES['imagem']['tmp_name'];
@@ -76,8 +80,9 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
             }
 
             if (empty($erro)) {
-                $stmt = $conn->prepare("UPDATE perifericos SET nome=?, preco=?, descricao=?, caminho_arquivo=?, stock=?, marca=?, tipo=? WHERE id=?");
-                $stmt->bind_param("sdssissi", $nome, $preco, $descricao, $novaImagem, $stockPost, $marcaPost, $tipoPost, $id);
+                $stmt = $conn->prepare("UPDATE perifericos SET nome=?, preco=?, descricao=?, caminho_arquivo=?, stock=?, marca=?, tipo=?, desconto=?, tempoinicio_desconto=?, tempofim_desconto=? WHERE id=?");
+                $stmt->bind_param("sdssissdssi", $nome, $preco, $descricao, $novaImagem, $stockPost, $marcaPost, $tipoPost,$desconto,$inicio,$fim,$id);
+
                 if ($stmt->execute()) {
                     header("Location: ../admin/admin_perifericos.php?" . $queryFiltros . "#linha-" . $id);
                     exit;
@@ -141,6 +146,17 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
                 <option value="<?= $t ?>" <?= ($periferico['tipo'] === $t ? 'selected' : '') ?>><?= $t ?></option>
               <?php endforeach; ?>
             </select>
+            <label>Desconto (%)</label>
+            <input type="number" name="desconto" step="0.01" min="0" max="100"
+            value="<?= htmlspecialchars($periferico['desconto']) ?>">
+
+            <label>Início do desconto</label>
+            <input type="datetime-local" name="tempoinicio_desconto"
+            value="<?= $periferico['tempoinicio_desconto'] ? date('Y-m-d\TH:i', strtotime($periferico['tempoinicio_desconto'])) : '' ?>">
+
+            <label>Fim do desconto</label>
+            <input type="datetime-local" name="tempofim_desconto"
+            value="<?= $periferico['tempofim_desconto'] ? date('Y-m-d\TH:i', strtotime($periferico['tempofim_desconto'])) : '' ?>">
 
             <center>
               <label>Imagem atual:</label><br>

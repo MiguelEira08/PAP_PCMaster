@@ -54,6 +54,9 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
             $tipo = $_POST['tipo'];
             $imagemAtual = $componente['caminho_arquivo'];
             $novaImagem = $imagemAtual;
+            $desconto = $_POST['desconto'] !== '' ? floatval($_POST['desconto']) : null;
+            $inicio = $_POST['tempoinicio_desconto'] !== '' ? $_POST['tempoinicio_desconto'] : null;
+            $fim = $_POST['tempofim_desconto'] !== '' ? $_POST['tempofim_desconto'] : null;
 
             if (!empty($_FILES['imagem']['name'])) {
                 $tmp = $_FILES['imagem']['tmp_name'];
@@ -79,8 +82,8 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
             }
 
             if (empty($erro)) {
-                $stmt = $conn->prepare("UPDATE componentes SET nome=?, preco=?, descricao=?, caminho_arquivo=?, stock=?, marca=?, tipo=? WHERE id=?");
-                $stmt->bind_param("sdssissi", $nome, $preco, $descricao, $novaImagem, $stock, $marca, $tipo, $id);
+                $stmt = $conn->prepare("UPDATE componentes SET nome=?, preco=?, descricao=?, caminho_arquivo=?, stock=?, marca=?, tipo=?, desconto=?, tempoinicio_desconto=?, tempofim_desconto=? WHERE id=?");
+                $stmt->bind_param("sdssissdssi", $nome, $preco, $descricao, $novaImagem, $stock, $marca, $tipo,$desconto,$inicio,$fim,$id);
                 if ($stmt->execute()) {
                     header("Location: ../admin/admin_componentes.php?" . $queryFiltros . "#linha-" . $id);
                     exit;
@@ -148,6 +151,18 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
                 <option value="<?= $t ?>" <?= ($componente['tipo'] === $t ? 'selected' : '') ?>><?= ucfirst($t) ?></option>
               <?php endforeach; ?>
             </select>
+            <label>Desconto (%)</label>
+<input type="number" name="desconto" step="0.01" min="0" max="100"
+value="<?= htmlspecialchars($componente['desconto']) ?>">
+
+<label>Início do desconto</label>
+<input type="datetime-local" name="tempoinicio_desconto"
+value="<?= $componente['tempoinicio_desconto'] ? date('Y-m-d\TH:i', strtotime($componente['tempoinicio_desconto'])) : '' ?>">
+
+<label>Fim do desconto</label>
+<input type="datetime-local" name="tempofim_desconto"
+value="<?= $componente['tempofim_desconto'] ? date('Y-m-d\TH:i', strtotime($componente['tempofim_desconto'])) : '' ?>">
+
             <center>
             <label>Imagem atual:</label><br>
             <img src="../imagens/<?= htmlspecialchars($componente['caminho_arquivo']) ?>" alt="Atual" style="width: 100%; max-width: 200px; margin-bottom: 12px; border-radius: 8px;">

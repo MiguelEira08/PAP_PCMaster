@@ -39,13 +39,33 @@ session_start();
       if ($result && mysqli_num_rows($result) > 0) {
         echo '<div class="grid-produtos" style="display: flex; flex-wrap: wrap; gap: 24px; justify-content: flex-start;">';
         while($row = mysqli_fetch_assoc($result)) {
+    $precoOriginal = $row["preco"];
+    $desconto = $row["desconto"];
+    $inicio = $row["tempoinicio_desconto"];
+    $fim = $row["tempofim_desconto"];
+    $agora = time();
+    $inicioTime = $inicio ? strtotime($inicio) : null;
+    $fimTime = $fim ? strtotime($fim) : null;
           echo '<div class="cartao-produto" style="width:300px; height:400px; display:flex; flex-direction:column; justify-content:space-between; box-sizing:border-box;">';
-            echo '<div class="cartao-imagem" style="width:100%; height:250px; display:flex; align-items:center; justify-content:center; overflow:hidden;">';
-              echo '<img src="../imagens/'. $row["caminho_arquivo"] .'" alt="Imagem de '. htmlspecialchars($row["nome"]) .'" style="max-width:100%; max-height:100%; object-fit:contain;">';
+          echo '<div class="cartao-imagem" style="position:relative; width:100%; height:250px; display:flex; align-items:center; justify-content:center; overflow:hidden;">';
+           if ($desconto !== null && $desconto > 0 && $inicioTime && $fimTime && $agora >= $inicioTime && $agora <= $fimTime) {
+          echo '<div style="position:absolute; top:10px; left:10px; background:burlywood; color:black; padding:6px 10px; font-weight:bold; border-radius:6px; font-size:14px; z-index:10;">-' . (int)$desconto . '%</div>';
+}
+            echo '<img src="../imagens/'. $row["caminho_arquivo"] .'" alt="Imagem de '. htmlspecialchars($row["nome"]) .'" style="max-width:100%; max-height:100%; object-fit:contain;">';
             echo '</div>';
             echo '<div class="cartao-detalhes" style="flex:1; display:flex; flex-direction:column; justify-content:space-between; align-items:center;">';
-              echo '<div class="manrope-titulo" text-align:center;">'. htmlspecialchars($row["nome"]) .'</div>';
-              echo '<h4 class="preco" style="margin:5px 0 10px 0;">€'. number_format($row["preco"], 2) .'</h4>';
+            echo '<div class="manrope-titulo" style="text-align:center;">'. htmlspecialchars($row["nome"]) .'</div>';
+if ($desconto !== null && $desconto > 0 && $inicioTime && $fimTime && $agora >= $inicioTime && $agora <= $fimTime) {
+    $precoComDesconto = $precoOriginal - ($precoOriginal * ($desconto / 100));
+    echo '<div style="text-align:center;">';
+    echo '<div class="contador" data-fim="'.$fim.'"></div>';
+    echo '<span style="color:red; text-decoration:line-through;">€'. number_format($precoOriginal, 2) .'</span><br>';
+    echo '<span style="color:green; font-weight:bold;">€'. number_format($precoComDesconto, 2) .'</span>';
+    echo '</div>';
+} else {
+    echo '<h4 class="preco" style="margin:5px 0 10px 0;">€'. number_format($precoOriginal, 2) .'</h4>';
+}
+
 echo '<a href="produto_periferico.php?id='.$row["id"].'" class="btn-adicionar">Visualizar</a>';            
 echo '</div>';
 echo '</div>';
@@ -54,4 +74,5 @@ echo '</div>';
       } else {
         echo '<p class="nao-encontrado">Nenhum periférico encontrado.</p>';
       }
+    
       ?>

@@ -49,6 +49,7 @@ $queryFiltros = http_build_query([
                         <th scope="col">Marca</th>
                         <th scope="col">Preço (€)</th>
                         <th scope="col">Stock</th>
+                        <th scope="col">Desconto (%)</th>
                         <th scope="col">Imagem</th>
                         <th scope="col">Editar / Apagar</th>
                     </tr>
@@ -97,6 +98,8 @@ $queryFiltros = http_build_query([
                         echo '<td>' . htmlspecialchars($row['marca']) . '</td>';
                         echo '<td>' . number_format($row['preco'], 2, ',', '.') . '</td>';
                         echo '<td>' . $row['stock'] . '</td>';
+                        echo '<td>' . ($row['desconto'] ? $row['desconto'] . '%' : '-') . '</td>';
+
                         echo '<td><img src="../imagens/' . htmlspecialchars($row['caminho_arquivo']) . '" width="60" alt="Imagem do componente"></td>';
                         echo '<td class="acoes">';
                         echo '  <a href="../admin_gestao/editar_componentes.php?id=' . $row['id'] . '&' . $queryFiltros . '#linha-' . $row['id'] . '" class="btn editar">Editar</a>';                    

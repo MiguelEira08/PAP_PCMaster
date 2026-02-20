@@ -42,7 +42,39 @@ if (!$produto) {
                     <div class="info-produto">
                         <h1 ><?= htmlspecialchars($produto['nome']) ?></h1>
                         <p class="descricao"><?= !empty($produto['descricao']) ? nl2br(htmlspecialchars($produto['descricao'])) : 'Sem descrição disponível.' ?></p>
-                        <p class="preco">Preço: <strong>€<?= number_format($produto['preco'], 2) ?></strong></p>
+<?php
+$precoOriginal = $produto["preco"];
+$desconto = $produto["desconto"];
+$inicio = $produto["tempoinicio_desconto"];
+$fim = $produto["tempofim_desconto"];
+
+$agora = time();
+$inicioTime = $inicio ? strtotime($inicio) : null;
+$fimTime = $fim ? strtotime($fim) : null;
+
+if ($desconto !== null && $desconto > 0 && $inicioTime && $fimTime && $agora >= $inicioTime && $agora <= $fimTime) {
+    $precoComDesconto = $precoOriginal - ($precoOriginal * ($desconto / 100));
+?>
+<p class="preco">
+        <span style="color:red; text-decoration:line-through;">
+            €<?= number_format($precoOriginal, 2) ?>
+        </span>
+        <br>
+        <strong style="color:green; font-size:1.5rem;">
+            €<?= number_format($precoComDesconto, 2) ?>
+        </strong>
+    </p>
+    <div id="contador-individual" data-fim="<?= $fim ?>"></div>
+<?php
+} else {
+?>
+    <p class="preco">
+        <strong>€<?= number_format($precoOriginal, 2) ?></strong>
+    </p>
+<?php
+}
+?>
+
                         <p class="stock">Stock disponível: <?= (int)$produto['stock'] ?></p>
 
                        <form action="../carrinho/adicionar_ao_carrinho.php" method="post" class="form-carrinho">
@@ -104,5 +136,31 @@ if (!$produto) {
 }
 </style>
 <?php endif; ?>
+<script>
+const contador = document.getElementById("contador-individual");
+
+if (contador) {
+    const fim = new Date(contador.dataset.fim).getTime();
+
+    function atualizar() {
+        const agora = new Date().getTime();
+        const distancia = fim - agora;
+
+        if (distancia <= 0) {
+            contador.innerHTML = "Promoção terminada";
+            return;
+        }
+
+        const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+
+        contador.innerHTML = " Desconto termina em: " + dias + "d " + horas + "h " + minutos + "m";
+    }
+
+    atualizar();
+    setInterval(atualizar, 60000);
+}
+</script>
 </body>
 </html>

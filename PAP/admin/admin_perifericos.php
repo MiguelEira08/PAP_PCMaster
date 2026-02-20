@@ -45,7 +45,7 @@ $queryFiltros = http_build_query([
                     <th>Marca</th>
                     <th>Preço (€)</th>
                     <th>Stock</th>
-                    <th>Desconto</th>
+                    <th>Desconto (%)</th>
                     <th>Imagem</th>
                     <th>Ações</th>
                 </tr>
@@ -94,6 +94,7 @@ $queryFiltros = http_build_query([
                         echo '<td>' . htmlspecialchars($row['marca']) . '</td>';
                         echo '<td>' . number_format($row['preco'], 2, ',', '.') . '</td>';
                         echo '<td>' . $row['stock'] . '</td>';
+                        echo '<td>' . ($row['desconto'] ? $row['desconto'] . '%' : '-') . '</td>';
                         echo '<td><img src="../imagens/' . htmlspecialchars($row['caminho_arquivo']) . '" width="60" alt="Imagem do periférico"></td>';
                         echo '<td class="acoes">';
                         echo '  <a href="../admin_gestao/editar_perifericos.php?id=' . $row['id'] . '&' . $queryFiltros . '" class="btn editar">Editar</a>';

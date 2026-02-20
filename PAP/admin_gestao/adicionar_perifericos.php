@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nomeFinal = uniqid() . "." . $extensao;
             $destino = '../imagens/' . $nomeFinal;
             move_uploaded_file($tmp, $destino);
+            
             $desconto = $_POST['desconto'] !== '' ? floatval($_POST['desconto']) : null;
             $inicio = $_POST['tempoinicio_desconto'] !== '' ? $_POST['tempoinicio_desconto'] : null;
             $fim = $_POST['tempofim_desconto'] !== '' ? $_POST['tempofim_desconto'] : null;
